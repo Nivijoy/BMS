@@ -1,0 +1,76 @@
+<div class="col-md-12">
+  <nb-card>
+    <nb-card-header>Reseller Revenue Sharing Report</nb-card-header>
+      <nb-card-body>
+        <nb-card>  
+      <nb-card-header>Search</nb-card-header>
+      <nb-card-body>
+         <form [formGroup]="RevenueSharingForm" class="form-horizontal" (ngSubmit)="addNas();">
+         <div class="modal-body">
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label>Select Reseller </label>
+                <select name="revenue_name" formControlName="revenue_name" placeholder="select your reseller" [ngClass]="{'form-control' : true,'form-control-danger':RevenueSharingForm.controls.revenue_name.invalid&&submit}">
+<!--                 <small *ngIf="RevenueSharingForm.hasError('required','enq')&&submit" class="form-text error">Reseller name is required! </small> -->
+                <option value="" selected> Select Reseller</option>
+                </select>   
+              </div>
+              <div class="col-sm-4">
+                <label>Start Date</label>
+                <input type="date"  name="revenue_date" formControlName="revenue_date" placeholder="Select Date " [ngClass]="{'form-control' : true,'form-control-danger':RevenueSharingForm.controls.revenue_date.invalid&&submit}"/>
+              </div>
+              <div class="col-sm-4">
+                <label>End Date</label>
+                <input type="date" name="revend_date" formControlName="revend_date" placeholder="Select Date " [ngClass]="{'form-control' : true,'form-control-danger':RevenueSharingForm.controls.revend_date.invalid&&submit}"/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label>User Name</label>
+                <input type="text" name="rev_name" formControlName="rev_name" placeholder="User Name" [ngClass]="{'form-control' : true,'form-control-danger':RevenueSharingForm.controls.rev_name.invalid&&submit}"/>
+              </div>
+               <div class="col-sm-4">
+                  <label>Renewal Type</label>
+                  <select [ngClass]="{'form-control' : true,'form-control-danger':RevenueSharingForm.controls.rev_type.invalid&&submit}" name="rev_type" formControlName="rev_type">
+                  <option value="All" selected>Select Renewal type</option>
+                  <option value="1" >Aaa</option>
+                  <option value="2" >Bbb</option>
+                  <option value="3" >Ccc</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+              <button type="submit" class="btn btn-md btn-success" style="margin: auto; display: block;">Search</button>
+            </form>
+        </nb-card-body>
+      </nb-card>
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Invoice No</th>
+          <th>User Name</th>
+          <th>Reseller Name</th>
+          <th>Renewed Service</th>
+          <th>Invoice Date</th>
+          <th>No of Units</th>
+          <th>Tax Amount</th>
+          <th>Package Amount</th>
+          <th>ISP Sharing %</th>
+          <th>ISP Sharing Amount</th>
+          <th>Reseller Sharing Amount</th>
+          <th>Sub ISP Sharing %</th>
+          <th>Sub ISP Sharing Amount</th>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>
+  
+
+
+  </div>
+
+
+
+
+
+
+             

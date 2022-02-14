@@ -1,0 +1,36 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
+
+
+const httpOptions = {
+   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
+@Injectable()
+export class UserLogService {
+   constructor(private http: HttpClient,
+      private router: Router,
+
+   ) { }
+
+   async listActivityLog(params) {
+      return await this.http.post("/api/log/listActivityLog", params).toPromise();
+   }
+   async listBandwidthLog(params) {
+      return await this.http.post("/api/log/listBandwidthLog", params).toPromise();
+   }
+   async listEditProfileLog(params){
+      return await this.http.post("/api/log/listEditProfileLog",params).toPromise();
+   }
+   async listResellerShareLog(params){
+      return await this.http.post("/api/log/listResellerShareLog",params).toPromise();
+   }
+   async listNaslog(params) {
+      return await this.http.post("/api/log/listNaslog",params).toPromise();
+   }
+}

@@ -1,0 +1,51 @@
+<div class="col-md-12">
+  <nb-card>
+    <ngx-loading [show]="loading"
+      [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
+    </ngx-loading>
+    <nb-card-header>Bulk Update</nb-card-header>
+    <nb-card-body>
+      <toaster-container [toasterconfig]="config"></toaster-container>
+      <form [formGroup]="bulkUpdateForm" (ngSubmit)="bulkUpdate()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-8">
+              <nb-card>
+                <nb-card-header style="background-color :  #01a7ee"  *ngIf="bulkUpdateForm.value['format'] == ''">Bulk Update</nb-card-header>
+                <nb-card-header style="background-color :  #01a7ee"  *ngIf="bulkUpdateForm.value['format'] == 1">Subscriber Expiry</nb-card-header>
+
+                <nb-card-body>
+                  <div class="form-group row">
+                    <div class="col-sm-4" *ngIf="bulkUpdateForm.value['format'] == 1">
+                       <a href="/assets/public/BulkExpiry.xlsx" target="_blank" download><b  style="color: blue;">Download Sample
+                          Here(24 HRS DATE FORMAT:dd-mm-yyyy hh:mm:ss)</b></a>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <label>Select Service<span style="color:red;">*</span></label>
+                      <select formControlName="format" class="form-control">
+                        <option value="" selected>Select Format</option>
+                        <option value="1">customer Expiry (EX :dd-mm-yyyy hh:mm:ss)</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6">
+                      <label>Upload File</label>
+                      <input type="file" (change)="changeListener($event.target.files[0])" class="form-control"
+                        accept=".xlsx">
+                    </div>
+                  </div>
+
+                  <!-- </div> -->
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-md btn-success">Update </button>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</div>

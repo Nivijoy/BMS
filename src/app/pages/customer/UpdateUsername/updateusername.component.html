@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <span>{{ modalHeader }}</span>
+  <toaster-container [toasterconfig]="config"> </toaster-container>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+     <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="AddNasForm" (ngSubmit)="addUsername()">
+  <div class="modal-body">
+     <div class="form-group row">
+        <div class="col-sm-12">
+           <label>Subscriber Login ID</label>
+           <input type="text" formControlName="username" placeholder="User Name"
+              [ngClass]="{'form-control':true,'form-control-danger':AddNasForm.controls.invalid&&submit}">
+              <small *ngIf="AddNasForm.hasError('required','username')&&submit" class="form-text error">Username
+               is required! </small>
+        </div>
+     </div>
+  </div>
+  <div class="modal-footer">
+     <button type="submit" class="btn btn-md btn-primary">Update</button>
+  </div>
+</form>

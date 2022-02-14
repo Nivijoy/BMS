@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <span>{{ modalHeader }}</span>
+  <button class="close" aria-label="Close" (click)="activeModal.close(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="PayBalanceForm" class="form-horizontal" (ngSubmit)="payment();">
+  <div class="modal-body">
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <label>Pay Amount <span style="color:red;">*</span></label>
+        <input type="number" formControlName="pay_amt" placeholder="Pay Amount"
+					[ngClass]="{'form-control':true,'form-control-danger':PayBalanceForm.controls.pay_amt.invalid&&submit}" 
+         >
+				<small *ngIf="PayBalanceForm.controls.pay_amt.invalid&&submit" class="form-text error">Amount is
+					Required!</small>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-md btn-success">Update</button>
+  </div>
+</form>

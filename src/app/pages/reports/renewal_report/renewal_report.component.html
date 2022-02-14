@@ -1,0 +1,121 @@
+<div class="col-md-12">
+    <nb-card>
+      <nb-card-header>Renewal Report</nb-card-header>
+      <nb-card-body>
+        <nb-card>
+      <nb-card-header>Search</nb-card-header>
+      <nb-card-body>
+         <form [formGroup]="RenewalForm" class="form-horizontal" (ngSubmit)="addNas();">
+         <div class="modal-body">
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label>Select Reseller </label>
+                <select name="reseller_name" formControlName="reseller_name" placeholder="select your reseller" [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.reseller_name.invalid&&submit}">
+<!--                 <small *ngIf="RenewalForm.hasError('required','enq')&&submit" class="form-text error">Reseller name is required! </small> -->
+                <option value="" selected> Select Reseller</option>
+                </select>   
+              </div>
+              <div class="col-sm-4">
+                <label>Select Manager </label>
+                <select name="renewal_mang" formControlName="renewal_mang" placeholder="select your manager" [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.renewal_mang.invalid&&submit}">
+                <!-- <small *ngIf="RenewalForm.hasError('required','enq')&&submit" class="form-text error">Reseller name is required! </small> -->
+                <option value="" selected> Select Reseller</option>
+                </select>   
+              </div>
+              <div class="col-sm-4">
+                <label>Start Date</label>
+                <input type="date"  name="start_date" formControlName="start_date" placeholder="Select Date " [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.start_date.invalid&&submit}"/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label>End Date</label>
+                <input type="date" name="end_date" formControlName="end_date" placeholder="Select Date " [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.end_date.invalid&&submit}"/>
+              </div>
+              <div class="col-sm-4">
+                <label>User Name</label>
+                <input type="text" name="user_name" formControlName="user_name" placeholder="User Name" [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.user_name.invalid&&submit}"/>
+              </div>
+               <div class="col-sm-4">
+                  <label>Renewal Type</label>
+                  <select [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.renew_type.invalid&&submit}" name="renew_type" formControlName="renew_type">
+                  <option value="All" selected>Select Renewal type</option>
+                  <option value="1" >Aaa</option>
+                  <option value="2" >Bbb</option>
+                  <option value="3" >Ccc</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-4">
+                  <label>State</label>
+                  <select [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.renew_state.invalid&&submit}" name="renew_state" formControlName="renew_state">
+                  <option value="" selected>Select State</option>
+                  </select>
+                </div>
+                <div class="col-sm-4">
+                  <label>City</label>
+                  <select [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.renew_city.invalid&&submit}" name="renew_city" formControlName="renew_city">
+                  <option value="" selected>Select City</option>
+                  </select>
+                </div>
+                <div class="col-sm-4">
+                  <label>Renewed By</label>
+                  <select [ngClass]="{'form-control' : true,'form-control-danger':RenewalForm.controls.renew_by.invalid&&submit}" name="renew_by" formControlName="renew_by">
+                  <option value="" selected>Renewed By</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-md btn-success" style="margin: auto; display: block;">Search</button>
+            </form>
+        </nb-card-body>
+      </nb-card>
+        <table class="table table-bordered table-striped">
+          <th colspan="4">Renew Report Statics</th>
+          <tr>                  
+            <th> Total Invoice Amount </th>
+            <th> Total Final Invoice Amount </th>
+          </tr>                                      
+          </table>
+      </nb-card-body>
+    </nb-card>
+     <table class="table table-striped table-hover">
+      <tr>
+        <th>Action</th>
+        <th>User Name</th>
+        <th>User Status while renewal</th>
+        <th>Customer Name</th>
+        <th>Mobile No</th>
+        <th>GST No</th>
+        <th>Invoice No</th>
+        <th>Ip Address</th>
+        <th>Reseller Name</th>
+        <th>Address</th>
+        <th>Renewed By</th>
+        <th>Renew Date</th>
+        <th>Expiry Date</th>
+        <th>Package Renewed</th>
+        <th>Tax type</th>
+        <th>Download Limit</th>
+        <th>Upload Limit</th>
+        <th>Total Limit</th>
+        <th>No of Units</th>
+        <th>Invoice Amount</th>
+        <th>Final Invoice Amount</th>
+        <th>Renewal Type</th>
+        <th>Transcaction Id</th>
+        <th>Payment Id</th>
+        <th>Activation Date</th>
+        <th>State</th>
+        <th>City</th>
+      </tr>
+    </table>
+  </div>
+
+
+
+
+
+
+             

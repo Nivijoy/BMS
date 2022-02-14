@@ -1,0 +1,154 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RoleService, AdminuserService, BusinessService, SelectService, PagerService, UserLogService, ReportService, ResellerService } from '../../_service/indexService';
+import * as JSXLSX from 'xlsx';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
+import { DatePipe } from '@angular/common';
+import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
+
+
+@Component({
+  selector: 'listbalancelog',
+  templateUrl: './listbalancelog.component.html',
+  styleUrls: ['./listbalancelog.component.scss']
+})
+
+export class ListBalanceLogComponent implements OnInit {
+  tot; proid; custlog; search; bus_name = ''; resel_type = ''; res_name = '';
+  bus; pro; res1;
+
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  public primaryColour = '#dd0031';
+  public secondaryColour = '#006ddd';
+  public loading = false;
+
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit = 25;
+  constructor(
+    private router: Router,
+    private select: SelectService,
+    private logser: UserLogService,
+    private repser: ReportService,
+    private busser: BusinessService,
+    private resser: ResellerService,
+    public role: RoleService,
+    public pageservice: PagerService,
+    private datePipe: DatePipe
+
+  ) { }
+
+  async showBusName($event = '') {
+    this.bus = await this.busser.showBusName({ like: $event });
+  }
+
+  async profile($event = '') {
+    this.pro = await this.resser.showProfileReseller({ rec_role: 1, bus_id: this.bus_name, like: $event })
+    // console.log(res)
+  }
+
+  async showResellerName($event = '') {
+    // console.log('inside', this.resel_type)
+    this.res1 = await this.resser.showResellerName({ bus_id: this.bus_name, role: this.resel_type, like: $event });
+    // console.log("resellername",result)
+  }
+  changeclear(item) {
+    if (item == 1) {
+      this.resel_type = ''; this.res_name = '';
+    }
+    if (item == 2) { this.res_name = ''; }
+  }
+  async refresh() {
+    this.bus_name = '';
+    this.resel_type = '';
+    this.res_name = ''; this.pro = ''; this.res1 = '';
+    await this.initiallist();
+    if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
+      await this.profile();
+      await this.showResellerName();
+    }
+  }
+
+  async ngOnInit() {
+    localStorage.removeItem('array');
+    await this.initiallist();
+    await this.showBusName();
+    if (this.role.getroleid() <= 777) {
+      this.bus_name = this.role.getispid();
+      await this.profile();
+      await this.showResellerName();
+    }
+  }
+
+  async initiallist() {
+    this.loading = true;
+    let result = await this.repser.listBalanceLog(
+      {
+        index: (this.page - 1) * this.limit,
+        limit: this.limit,
+        bus_id: this.bus_name,
+        role: this.resel_type,
+        resel_id: this.res_name
+      });
+    // console.log("balancelog",result)
+    if (result) {
+      this.custlog = result[0];
+      this.tot = result[1]['count']
+    }
+    this.loading = false;
+    this.setPage();
+  }
+
+  getlist(page) {
+    var total = Math.ceil(this.tot / this.limit);
+    let result = this.pageservice.pageValidator(this.page, page, total);
+    this.page = result['value'];
+    if (result['result']) {
+      this.initiallist();
+    }
+  }
+
+  setPage() {
+    // console.log(this.data);
+    this.pager = this.pageservice.getPager(this.tot, this.page, this.limit);
+    this.pagedItems = this.custlog;
+    // console.log('asdfg',this.pagedItems)
+  }
+
+  async download() {
+    let res = await this.repser.listBalanceLog({
+      bus_id: this.bus_name,
+      role: this.resel_type,
+      resel_id: this.res_name
+    })
+    if (res) {
+      let tempdata = [], temp: any = res[0];
+      for (var i = 0; i < temp.length; i++) {
+        let param = {};
+        if (this.role.getroleid() > 777) {
+          param['ISP NAME'] = temp[i]['busname'];
+
+        }
+        if (this.role.getroleid() >= 775 || this.role.getroleid() ==666 || this.role.getroleid() ==555) {
+          param['RESELLER TYPE'] = temp[i]['menu_name'];
+          param['RESELLER BUSINESS NAME'] = temp[i]['company'];
+        }
+        param['BEFORE AMOUNT'] = temp[i]['before_balance_amt'];
+        param['AMOUNT'] = temp[i]['amt'];
+        param['NOTES'] = temp[i]['rnote'] == null ? '--' : temp[i]['rnote'];
+        param['DATE'] = this.datePipe.transform(temp[i]['c_date'], 'd MMM y hh:mm:ss a');
+        param['PERFORMED BY'] = temp[i]['cname'];
+        tempdata[i] = param
+      }
+      const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
+      const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
+      JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+      JSXLSX.writeFile(wb, 'Deposit Report' + EXCEL_EXTENSION);
+    }
+  }
+
+  // Edit_User(item) {
+  //   localStorage.setItem('array', JSON.stringify(item));
+  //   this.router.navigate(['/pages/business/edit-business']);
+  // }
+}
