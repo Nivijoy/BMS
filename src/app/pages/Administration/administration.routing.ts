@@ -31,6 +31,15 @@ import { OTTAuthComponent } from './ott-auth/ott-auth.component';
 import { ListOTTAuthComponent } from './list-ottauth/list-ottauth.component';
 import { OTTPlanComponent } from './ott-plan/ott-plan.component';
 import { ListOTTPlanComponent } from './list-ottplan/list-ottplan.component';
+import { RevenueShareReportsComponent } from './revenue-share-reports/revenue-share-reports.component';
+import { SmscreditsComponent } from './smscredits/smscredits.component';
+import { OttMapComponent } from './ott-map/ott-map.component';
+import { UpdateottmapComponent } from './updateottmap/updateottmap.component';
+import { SendsmsComponent } from './sendsms/sendsms.component';
+import { SendemailComponent } from './sendemail/sendemail.component';
+import { SendsmsresellerComponent } from './sendsmsreseller/sendsmsreseller.component';
+import { SendemailresellerComponent } from './sendemailreseller/sendemailreseller.component';
+import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
 
 const routes: Routes = [{
   path: '',
@@ -60,16 +69,23 @@ const routes: Routes = [{
     { path: 'list-smsgateway', component: ListSMSgatewayComponent },
     { path: 'edit-smsgateway', component: AddsmsgatewayComponent },
     { path: 'smstemplates', component: SmstemplatesComponent },
-    { path: 'email-templates', component: EmailTemplatesComponent},
-    { path: 'smstemplate-isp', component: SmstemplateIspComponent},
-    { path: 'emailtemplate-isp', component: EmailtemplateIspComponent},
+    { path: 'email-templates', component: EmailTemplatesComponent },
+    { path: 'smstemplate-isp', component: SmstemplateIspComponent },
+    { path: 'emailtemplate-isp', component: EmailtemplateIspComponent },
     { path: 'list-ott', component: ListOTTComponent },
     { path: 'ott-auth', component: OTTAuthComponent },
     { path: 'list-ottauth', component: ListOTTAuthComponent },
     { path: 'ott-plan', component: OTTPlanComponent },
     { path: 'list-ottplan', component: ListOTTPlanComponent },
-
-
+    { path: 'revenue-share', component: RevenueShareReportsComponent },
+    { path: 'list-sms-credit', component: SmscreditsComponent },
+    { path: 'ott-map', component: OttMapComponent },
+    { path: 'update-ott-map', component: UpdateottmapComponent },
+    { path: 'send-sms', component: SendsmsComponent },
+    { path: 'send-email', component: SendemailComponent },
+    { path: 'send-sms-reseller', component: SendsmsresellerComponent },
+    { path: 'send-email-reseller', component: SendemailresellerComponent },
+    { path: 'send-sms-other', component: SendsmsothersComponent },
   ],
 }];
 
@@ -107,7 +123,12 @@ export const routedComponents = [
   ListOTTAuthComponent,
   OTTPlanComponent,
   ListOTTPlanComponent,
-  // SmstemplatesComponent,
-  // EmailTemplatesComponent,
-  // SmstemplateIspComponent,
+  RevenueShareReportsComponent,
+  SmscreditsComponent,
+  SendsmsComponent,
+  SendemailComponent,
+  SendsmsresellerComponent,
+  SendemailresellerComponent,
+  SendsmsothersComponent,
+
 ];

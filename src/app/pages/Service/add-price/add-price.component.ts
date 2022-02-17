@@ -20,7 +20,7 @@ const EXCEL_EXTENSION = '.xlsx';
 
 export class AddPriceComponent implements OnInit {
   submit: boolean = false; AddPriceForm; groups; id; editdatas; resell; plan;
-  busname; grup; pack; sharetyp; reselrole; config; servtype; service_type; ott_ids = []; ottdata;
+  busname; grup; pack; sharetyp; reselrole; config; servtype; service_type;
   bulk = []; failure: any[]; arrayBuffer: any; file: any[]; s = 0; f = 0; resott;
   ottflag: any;
 
@@ -75,30 +75,30 @@ export class AddPriceComponent implements OnInit {
     }
   }
 
-  async showottplan() {
-    this.plan = await this.ser.showOTTPlans({ bus_id: this.AddPriceForm.value['bus_id'] });
-  }
+  // async showottplan() {  // called from business
+  //   this.plan = await this.ser.showOTTPlans({ bus_id: this.AddPriceForm.value['bus_id'] });
+  // }
 
-  ottids() {
-    var resid = this.AddPriceForm.value['reseller']
-    const ottdata = this.resell.filter(item => item.id == resid).map(item => item.ott_platform)
-    let ottid = ottdata[0] != null ? ottdata[0].slice(1, -1) : '',
-      ott_id = ottid.split(',');
-    this.ott_ids = ott_id.map((i) => Number(i))
-    console.log('ottids', this.ott_ids)
-    if (this.ott_ids != null) {
-      this.ottplatforms();
-    }
+  // ottids() {  // Called from reseller
+  //   var resid = this.AddPriceForm.value['reseller']
+  //   const ottdata = this.resell.filter(item => item.id == resid).map(item => item.ott_platform)
+  //   let ottid = ottdata[0] != null ? ottdata[0].slice(1, -1) : '',
+  //     ott_id = ottid.split(',');
+  //   this.ott_ids = ott_id.map((i) => Number(i))
+  //   console.log('ottids', this.ott_ids)
+  //   if (this.ott_ids != null) {
+  //     this.ottplatforms();
+  //   }
 
-  }
+  // }
 
-  async ottplatforms() {
-    this.ottdata = await this.adminser.showOTTPlatforms({});
-    this.config.log('ottdata', this.ottdata)
-    this.resott = this.ottdata.filter(item => this.ott_ids.includes(item.ott_id));
-    // this.ottflag = this.resott.reduce((a, o) => (a.push(o.ott_id), a), [])
-    this.ottflag = this.resott.filter(x => x.ott_id).map(a => a.ott_id)
-  }
+  // async ottplatforms() {
+  //   this.ottdata = await this.adminser.showOTTPlatforms({});
+  //   this.config.log('ottdata', this.ottdata)
+  //   this.resott = this.ottdata.filter(item => this.ott_ids.includes(item.ott_id));
+  //   // this.ottflag = this.resott.reduce((a, o) => (a.push(o.ott_id), a), [])
+  //   this.ottflag = this.resott.filter(x => x.ott_id).map(a => a.ott_id)
+  // }
 
   share() {
     if (this.role.getroleid() >= 775) {
@@ -235,7 +235,7 @@ export class AddPriceComponent implements OnInit {
           let unittype = tutype == 'Days' ? 0 : 1;
           this.bulk[i].timeunit_type = unittype;
         }
-        if (!this.bulk[i].hasOwnProperty('Days')) {
+        if (!this.bulk[i].hasOwnProperty('Days') && this.bulk[i]['Time UnitType'] == 'Days') {
           this.toastalert('Please fill the Days in Excel Sheet');
           bulkvald = true;
           break;
@@ -271,9 +271,9 @@ export class AddPriceComponent implements OnInit {
         let vprice = this.bulk[i]['Voice Price']
         this.bulk[i].vo_price = vprice;
 
-        this.bulk[i].hasOwnProperty('OTT Price')
-        let oprice = this.bulk[i]['OTT Price']
-        this.bulk[i].ott_price = oprice;
+        // this.bulk[i].hasOwnProperty('OTT Price')
+        // let oprice = this.bulk[i]['OTT Price']
+        // this.bulk[i].ott_price = oprice;
 
         this.bulk[i].hasOwnProperty('AddOn Price')
         let aprice = this.bulk[i]['AddOn Price']
@@ -440,7 +440,7 @@ export class AddPriceComponent implements OnInit {
       sub_plan: [''],
       ser_price: [''],
       vo_price: [''],
-      ott_price: [''],
+      // ott_price: [''],
       add_price: [''],
       dayflag: [''],
       time_unit: [''],
@@ -471,8 +471,8 @@ export class AddPriceComponent implements OnInit {
       raj_price: [''],
       sony_price: [''],
       hunga_price: [''],
-      ottstatus: [''],
-      ottplan: ['']
+      // ottstatus: [''],
+      // ottplan: ['']
 
 
     });
@@ -488,7 +488,7 @@ export class AddPriceComponent implements OnInit {
       await this.packshow();
       // this.share();
       await this.servicetype();
-      await this.showottplan();
+      // await this.showottplan();
     }
     if (this.role.getroleid() < 775) {
       this.AddPriceForm.get('groupid').setValue(this.role.getgrupid());

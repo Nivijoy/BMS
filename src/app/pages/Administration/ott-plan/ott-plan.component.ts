@@ -20,7 +20,7 @@ import { RoleService, ResellerService, AdminuserService, GroupService, BusinessS
 
 export class OTTPlanComponent implements OnInit {
   submit: boolean = false; OTTPlanForm; item; data; grup; busname; pro; resell
-  editdatas; id; groups;ottdata;ott_id
+  editdatas; id; groups; ottdata; ott_id; checkids;
   isReadonly = false;
   arrayBuffer: any; file: any[]; bulk = []; s = 0; f = 0; failure: any[];
   bulkOTTdata = []; bulkdata = []; dist; states; resel; deptdata;
@@ -47,8 +47,8 @@ export class OTTPlanComponent implements OnInit {
   //   this.grup = await this.groupser.showGroupName({ bus_id: this.OTTPlanForm.value['bus_id'] });
   // }
 
-  async ottplatform($event='',val=''){
-      this.ottdata = await this.adminser.showOTTPlatforms({ like:$event,val:val });
+  async ottplatform($event = '', val = '') {
+    this.ottdata = await this.adminser.showOTTPlatforms({ like: $event, val: val });
   }
 
 
@@ -139,8 +139,8 @@ export class OTTPlanComponent implements OnInit {
         break;
       }
       else {
-        let status = this.bulk[i]['Status'] == 'Not Assigned' ? 0 : this.bulk[i]['Status'] == 'Assigned' ? 1:
-        this.bulk[i]['Status'] == 'Not Used' ? 2 : 3;
+        let status = this.bulk[i]['Status'] == 'Not Assigned' ? 0 : this.bulk[i]['Status'] == 'Assigned' ? 1 :
+          this.bulk[i]['Status'] == 'Not Used' ? 2 : 3;
         this.bulk[i].status = status;
       }
       this.bulk[i].bus_id = this.OTTPlanForm.value['bus_id']
@@ -154,7 +154,7 @@ export class OTTPlanComponent implements OnInit {
       return;
     }
     if (this.OTTPlanForm.value['create_type'] == '0' || this.id) {
-      
+
       let ottdata = [this.OTTPlanForm.value];
       // console.log('OTTDATA ADD----', ottdata)
       let method = 'addOTTPlan';
@@ -179,17 +179,13 @@ export class OTTPlanComponent implements OnInit {
 
   async edit() {
     let result = await this.adminser.getOTTPlan({ id: this.id });
-    // console.log('editresult', result)
     if (result) {
       this.editdatas = result;
-      //  console.log("res", JSON.parse(result['ottplatform']))
-      //  this.ott_id =JSON.parse(result['ottplatform'])
-      // console.log("res", typeof(JSON.parse(result['ottplatform'])))
-
+      let ids = this.editdatas['ottplatform'].split(',')
+      this.checkids = ids.map(x => Number(x));
     }
     this.createForm();
     // await this.GroupName();
-
   }
 
   async ngOnInit() {
@@ -223,7 +219,7 @@ export class OTTPlanComponent implements OnInit {
       // this.OTTPlanForm.get('groupid').updateValueAndValidity();
 
     }
-    if(this.role.getroleid() < 775){
+    if (this.role.getroleid() < 775) {
       this.OTTPlanForm.get('create_type').setValue('0');
       // this.OTTPlanForm.get('groupid').setValue(this.role.getgrupid());
     }
@@ -251,23 +247,23 @@ export class OTTPlanComponent implements OnInit {
     });
   }
 
-  
 
- 
+
+
   createForm() {
     this.OTTPlanForm = new FormGroup({
       create_type: new FormControl('', Validators.required),
       bus_id: new FormControl(this.editdatas ? this.editdatas['isp_id'] : '', Validators.required),
-      ott_name: new FormControl(this.editdatas ? this.editdatas['ottplan_name'] :'', Validators.required),
+      ott_name: new FormControl(this.editdatas ? this.editdatas['ottplan_name'] : '', Validators.required),
       plancode: new FormControl(this.editdatas ? this.editdatas['ottplancode'] : '', Validators.required),
       gltvcode: new FormControl(this.editdatas ? this.editdatas['gltvplanid'] : '', Validators.required),
-      timeunit: new FormControl(this.editdatas ? this.editdatas['dayormonth'] : '',Validators.required),
-      taxtyp: new FormControl(this.editdatas ? this.editdatas['otttaxtype']:'0',Validators.required),
-      amt: new FormControl(this.editdatas ? this.editdatas['ottamount']:'', Validators.required),
+      timeunit: new FormControl(this.editdatas ? this.editdatas['dayormonth'] : '', Validators.required),
+      taxtyp: new FormControl(this.editdatas ? this.editdatas['otttaxtype'] : '0', Validators.required),
+      amt: new FormControl(this.editdatas ? this.editdatas['ottamount'] : '', Validators.required),
       // ott_plt : new FormControl(this.editdatas ? JSON.parse(this.editdatas['ottplatform'] ):'',Validators.required),
-      ott_plt : new FormControl(this.editdatas ? this.editdatas['ottplatform']:'',Validators.required),
-       unit_type: new FormControl(this.editdatas ? this.editdatas['days']:'',Validators.required),
-      status: new FormControl(this.editdatas ? this.editdatas['status']==1?true:false:true, Validators.required),
+      ott_plt: new FormControl(this.checkids || '', Validators.required),
+      unit_type: new FormControl(this.editdatas ? this.editdatas['days'] : '', Validators.required),
+      status: new FormControl(this.editdatas ? this.editdatas['status'] == 1 ? true : false : true, Validators.required),
     });
   }
 }

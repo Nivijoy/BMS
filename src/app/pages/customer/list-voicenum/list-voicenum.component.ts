@@ -16,8 +16,8 @@ const EXCEL_EXTENSION = '.xlsx';
 })
 export class ListVoiceNumComponent implements OnInit {
   data; totalpage = 10; pages = [1, 2, 3, 4, 5]; count; search;
-  bus; bus_name='';  res_name = '';voice_num='';status=''
-  res1; custname;cust_name='';
+  bus; bus_name = ''; res_name = ''; voice_num = ''; status = ''
+  res1; custname; cust_name = '';
 
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
   constructor(
@@ -46,7 +46,7 @@ export class ListVoiceNumComponent implements OnInit {
 
   async showResellerName($event = '') {
     // console.log('inside', this.resel_type)
-    this.res1 = await this.resser.showResellerName({ bus_id:this.bus_name,like: $event })
+    this.res1 = await this.resser.showResellerName({ bus_id: this.bus_name, like: $event })
     // console.log("resellername",result)
   }
 
@@ -56,8 +56,10 @@ export class ListVoiceNumComponent implements OnInit {
   }
 
   async refresh() {
-    this.bus_name='';
-    this.res_name='';
+    this.bus_name = '';
+    this.res_name = '';
+    this.voice_num = '';
+    this.status = '';
     await this.initiallist();
   }
 
@@ -67,6 +69,8 @@ export class ListVoiceNumComponent implements OnInit {
       limit: this.limit,
       bus_id: this.bus_name,
       resel_id: this.res_name,
+      voice_num: this.voice_num,
+      status: this.status,
     })
     // console.log(result)
     if (result) {
@@ -78,30 +82,32 @@ export class ListVoiceNumComponent implements OnInit {
     }
   }
 
-  async download(){
+  async download() {
     let res = await this.custser.listVoice({
       bus_id: this.bus_name,
       resel_id: this.res_name,
+      voice_num: this.voice_num,
+      status: this.status,
     });
     if (res) {
-       let tempdata = [], temp: any = res[0];
-       for (var i = 0; i < temp.length; i++) {
-          let param = {};
-          if(this.role.getroleid()>777){
-            param['ISP NAME'] = temp[i]['busname'];
-          }
-          param['RESELLER NAME'] = temp[i]['ip'];
-          param['START NUMBER'] = temp[i]['mode'];
-          param['END NUMBER'] = temp[i]['community'];
-          temp[i]['status'] = temp[i]['caf_status']==0 ? 'Disable': temp[i]['caf_status']==1 ? 'Enable':'Cancel';
-          param['STATUS'] = temp[i]['status'];
+      let tempdata = [], temp: any = res[0];
+      for (var i = 0; i < temp.length; i++) {
+        let param = {};
+        if (this.role.getroleid() > 777) {
+          param['ISP NAME'] = temp[i]['busname'];
+        }
+        param['SUBSCRIBER ID'] = !temp[i]['cust_profile_id'] ? '--' : temp[i]['cust_profile_id'];
+        param['VOICE NUMBER'] = temp[i]['vnumber'];
+        param['CURRENT PASSWORD'] = !temp[i]['lpwd'] ? '--' : temp[i]['lpwd'];
+        param['LAST PASSWORD'] = !temp[i]['lppwd'] ? '--' : temp[i]['lppwd'];
+        param['STATUS'] = temp[i]['vflag'] == 1 ? 'Assigned' : 'Not-Assinged';
 
-          tempdata[i] = param
-       }
-       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
-       const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
-       JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-       JSXLSX.writeFile(wb, 'CAF Number List' + EXCEL_EXTENSION);
+        tempdata[i] = param
+      }
+      const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
+      const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
+      JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+      JSXLSX.writeFile(wb, 'Voice_Number_List' + EXCEL_EXTENSION);
     }
   }
 
@@ -141,7 +147,7 @@ export class ListVoiceNumComponent implements OnInit {
     });
   }
 
-  assigne(item) { 
+  assigne(item) {
     const activeModal = this.nasmodel.open(AssigneVoiceComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Assign Voice Number';
     activeModal.componentInstance.item = item
@@ -151,7 +157,7 @@ export class ListVoiceNumComponent implements OnInit {
     });
   }
 
-  unassigne(item){
+  unassigne(item) {
     const activeModal = this.nasmodel.open(UnAssignedVoiceComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Unassign Voice Number';
     activeModal.componentInstance.item = item
@@ -161,7 +167,7 @@ export class ListVoiceNumComponent implements OnInit {
     });
   }
 
-  changepswd(item){
+  changepswd(item) {
     const activeModal = this.nasmodel.open(VoicePasswordComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Change Password';
     activeModal.componentInstance.item = item

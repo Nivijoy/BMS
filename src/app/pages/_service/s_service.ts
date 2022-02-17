@@ -32,10 +32,10 @@ export class S_Service {
     return await this.http.post("/api/s_service/showServiceName", params).toPromise();
   }
   async showCustomerService(params) {
-    return await this.http.post("/api/s_service/showCustomerService",params).toPromise();
+    return await this.http.post("/api/s_service/showCustomerService", params).toPromise();
   }
   async showCustomerSubplan(params) {
-    return await this.http.post("/api/s_service/showCustomerSubplan",params).toPromise();
+    return await this.http.post("/api/s_service/showCustomerSubplan", params).toPromise();
   }
   async showNas() {
     return await this.http.post("/api/s_service/showNas", httpOptions).toPromise();
@@ -70,28 +70,28 @@ export class S_Service {
   async listprice(param) {
     return await this.http.post("/api/s_service/listprice", param).toPromise();
   }
-  async showSubPlan(param){
-    return await this.http.post("/api/s_service/showSubPlan",param).toPromise();
+  async showSubPlan(param) {
+    return await this.http.post("/api/s_service/showSubPlan", param).toPromise();
   }
   async addprice(param) {
     return await this.http.post("/api/s_service/addprice", param).toPromise();
   }
   async addBulkPrice(params) {
-    return await this.http.post("/api/s_service/addBulkPrice",params).toPromise();
+    return await this.http.post("/api/s_service/addBulkPrice", params).toPromise();
   }
   async updateprice(param) {
     return await this.http.post("/api/s_service/updateprice", param).toPromise();
   }
-  async viewPrice(params){
-    return await this.http.post("/api/s_service/viewPrice",params).toPromise();
+  async viewPrice(params) {
+    return await this.http.post("/api/s_service/viewPrice", params).toPromise();
   }
-  async viewSerResel(params){
-    return await this.http.post("/api/s_service/viewSerResel",params).toPromise();
+  async viewSerResel(params) {
+    return await this.http.post("/api/s_service/viewSerResel", params).toPromise();
   }
   async geteditprice(param) {
     return await this.http.post("/api/s_service/geteditprice", param).toPromise();
   }
-  
+
   async showReseller() {
     return await this.http.post("/api/s_service/showReseller", httpOptions).toPromise();
   }
@@ -121,53 +121,56 @@ export class S_Service {
   }
   async geteditservicemap(param) {
     return await this.http.post("/api/s_service/geteditservicemap", param).toPromise();
-  } 
-  async showFallback(param){
-    return await this.http.post("/api/s_service/showFallback",param).toPromise();
   }
-  async addBulkService(param){
-    return await this.http.post("/api/s_service/addBulkService",param).toPromise();
+  async showFallback(param) {
+    return await this.http.post("/api/s_service/showFallback", param).toPromise();
   }
-  async showService(params){
-    return await this.http.post("/api/s_service/showService",params).toPromise();
+  async addBulkService(param) {
+    return await this.http.post("/api/s_service/addBulkService", param).toPromise();
   }
-  async serviceMap(params){
-    return await this.http.post("/api/s_service/serviceMap",params).toPromise();
+  async showService(params) {
+    return await this.http.post("/api/s_service/showService", params).toPromise();
   }
-  async showAssignService(params){
-    return await this.http.post("/api/s_service/showAssignService",params).toPromise();
+  async serviceMap(params) {
+    return await this.http.post("/api/s_service/serviceMap", params).toPromise();
   }
-  async showAssignNas(params){
-    return await this.http.post("/api/s_service/showAssignNas",params).toPromise();
+  async showAssignService(params) {
+    return await this.http.post("/api/s_service/showAssignService", params).toPromise();
   }
-  async serviceMapping(params){
-    return await this.http.post("/api/s_service/serviceMapping",params).toPromise();
+  async showAssignNas(params) {
+    return await this.http.post("/api/s_service/showAssignNas", params).toPromise();
+  }
+  async serviceMapping(params) {
+    return await this.http.post("/api/s_service/serviceMapping", params).toPromise();
   }
   async datasplitupdate(params) {
-    return await this.http.post("/api/s_service/datasplitupdate",params).toPromise();
+    return await this.http.post("/api/s_service/datasplitupdate", params).toPromise();
   }
-  async priceMapping(params){
-    return await this.http.post("/api/s_service/priceMapping",params).toPromise();
+  async priceMapping(params) {
+    return await this.http.post("/api/s_service/priceMapping", params).toPromise();
   }
-  async showAssignReseller(params){
-    return await this.http.post("/api/s_service/showAssignReseller",params).toPromise();
+  async showAssignReseller(params) {
+    return await this.http.post("/api/s_service/showAssignReseller", params).toPromise();
   }
-  async addTopup(params){
-    return await this.http.post("/api/s_service/addTopup",params).toPromise();
+  async addTopup(params) {
+    return await this.http.post("/api/s_service/addTopup", params).toPromise();
   }
-  async listTopup(params){
-    return await this.http.post("/api/s_service/listTopup",params).toPromise();
+  async listTopup(params) {
+    return await this.http.post("/api/s_service/listTopup", params).toPromise();
   }
-  async getEditTopup(params){
-    return await this.http.post("/api/s_service/getEditTopup",params).toPromise();
+  async getEditTopup(params) {
+    return await this.http.post("/api/s_service/getEditTopup", params).toPromise();
   }
-  async editTopup(params){
-    return await this.http.post("/api/s_service/editTopup",params).toPromise();
+  async editTopup(params) {
+    return await this.http.post("/api/s_service/editTopup", params).toPromise();
   }
   async showTopup(params) {
-    return await this.http.post("/api/s_service/showTopup",params).toPromise();
+    return await this.http.post("/api/s_service/showTopup", params).toPromise();
   }
   async showOTTPlans(params) {
-    return await this.http.post("/api/s_service/showOTTPlans",params).toPromise();
+    return await this.http.post("/api/s_service/showOTTPlans", params).toPromise();
+  }
+  async sharingReports(params) {
+    return await this.http.post("/api/s_service/sharingReports", params).toPromise();
   }
 }

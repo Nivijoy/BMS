@@ -67,101 +67,124 @@ export class AdminuserService {
   async updateAdminProfile(params) {
     return await this.http.post("/api/adminuser/updateAdminProfile", params).toPromise();
   }
-  async listCustProfileLog(params){
-    return await this.http.post("/api/adminuser/listCustProfileLog",params).toPromise();
+  async listCustProfileLog(params) {
+    return await this.http.post("/api/adminuser/listCustProfileLog", params).toPromise();
   }
-  async listSMSGateway(params){
-    return await this.http.post("/api/adminuser/listSMSGateway",params).toPromise();
+  async listSMSGateway(params) {
+    return await this.http.post("/api/adminuser/listSMSGateway", params).toPromise();
   }
-  async addSMSGateway(params){
-    return await this.http.post("/api/adminuser/addSMSGateway",params).toPromise();
+  async addSMSGateway(params) {
+    return await this.http.post("/api/adminuser/addSMSGateway", params).toPromise();
   }
-  async editSMSGateway(params){
-    return await this.http.post("/api/adminuser/editSMSGateway",params).toPromise();
+  async editSMSGateway(params) {
+    return await this.http.post("/api/adminuser/editSMSGateway", params).toPromise();
   }
-  async getSMSGateway(params){
-    return await this.http.post("/api/adminuser/getSMSGateway",params).toPromise();
+  async getSMSGateway(params) {
+    return await this.http.post("/api/adminuser/getSMSGateway", params).toPromise();
   }
-  async showSMSGateway(params){
-    return await this.http.post("/api/adminuser/showSMSGateway",params).toPromise();
+  async showSMSGateway(params) {
+    return await this.http.post("/api/adminuser/showSMSGateway", params).toPromise();
   }
-  async listSMSTemplate(){
-    return await this.http.post("/api/adminuser/listSMSTemplate",Observable).toPromise();
+  async listSMSTemplate() {
+    return await this.http.post("/api/adminuser/listSMSTemplate", Observable).toPromise();
   }
-  async addSMSTemplate(params){
-    return await this.http.post("/api/adminuser/addSMSTemplate",params).toPromise();
+  async addSMSTemplate(params) {
+    return await this.http.post("/api/adminuser/addSMSTemplate", params).toPromise();
   }
-  async editSMSTemplate(params){
-    return await this.http.post("/api/adminuser/editSMSTemplate",params).toPromise();
+  async editSMSTemplate(params) {
+    return await this.http.post("/api/adminuser/editSMSTemplate", params).toPromise();
   }
-  async listSMSTemplateBusiness(params){
-    return await this.http.post("/api/adminuser/listSMSTemplateBusiness",params).toPromise();
+  async listSMSTemplateBusiness(params) {
+    return await this.http.post("/api/adminuser/listSMSTemplateBusiness", params).toPromise();
   }
-  async addSMSTemplateBusiness(params){
-    return await this.http.post("/api/adminuser/addSMSTemplateBusiness",params).toPromise();
+  async addSMSTemplateBusiness(params) {
+    return await this.http.post("/api/adminuser/addSMSTemplateBusiness", params).toPromise();
   }
-  async editSMSTemplateBusiness(params){
-    return await this.http.post("/api/adminuser/editSMSTemplateBusiness",params).toPromise();
+  async editSMSTemplateBusiness(params) {
+    return await this.http.post("/api/adminuser/editSMSTemplateBusiness", params).toPromise();
   }
-  async showEmailTemplate(params){
-    return await this.http.post("/api/adminuser/showEmailTemplate",params).toPromise();
+  async showEmailTemplate(params) {
+    return await this.http.post("/api/adminuser/showEmailTemplate", params).toPromise();
   }
-  async UpdateEmailTemplate(params){
-    return await this.http.post("/api/adminuser/UpdateEmailTemplate",params).toPromise();
+  async UpdateEmailTemplate(params) {
+    return await this.http.post("/api/adminuser/UpdateEmailTemplate", params).toPromise();
   }
-  async showEmailTemplateIsp(params){
-    return await this.http.post("/api/adminuser/showEmailTemplateIsp",params).toPromise();
+  async showEmailTemplateIsp(params) {
+    return await this.http.post("/api/adminuser/showEmailTemplateIsp", params).toPromise();
   }
-  async UpdateEmailTemplateIsp(params){
-    return await this.http.post("/api/adminuser/UpdateEmailTemplateIsp",params).toPromise();
+  async UpdateEmailTemplateIsp(params) {
+    return await this.http.post("/api/adminuser/UpdateEmailTemplateIsp", params).toPromise();
   }
-  async listOTTPlatforms(params){
-    return await this.http.post("/api/adminuser/listOTTPlatforms",params).toPromise();
+  async listOTTPlatforms(params) {
+    return await this.http.post("/api/adminuser/listOTTPlatforms", params).toPromise();
   }
-  async addOTTPlatforms(params){
-    return await this.http.post("/api/adminuser/addOTTPlatforms",params).toPromise();
+  async addOTTPlatforms(params) {
+    return await this.http.post("/api/adminuser/addOTTPlatforms", params).toPromise();
   }
-  async editOTTPlatforms(params){
-    return await this.http.post("/api/adminuser/editOTTPlatforms",params).toPromise();
+  async editOTTPlatforms(params) {
+    return await this.http.post("/api/adminuser/editOTTPlatforms", params).toPromise();
   }
-  async showOTTPlatforms(params){
-    return await this.http.post("/api/adminuser/showOTTplatforms",params).toPromise();
+  async showOTTPlatforms(params) {
+    return await this.http.post("/api/adminuser/showOTTplatforms", params).toPromise();
   }
-  async addOTTService(params){
-    return await this.http.post("/api/adminuser/addOTTService",params).toPromise();
+  async addOTTService(params) {
+    return await this.http.post("/api/adminuser/addOTTService", params).toPromise();
   }
-  async editOTTService(params){
-    return await this.http.post("/api/adminuser/editOTTService",params).toPromise();
+  async editOTTService(params) {
+    return await this.http.post("/api/adminuser/editOTTService", params).toPromise();
   }
-  async getOTTService(params){
-    return await this.http.post("/api/adminuser/getOTTService",params).toPromise();
+  async getOTTService(params) {
+    return await this.http.post("/api/adminuser/getOTTService", params).toPromise();
   }
-  async listOTTService(params){
-    return await this.http.post("/api/adminuser/listOTTService",params).toPromise();
+  async listOTTService(params) {
+    return await this.http.post("/api/adminuser/listOTTService", params).toPromise();
   }
-  async addOTTPlan(params){
-    return await this.http.post("/api/adminuser/addOTTPlan",params).toPromise();
+  async addOTTPlan(params) {
+    return await this.http.post("/api/adminuser/addOTTPlan", params).toPromise();
   }
-  async editOTTPlan(params){
-    return await this.http.post("/api/adminuser/editOTTPlan",params).toPromise();
+  async editOTTPlan(params) {
+    return await this.http.post("/api/adminuser/editOTTPlan", params).toPromise();
   }
-  async getOTTPlan(params){
-    return await this.http.post("/api/adminuser/getOTTPlan",params).toPromise();
+  async getOTTPlan(params) {
+    return await this.http.post("/api/adminuser/getOTTPlan", params).toPromise();
   }
-  async listOTTPlan(params){
-    return await this.http.post("/api/adminuser/listOTTPlan",params).toPromise();
+  async listOTTPlan(params) {
+    return await this.http.post("/api/adminuser/listOTTPlan", params).toPromise();
   }
-  async showOTTPlan(params){
-    return await this.http.post("/api/adminuser/showOTTPlan",params).toPromise();
+  async showOTTPlan(params) {
+    return await this.http.post("/api/adminuser/showOTTPlan", params).toPromise();
   }
-  async showAllowMan(params){
-    return await this.http.post("/api/adminuser/showAllowMan",params).toPromise();
+  async showAllowMan(params) {
+    return await this.http.post("/api/adminuser/showAllowMan", params).toPromise();
   }
-  async showAllowBranch(params){
-    return await this.http.post("/api/adminuser/showAllowBranch",params).toPromise();
+  async showAllowBranch(params) {
+    return await this.http.post("/api/adminuser/showAllowBranch", params).toPromise();
   }
-  async showOTTPlanCode(params){
-    return await this.http.post("/api/adminuser/showOTTPlanCode",params).toPromise();
+  async showOTTPlanCode(params) {
+    return await this.http.post("/api/adminuser/showOTTPlanCode", params).toPromise();
   }
+  async listSmsCredit(params) {
+    return await this.http.post("/api/adminuser/listSmsCredit", params).toPromise();
+  }
+  async addSmscredit(params) {
+    return await this.http.post("/api/adminuser/addSmscredit", params).toPromise();
+  }
+  async editSmscredit(params) {
+    return await this.http.post("/api/adminuser/editSmscredit", params).toPromise();
+  }
+  async ottMap(params) {
+    return await this.http.post("/api/adminuser/ottMap", params).toPromise();
+  }
+  async updateOttMap(params) {
+    return await this.http.post("/api/adminuser/updateOttMap", params).toPromise();
+  }
+  async showOttMap(params) {
+    return await this.http.post("/api/adminuser/showOttMap", params).toPromise();
+  }
+  async sendbulkemail(params) {
+    return await this.http.post("/api/smsemail/sendbulkemail", params).toPromise();
+  }
+  
+
 
 }

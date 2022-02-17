@@ -115,6 +115,7 @@ export class AddprofileComponent implements OnInit {
             },
           ],
         },
+        { id: 1057, name: 'Show Revenue-ShareDetails' },
       ]
     },
     {
@@ -279,7 +280,7 @@ export class AddprofileComponent implements OnInit {
             { id: 1022, name: 'Add Acknowledge Invoice' },
             { id: 1023, name: 'View Acknowldged Invoice' },
             { id: 1024, name: 'View QRCode' },
-            { id: 1056, name: 'Update EInvoice Date'}
+            { id: 1056, name: 'Update EInvoice Date' }
 
           ],
         },

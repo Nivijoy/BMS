@@ -1,6 +1,13 @@
 <ngx-loading [show]="loading"
   [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
 </ngx-loading>
+<div class="row">
+  <div class="col-md-12">
+    <a type="button" class="btn btn-primary btn-sm btn-floating "
+      style="float: right; margin: 5px;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px; cursor: pointer ;padding-right: 3px;color:white;"
+      (click)="refresh()"><i class="fa fa-sync"></i></a>
+  </div>
+</div>
 <ngb-tabset *ngIf="role.getroleid()==111">
   <ngb-tab title="Basic Info">
     <ng-template ngbTabContent>
@@ -475,13 +482,13 @@
   </div>
 </div>
 <div class="row" *ngIf="( !role.getmenurole(99) && !role.getmenurole(92) && role.getroleid()>=775) ">
-       <div class="col-md-3" *ngFor="let statusCard of statusCards">
-        <ngx-status-card [ID]='statusCard.status' (clicked)='listsubs($event)' [title]="statusCard.title"
-          [type]="statusCard.type" [value]="statusCard.value">
-          <i [ngClass]="statusCard.iconClass"></i>
-        </ngx-status-card>
-      </div>
+  <div class="col-md-3" *ngFor="let statusCard of statusCards">
+    <ngx-status-card [ID]='statusCard.status' (clicked)='listsubs($event)' [title]="statusCard.title"
+      [type]="statusCard.type" [value]="statusCard.value">
+      <i [ngClass]="statusCard.iconClass"></i>
+    </ngx-status-card>
   </div>
+</div>
 <div class="row">
   <div class="col-md-6" *ngIf="!role.getmenurole(93)">
     <nb-card style="height: 452px;">

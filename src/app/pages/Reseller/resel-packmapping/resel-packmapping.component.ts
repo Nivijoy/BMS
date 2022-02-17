@@ -249,8 +249,7 @@ export class ResServiceMapComponent implements OnInit {
     let sermapdata = [this.ResPackmapForm.value]
     let result = await this.ser.priceMapping({ mapService: sermapdata });
     if (result) this.result_pop(result);
-    // console.log('res',result);
-    // const toast: Toast = {
+      // const toast: Toast = {
     //   type: result[0]['error_msg'] == 0 ? 'success' : 'warning',
     //   title: result[0]['error_msg'] == 0 ? 'Success' : 'Failure',
     //   body: result[0]['msg'],
@@ -259,9 +258,10 @@ export class ResServiceMapComponent implements OnInit {
     //   bodyOutputType: BodyOutputType.TrustedHtml,
     // };
     // this.alert.popAsync(toast);
-    // if (result[0]['error_msg'] == 0) {
-    // this.router.navigate(['/pages/service/service-list'])
-    // }
+    if (result[0]['error_msg'] == 0) {
+      await this.changevalid();
+      this.ResPackmapForm.controls.to_reseller.setValue('');
+    }
   }
 
   async ngOnInit() {

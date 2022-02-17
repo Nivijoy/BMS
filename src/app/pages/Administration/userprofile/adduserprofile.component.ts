@@ -115,6 +115,8 @@ export class AddUserprofileComponent implements OnInit {
             },
           ],
         },
+        { id: 1057, name: 'Show Revenue-ShareDetails' },
+
       ]
     },
     {

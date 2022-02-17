@@ -9,6 +9,7 @@ import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import { EditNasComponent } from '../editnas/editnas.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'Listreseller',
@@ -20,7 +21,7 @@ export class ResellerListComponent implements OnInit {
   bus; bus_name = ''; group1; bulk; deposit; hotel; subdisbulk; subdisdep; subispbulk; subispdep; nasip;
   group_name = ''; nas1; nas_name; res1; res_name = ''; search; profile; resel_type = ''; under; id; reseller_under; resellerrole;
   resmob; resmail; reslogid; res_mob = ''; res_mail = ''; res_logid = ''; nas_ip = '';
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit = 25;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit = 25;state_id;state;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
@@ -35,7 +36,7 @@ export class ResellerListComponent implements OnInit {
     private groupser: GroupService,
     private busser: BusinessService,
     public pageservice: PagerService,
-
+    private datePipe: DatePipe,
 
 
   ) { }
@@ -45,6 +46,7 @@ export class ResellerListComponent implements OnInit {
     localStorage.removeItem('resid');
     localStorage.removeItem('lflag');
     await this.showBusName();
+    await this.showState();
     await this.initiallist();
     if (this.role.getroleid() <= 777) {
       this.bus_name = this.role.getispid();
@@ -79,6 +81,10 @@ export class ResellerListComponent implements OnInit {
   async showProfileReseller($event = '') {
     this.profile = await this.ser.showProfileReseller({ bus_id: this.bus_name, like: $event });
     // console.log("prof:", result)
+  }
+
+  async showState($event=''){
+    this.state = await this.select.showState({like:$event});
   }
 
   async showResellerName($event = '') {
@@ -126,6 +132,7 @@ export class ResellerListComponent implements OnInit {
       this.res_logid = '';
       this.nas_name = '';
       this.nas_ip = '';
+      this.state_id ='';
     }
     if (item == 2) {
       this.resel_type = '';
@@ -135,6 +142,7 @@ export class ResellerListComponent implements OnInit {
       this.res_logid = '';
       this.nas_name = '';
       this.nas_ip = '';
+      this.state_id ='';
     }
     if (item == 3) {
       this.res_name = '';
@@ -143,6 +151,7 @@ export class ResellerListComponent implements OnInit {
       this.res_logid = '';
       this.nas_name = '';
       this.nas_ip = '';
+      this.state_id ='';
     }
     if (item == 4) {
       this.res_mob = '';
@@ -150,6 +159,7 @@ export class ResellerListComponent implements OnInit {
       this.res_logid = '';
       this.nas_name = '';
       this.nas_ip = '';
+      this.state_id ='';
     }
     if (item == 5) {
       this.res_mail = '';
@@ -185,6 +195,7 @@ export class ResellerListComponent implements OnInit {
     this.resmob = '';
     this.resmail = '';
     this.reslogid = '';
+    this.state_id='';
     if (this.role.getroleid() <= 777) {
       await this.showGroupName();
       await this.showGroupNas();
@@ -209,7 +220,8 @@ export class ResellerListComponent implements OnInit {
         resel_id: this.res_name,
         resel_mob: this.res_mob,
         resel_email: this.res_mail,
-        resel_login: this.res_logid
+        resel_login: this.res_logid,
+        state_id:this.state_id,
         // resel_under:this.reseller_under,
         // res_id:this.reseller_under,
       });
@@ -237,6 +249,7 @@ export class ResellerListComponent implements OnInit {
       ip: this.nas_ip,
       role: this.resel_type,
       resel_id: this.res_name,
+      state_id:this.state_id
     })
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -262,6 +275,9 @@ export class ResellerListComponent implements OnInit {
         param['SUBSCRIBER LIMIT'] = temp[i]['sub_limit'] == 0 ? 'Unlimitde' : temp[i]['sub_limit'];
         param['TOTAL SUBSCRIBERS'] = temp[i]['ucount'];
         param['PREFIX'] = temp[i]['prefix_on'] == 1 ? 'Enable' : 'Disable';
+        temp[i]['c_date'] = temp[i]['c_date'] =='0000-00-00 00:00:00' ? '--' : this.datePipe.transform(temp[i]['c_date'], 'd MMM y');
+        param['REGISTERED DATE'] = temp[i]['c_date'];
+        param['STATE'] =temp[i]['stname'];
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

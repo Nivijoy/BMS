@@ -122,6 +122,14 @@ export class DashboardComponent implements OnDestroy {
 
 
    async ngOnInit() {
+      await this.dashInitial()
+   }
+
+   async refresh() {
+      await this.dashInitial()
+   }
+
+   async dashInitial() {
       // this.yesDetails();
       if (this.role.getroleid() > 111) {
          this.totalcount = await this.dash.getcount({});
@@ -413,7 +421,7 @@ export class DashboardComponent implements OnDestroy {
       let res = await this.dash.getCAFPending({
       });
       if (res) {
-         let tempdata = [], temp: any = res[0];
+         let tempdata = [], temp: any = res;
          for (var i = 0; i < temp.length; i++) {
             let param = {};
             param['RESELLER TYPE'] = temp[i]['role'] == 444 ? 'Bulk Resellre' : temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 666 ? 'Sub ISP Bulk' :

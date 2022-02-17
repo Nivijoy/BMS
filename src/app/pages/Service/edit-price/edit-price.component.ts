@@ -15,8 +15,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class EditPriceComponent implements OnInit {
-  submit: boolean = false; EditPriceForm; groups; id; editdatas; resell;plan;
-  busname; grup; pack; sharetyp; reselrole; edititems; config; servtype;ottdata;resott;ottflag;ott_ids;
+  submit: boolean = false; EditPriceForm; groups; id; editdatas; resell; plan;
+  busname; grup; pack; sharetyp; reselrole; edititems; config; servtype; ottdata; resott; ottflag; ott_ids;
 
 
   constructor(
@@ -28,7 +28,7 @@ export class EditPriceComponent implements OnInit {
     public role: RoleService,
     private resser: ResellerService,
     private _fb: FormBuilder,
-    private adminser : AdminuserService,
+    private adminser: AdminuserService,
     public activeModal: NgbModal,
 
 
@@ -44,34 +44,35 @@ export class EditPriceComponent implements OnInit {
 
   }
 
-  async packshow($event='') {
+  async packshow($event = '') {
     if (this.role.getroleid() >= 775) {
-      this.pack = await this.ser.showServiceName({ edit_flag:1, resel_id: this.EditPriceForm.value['reseller'],like:$event });
+      this.pack = await this.ser.showServiceName({ edit_flag: 1, resel_id: this.EditPriceForm.value['reseller'], like: $event });
       // console.log(res);
     }
     if (this.role.getroleid() < 775) {
-      this.pack = await this.ser.showServiceName({ edit_flag:1,like:$event });
+      this.pack = await this.ser.showServiceName({ edit_flag: 1, like: $event });
       // console.log(res);
     }
   }
 
   async showReseller() {
     if (this.role.getroleid() >= 775) {
-      this.resell = await this.resser.showResellerName({edit_flag:1,
+      this.resell = await this.resser.showResellerName({
+        edit_flag: 1,
         bus_id: this.EditPriceForm.value['bus_id'], groupid: this.EditPriceForm.value['groupid'], except: 1
       });
       // console.log(res)
       await this.share();
     }
     if (this.role.getroleid() < 775) {
-      this.resell = await this.resser.showResellerName({ edit_flag:1,except: 1 });
+      this.resell = await this.resser.showResellerName({ edit_flag: 1, except: 1 });
       // console.log(res)
       await this.share();
     }
   }
-  async showottplan(){
-     this.plan = await this.ser.showOTTPlans({bus_id: this.EditPriceForm.value['bus_id']});
-   }
+  async showottplan() {
+    this.plan = await this.ser.showOTTPlans({ bus_id: this.EditPriceForm.value['bus_id'] });
+  }
 
   ottids() {
     var resid = this.EditPriceForm.value['reseller']
@@ -79,7 +80,7 @@ export class EditPriceComponent implements OnInit {
     let ottid = ottdata[0] != null ? ottdata[0].slice(1, -1) : '',
       ott_id = ottid.split(',');
     this.ott_ids = ott_id.map((i) => Number(i))
-    console.log('ottids',this.ott_ids)
+    console.log('ottids', this.ott_ids)
     if (this.ott_ids != null) {
       this.ottplatforms();
     }
@@ -87,11 +88,11 @@ export class EditPriceComponent implements OnInit {
 
   async ottplatforms() {
     this.ottdata = await this.adminser.showOTTPlatforms({});
-    console.log('ottids',this.ottdata)
+    console.log('ottids', this.ottdata)
     this.resott = this.ottdata.filter(item => this.ott_ids.includes(item.ott_id));
     // this.ottflag = this.resott.reduce((a, o) => (a.push(o.ott_id), a), [])
-    this.ottflag= this.resott.filter(x => x.ott_id).map(a => a.ott_id)
-    console.log('Ottflag',this.ottflag)
+    this.ottflag = this.resott.filter(x => x.ott_id).map(a => a.ott_id)
+    console.log('Ottflag', this.ottflag)
   }
 
   share() {
@@ -112,11 +113,11 @@ export class EditPriceComponent implements OnInit {
 
   async servicetype() {
     if (this.role.getroleid() < 775) {
-      this.servtype = await this.busser.showServiceType({sertype:1 });
+      this.servtype = await this.busser.showServiceType({ sertype: 1 });
       // console.log(result);
     }
     if (this.role.getroleid() >= 775) {
-      this.servtype = await this.busser.showServiceType({sertype:1, price_flag:1 ,resel_id: this.EditPriceForm.value['reseller'] });
+      this.servtype = await this.busser.showServiceType({ sertype: 1, price_flag: 1, resel_id: this.EditPriceForm.value['reseller'] });
       // console.log(result);
     }
   }
@@ -129,7 +130,7 @@ export class EditPriceComponent implements OnInit {
       this.submit = true;
       return;
     }
-    
+
     let result = await this.ser.updateprice(this.EditPriceForm.value);
     if (result) {
       this.Add_nas(result, true);
@@ -176,40 +177,37 @@ export class EditPriceComponent implements OnInit {
     let priceitems = this.editdatas
     for (var i = 0; i < priceitems.length; i++) {
       this.priceDetails.push(this.createMaterial(priceitems[i]['srvid'], priceitems[i]['service_type'], priceitems[i]['sub_plan'], priceitems[i]['amount'], priceitems[i]['type'],
-      priceitems[i]['time_unit'], priceitems[i]['additional_days'], priceitems[i]['isp_share'],priceitems[i]['days_flag'], priceitems[i]['sub_isp_share'], priceitems[i]['sub_dist_share'], priceitems[i]['reseller_share'],
-      priceitems[i]['validity'],priceitems[i]['startdate'],priceitems[i]['enddate'],
-      priceitems[i]['voice_amount'],priceitems[i]['aon_amount'],priceitems[i]['dhstatus'],priceitems[i]['apstatus'],priceitems[i]['netfstatus'],priceitems[i]['snstatus'],priceitems[i]['zeestatus'],
-      priceitems[i]['rnstatus'],priceitems[i]['slstatus'],priceitems[i]['hunstatus'],priceitems[i]['dhamt'],priceitems[i]['apamt'],priceitems[i]['netfamt'],priceitems[i]['snamt'],priceitems[i]['zeeamt'],
-      priceitems[i]['rnamt'],priceitems[i]['slamt'],priceitems[i]['hunamt'],priceitems[i]['sottfrom'],priceitems[i]['ottplan'],priceitems[i]['ott_amount']));
+        priceitems[i]['time_unit'], priceitems[i]['additional_days'], priceitems[i]['isp_share'], priceitems[i]['days_flag'], priceitems[i]['sub_isp_share'], priceitems[i]['sub_dist_share'], priceitems[i]['reseller_share'],
+        priceitems[i]['validity'], priceitems[i]['startdate'], priceitems[i]['enddate'],
+        priceitems[i]['voice_amount'], priceitems[i]['aon_amount'], priceitems[i]['dhstatus'], priceitems[i]['apstatus'], priceitems[i]['netfstatus'], priceitems[i]['snstatus'], priceitems[i]['zeestatus'],
+        priceitems[i]['rnstatus'], priceitems[i]['slstatus'], priceitems[i]['hunstatus'], priceitems[i]['dhamt'], priceitems[i]['apamt'], priceitems[i]['netfamt'], priceitems[i]['snamt'], priceitems[i]['zeeamt'],
+        priceitems[i]['rnamt'], priceitems[i]['slamt'], priceitems[i]['hunamt']));
     }
   }
 
   addPrice() {
-    // this.priceDetails.push(this.createMaterial());
-    // this.createMaterial();
-    this.priceDetails['value'][0]['ottplan'] = ''
-    this.priceDetails['value'][0]['ottstatus'] = ''
-     // (<FormArray>this.priceDetails.get('memes')).clear();
+    // this.priceDetails['value'][0]['ottplan'] = ''
+    // this.priceDetails['value'][0]['ottstatus'] = ''
   }
 
   get priceDetails(): FormArray {
     return this.EditPriceForm.get('priceDetails') as FormArray;
   }
 
-  createMaterial(srvname = '', servtyp = '', pack = '', amnt = '', timetype = '',timeunit = '', addays = '', ispshare = '',dayflag= '',
-  subshare = '', subdistshare = '', reselshare = '',subvalidity='',start_date='',end_date='',vamount='',aonamount='',dhstatus='',apstatus='',netfstatus='',snstatus='',zeestatus='',
-  rnstatus='',slstatus='',hunstatus='',dhamt='',apamt='',netfamt='',snamt='',zeeamt='',rnamt='',slamt='',hunamt='',sottfrom='',ottplan='',ott_amount=''): FormGroup {
+  createMaterial(srvname = '', servtyp = '', pack = '', amnt = '', timetype = '', timeunit = '', addays = '', ispshare = '', dayflag = '',
+    subshare = '', subdistshare = '', reselshare = '', subvalidity = '', start_date = '', end_date = '', vamount = '', aonamount = '', dhstatus = '', apstatus = '', netfstatus = '', snstatus = '', zeestatus = '',
+    rnstatus = '', slstatus = '', hunstatus = '', dhamt = '', apamt = '', netfamt = '', snamt = '', zeeamt = '', rnamt = '', slamt = '', hunamt = ''): FormGroup {
     return this._fb.group({
       pack_name: [srvname],
       serv_type: [servtyp],
       sub_plan: [pack],
       ser_price: [amnt],
-      vo_price:[vamount],
+      vo_price: [vamount],
       // ott_price:[otamount],
-      add_price:[aonamount],
+      add_price: [aonamount],
       timeunit_type: [timetype],
       time_unit: [timeunit],
-      dayflag:[dayflag],
+      dayflag: [dayflag],
       add_days: [addays],
       isp_share: [ispshare],
       subisp_share: [subshare],
@@ -237,9 +235,9 @@ export class EditPriceComponent implements OnInit {
       sony_price: [slamt],
       hunga_price: [hunamt],
 
-      ottstatus:[sottfrom],
-      ottplan:[ottplan],
-      ott_price:[ott_amount]
+      // ottstatus:[sottfrom],
+      // ottplan:[ottplan],
+      // ott_price:[ott_amount]
     });
   }
 
@@ -259,7 +257,7 @@ export class EditPriceComponent implements OnInit {
     }
   }
 
- 
+
 
   ngOnInit() {
     this.createForm();
@@ -273,7 +271,7 @@ export class EditPriceComponent implements OnInit {
       this.servicetype();
       this.showottplan();
     }
-    if (this.id){
+    if (this.id) {
       this.edit();
     }
   }

@@ -227,6 +227,21 @@ export class PagesComponent {
 
           ],
         },
+        {
+          title: 'Revenue-Share-Details',
+          link: '/pages/administration/revenue-share',
+          hidden: !this.role.find(x => x == 1057)
+        },
+        {
+          title: 'SMS Credits',
+          hidden: this.roleid != 999,
+          children: [
+            {
+              title: 'List',
+              link: '/pages/administration/list-sms-credit',
+             },
+          ],
+        },
       ],
     },
     {
@@ -359,6 +374,32 @@ export class PagesComponent {
       ],
     },
     {
+      title: 'Promotion',
+      icon: 'fa fa-paper-plane',
+       children: [
+        {
+          title: 'Send SMS',
+          link: '/pages/administration/send-sms',
+         },
+         {
+          title: 'Send Email',
+          link: '/pages/administration/send-email',
+         },
+         {
+          title: 'Send SMS Reseller',
+          link: '/pages/administration/send-sms-reseller',
+         },
+         {
+          title: 'Send Email Reseller',
+          link: '/pages/administration/send-email-reseller',
+         },
+         {
+          title: 'Send SMS Others',
+          link: '/pages/administration/send-sms-other',
+         },
+      ],
+    },
+    {
       title: 'OTT',
       icon: 'fa fa-film',
       hidden: !(this.role.find(x => x == 1028) || this.role.find(x => x == 1028)),
@@ -385,6 +426,23 @@ export class PagesComponent {
             {
               title: 'Add',
               link: '/pages/administration/ott-plan',
+              hidden: this.roleid < 775
+            },
+
+          ],
+        },
+        {
+          title: 'OTT Map',
+          hidden: this.roleid < 775,
+          children: [
+            {
+              title: 'Add OTTMap',
+              link: '/pages/administration/ott-map',
+              hidden: this.roleid < 775
+            },
+            {
+              title: 'Update OTTMap',
+              link: '/pages/administration/update-ott-map',
               hidden: this.roleid < 775
             },
 

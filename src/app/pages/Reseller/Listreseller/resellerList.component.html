@@ -19,10 +19,9 @@
       <div class="form-group row">
         <div class="col-sm-2" *ngIf="role.getroleid()>777">
           <label>ISP Name</label>
-          <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname"
-            (changed)="showGroupName();showProfileReseller();
-            showGroupNas();resmobile();resemail();reslogin();nasipaddr();changeclear(1)"
-            placeholder='Select Business' id="bus_name" [item]="bus">
+          <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname" (changed)="showGroupName();showProfileReseller();
+            showGroupNas();resmobile();resemail();reslogin();nasipaddr();changeclear(1)" placeholder='Select Business'
+            id="bus_name" [item]="bus">
           </auto-completen>
         </div>
         <div class="col-sm-2" *ngIf="role.getroleid()>=775">
@@ -38,34 +37,34 @@
             optValues="menu_name" placeholder='Select Reseller Type' optId="role" [item]="profile">
           </auto-completen>
         </div>
-        <div class="col-sm-2" >
+        <div class="col-sm-2">
           <label>Reseller Name</label>
-          <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" 
-          (changed)="resmobile();resemail();reslogin();changeclear(4)"
-            placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
+          <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
+            (changed)="resmobile();resemail();reslogin();changeclear(4)" placeholder='Select Reseller'
+            (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
           </auto-completen>
         </div>
         <div class="col-sm-2">
           <label>Reseller Mobile</label>
-          <auto-completen [(ngModel)]="res_mob" addclass="form-control" optValues="mobile" 
-          (changed)="resemail();reslogin();changeclear(5)"
-            placeholder='Select Mobile NO' (keyUp)="resmobile($event)" id="res_mob" [item]="resmob">
+          <auto-completen [(ngModel)]="res_mob" addclass="form-control" optValues="mobile"
+            (changed)="resemail();reslogin();changeclear(5)" placeholder='Select Mobile NO' (keyUp)="resmobile($event)"
+            id="res_mob" [item]="resmob">
           </auto-completen>
         </div>
         <div class="col-sm-2">
           <label>Reseller E-mail</label>
-          <auto-completen [(ngModel)]="res_mail" addclass="form-control" optValues="email" 
-          (changed)="resmobile();reslogin();changeclear(6)"
-            placeholder='Select E-mail' (keyUp)="resemail($event)" id="res_mail" [item]="resmail">
+          <auto-completen [(ngModel)]="res_mail" addclass="form-control" optValues="email"
+            (changed)="resmobile();reslogin();changeclear(6)" placeholder='Select E-mail' (keyUp)="resemail($event)"
+            id="res_mail" [item]="resmail">
           </auto-completen>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-sm-2">
           <label>Reseller LoginID</label>
-          <auto-completen [(ngModel)]="res_logid" addclass="form-control" optValues="managername" 
-          (changed)="resmobile();resemail();changeclear(7)"
-            placeholder='Select LoginnID' (keyUp)="reslogin($event)" id="res_logid" [item]="reslogid">
+          <auto-completen [(ngModel)]="res_logid" addclass="form-control" optValues="managername"
+            (changed)="resmobile();resemail();changeclear(7)" placeholder='Select LoginnID' (keyUp)="reslogin($event)"
+            id="res_logid" [item]="reslogid">
           </auto-completen>
         </div>
         <div class="col-sm-2" *ngIf="role.getroleid()>444">
@@ -78,6 +77,12 @@
           <label>Nas-IP</label>
           <auto-completen [(ngModel)]="nas_ip" addclass="form-control" optValues="nasname" placeholder='Select Nas'
             id="id" (keyUp)="nasipaddr($event)" [item]="nasip">
+          </auto-completen>
+        </div>
+        <div class="col-sm-2">
+          <label>State</label>
+          <auto-completen [(ngModel)]="state_id" addclass="form-control" optValues="name" placeholder='Select State'
+            id="id" (keyUp)="showState($event)" [item]="state">
           </auto-completen>
         </div>
       </div>
@@ -135,7 +140,8 @@
             <a *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"
               (click)="getlist(page)">{{page}}</a>
             <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="page=page+1;getlist();">Next</a>
-            <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="page=pager.totalPages;getlist();">Last</a>
+            <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
+              (click)="page=pager.totalPages;getlist();">Last</a>
           </ul>
           <select [(ngModel)]="limit" (change)="initiallist()" class="form-control"
             style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
@@ -157,33 +163,40 @@
           <th *ngIf="role.getroleid()==444||role.getroleid()==333||role.getroleid()==222">Nas Name</th>
           <th>Status</th>
           <th>Login ID</th>
+          <th>Balance</th>
+          <th>Total Subscribers</th>
           <th>Type</th>
           <th>Business Name</th>
           <th>Service Type</th>
           <th>Mobile</th>
-          <th>Balance</th>
           <th>GST No</th>
           <th>Subscriber Limit</th>
-          <th>Total Subscribers</th>
           <th>Prefix</th>
+          <th>Registered Date</th>
+          <th>State</th>
         </tr>
         <tr *ngFor="let item of pagedItems">
           <td style=" padding: 1px;" class=" last" data-title="'Action'">
             <div class="dropdown ghost-dropdown" ngbDropdown>
-              <button style="width: 70px;border: 2px solid #73a1ff;font-size: 10px;margin:3px;" class="btn btn-primary btn-icon" type="button"
-                ngbDropdownToggle>Action&nbsp;
+              <button style="width: 70px;border: 2px solid #73a1ff;font-size: 10px;margin:3px;"
+                class="btn btn-primary btn-icon" type="button" ngbDropdownToggle>Action&nbsp;
               </button>
               <ul style="width: 75px;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
-                <li *ngIf="!role.getmenurole(404)" class="dropdown-item" style="padding-top: 0px;padding-bottom: 2px;" title="View" (click)="View_user(item.id,1)"><i
-                  style="font-size: 20px;" class="fa fa-eye "></i>&nbsp;View</li>
-                <li class="dropdown-item" title="Logo" style="padding-top: 0px;padding-bottom: 2px;" (click)="view_logo(item.id)"><i style="font-size: 20px;"
-                    class="fa fa-bullseye "></i>&nbsp;Logo</li>
+                <li *ngIf="!role.getmenurole(404)" class="dropdown-item" style="padding-top: 0px;padding-bottom: 2px;"
+                  title="View" (click)="View_user(item.id,1)"><i style="font-size: 20px;"
+                    class="fa fa-eye "></i>&nbsp;View</li>
+                <li class="dropdown-item" title="Logo" style="padding-top: 0px;padding-bottom: 2px;"
+                  (click)="view_logo(item.id)"><i style="font-size: 20px;" class="fa fa-bullseye "></i>&nbsp;Logo</li>
                 <li *ngIf="!role.getmenurole(403)" [hidden]="role.getroleid()==666||role.getroleid()==555"
-                  class="dropdown-item" title="Edit" style="padding-top: 0px;padding-bottom: 2px;" (click)="Edit_resel(item.id)"><i style="font-size: 20px;"
-                    class="nb-edit"></i>&nbsp;Edit</li>
-                <li class="dropdown-item" title="Password" style="padding-top: 0px;padding-bottom: 2px;" (click)="password(item.id)"><i style="font-size: 20px;" class="fa fa-keyboard"></i>&nbsp;Password&nbsp;&nbsp;</li>
-                <li class="dropdown-item" title="EditNas" style="padding-top: 0px;padding-bottom: 2px;" (click)="nasedit(item.id,item.isp_id,item.group_id,item.prim_nas_id)"><i style="font-size: 20px;" class="fa fa-random"></i>&nbsp;Edit-Nas&nbsp;&nbsp;</li>
-              </ul>	
+                  class="dropdown-item" title="Edit" style="padding-top: 0px;padding-bottom: 2px;"
+                  (click)="Edit_resel(item.id)"><i style="font-size: 20px;" class="nb-edit"></i>&nbsp;Edit</li>
+                <li class="dropdown-item" title="Password" style="padding-top: 0px;padding-bottom: 2px;"
+                  (click)="password(item.id)"><i style="font-size: 20px;"
+                    class="fa fa-keyboard"></i>&nbsp;Password&nbsp;&nbsp;</li>
+                <li class="dropdown-item" title="EditNas" style="padding-top: 0px;padding-bottom: 2px;"
+                  (click)="nasedit(item.id,item.isp_id,item.group_id,item.prim_nas_id)"><i style="font-size: 20px;"
+                    class="fa fa-random"></i>&nbsp;Edit-Nas&nbsp;&nbsp;</li>
+              </ul>
             </div>
           </td>
           <td *ngIf="role.getroleid()>777">{{item.id}}</td>
@@ -193,17 +206,22 @@
           <td style="text-align: center;"> <a [ngStyle]="{'color' :item.status==1 ? 'green' : 'red' }"
               [ngClass]="{'ion-close-round':item.status!=1? true:false,'ion-checkmark-round': item.status==1 ? true:false  }">
             </a> </td>
-          <td style="text-transform: none !important;text-align: center;" (click)="View_user(item.id,1)"><a [ngStyle]="{'color' :item.status==1 ? 'green' : 'red' }">{{item.managername}}</a></td>
+          <td style="text-transform: none !important;text-align: center;" (click)="View_user(item.id,1)"><a
+              [ngStyle]="{'color' :item.status==1 ? 'green' : 'red' }">{{item.managername}}</a></td>
+          <td *ngIf="item.menu_name=='Bulk Reseller'">{{'--'}}</td>
+          <td *ngIf="item.menu_name!='Bulk Reseller' " style="text-align: center;font-weight: 900;"><i
+              class="fas fa-rupee-sign">&nbsp;{{item.balance_amt}}</i></td>
+          <td style="text-align: center;font-weight: 900;">{{item.ucount}}</td>
           <td>{{item.menu_name}}</td>
           <td style="text-align: center;">{{item.company}}</td>
           <td>{{item.service_name}}</td>
           <td>{{item.mobile}}</td>
-          <td *ngIf="item.menu_name=='Bulk Reseller'">{{'--'}}</td>
-          <td *ngIf="item.menu_name!='Bulk Reseller' " style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{item.balance_amt}}</i></td>
+
           <td>{{item.gst_no}}</td>
           <td style="text-align: center;">{{item.sub_limit==0 ? 'Unlimited':'No Limit'}}</td>
-          <td style="text-align: center;">{{item.ucount}}</td>
           <td>{{item.prefix_on == true? 'Enable':'Disable'}}</td>
+          <td>{{item.c_date == '0000-00-00 00:00:00'? '--' : item.c_date | date: 'd MMM yy hh:mm:ss a'}}</td>
+          <td>{{item.stname || '--'}}</td>
         </tr>
         <tr>
           <td colspan="15" *ngIf="pagedItems==''">NO DATA FOUND</td>

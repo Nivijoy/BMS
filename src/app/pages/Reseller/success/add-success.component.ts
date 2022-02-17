@@ -21,7 +21,7 @@ export class AddSuccessComponent implements OnInit {
 	) { }
 
 	closeModal() {
-		// console.log(this.item)
+		console.log('item',this.item)
 		this.activeModal.close(true);
 		if (this.item[0]['error_msg'] == 0 && this.item['plan'] == 1) {
 			// this.router.navigate(['/pages/reseller/resellerList']);

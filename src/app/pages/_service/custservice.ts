@@ -23,11 +23,9 @@ export class CustService {
   async listSubscriber(params) {
     return await this.http.post("/api/subs/listSubscriber", params).toPromise();
   }
-
   async addSubscriber(params) {
     return await this.http.post("/api/subs/addSubscriber", params).toPromise();
   }
-
   async editsubscriber(params) {
     return await this.http.post("/api/subs/editsubscriber", params).toPromise();
   }
@@ -57,120 +55,122 @@ export class CustService {
   async getmacmanagement(param) {
     return await this.http.post("/api/subs/getmacmanagement", param).toPromise();
   }
-  async updatemac(params){
-    return  await this.http.post("/api/subs/updatemac",params).toPromise();
+  async updatemac(params) {
+    return await this.http.post("/api/subs/updatemac", params).toPromise();
   }
-  async getuserpassword(params){
-    return await this.http.post("/api/subs/getuserpassword",params).toPromise();
+  async getuserpassword(params) {
+    return await this.http.post("/api/subs/getuserpassword", params).toPromise();
   }
-  async showdatatrafic(params){
-    return await this.http.post("/api/subs/showdatatrafic",params).toPromise();
+  async showdatatrafic(params) {
+    return await this.http.post("/api/subs/showdatatrafic", params).toPromise();
   }
-  async custdisconnect(params){
-    return await this.http.post("/api/subs/custdisconnect",params).toPromise();
+  async custdisconnect(params) {
+    return await this.http.post("/api/subs/custdisconnect", params).toPromise();
   }
-  async showUser(params){
-    return await this.http.post("/api/subs/showUser",params).toPromise();
+  async showUser(params) {
+    return await this.http.post("/api/subs/showUser", params).toPromise();
   }
-  async showDatasplit(params){
-    return await this.http.post("/api/subs/showDatasplit",params).toPromise();
+  async showDatasplit(params) {
+    return await this.http.post("/api/subs/showDatasplit", params).toPromise();
   }
-  async listInvoice(params){
-    return await this.http.post("/api/subs/listInvoice",params).toPromise();
+  async listInvoice(params) {
+    return await this.http.post("/api/subs/listInvoice", params).toPromise();
   }
-  async getImage(params){
-    return await this.http.get("/api/subs/rrdImage",{params}).toPromise();
+  async getImage(params) {
+    return await this.http.get("/api/subs/rrdImage", { params }).toPromise();
   }
-  async getMacBind(params){
-    return await this.http.post("/api/subs/getMacBind",params).toPromise();
+  async getMacBind(params) {
+    return await this.http.post("/api/subs/getMacBind", params).toPromise();
   }
-  async updateMacBind(params){
-    return await this.http.post("/api/subs/updateMacBind",params).toPromise();
+  async updateMacBind(params) {
+    return await this.http.post("/api/subs/updateMacBind", params).toPromise();
   }
-  async changeCustService(params){
-    return await this.http.post("/api/subs/changeCustService",params).toPromise();
+  async changeCustService(params) {
+    return await this.http.post("/api/subs/changeCustService", params).toPromise();
   }
-  async changeCustValidity(params){
-    return await this.http.post("/api/subs/changeCustValidity",params).toPromise();
+  async changeCustValidity(params) {
+    return await this.http.post("/api/subs/changeCustValidity", params).toPromise();
   }
-  async uploadDoc(file){
-    return await this.http.post("/api/subs/uploadDocument",file).toPromise();
+  async uploadDoc(file) {
+    return await this.http.post("/api/subs/uploadDocument", file).toPromise();
   }
-  async getDocument(params){
-    return await this.http.get("/api/subs/getDocument",{params}).toPromise();
+  async getDocument(params) {
+    return await this.http.get("/api/subs/getDocument", { params }).toPromise();
   }
-  async getProfilePhoto(params){
-    return await this.http.get("/api/subs/getProfilePhoto",{params}).toPromise();
+  async getProfilePhoto(params) {
+    return await this.http.get("/api/subs/getProfilePhoto", { params }).toPromise();
   }
-  async updateDocument(file){
-    return await this.http.post("/api/subs/updateDocument",file).toPromise();
+  async updateDocument(file) {
+    return await this.http.post("/api/subs/updateDocument", file).toPromise();
   }
-  async addCaf(params){
-    return await this.http.post("/api/subs/addCaf",params).toPromise();
+  async addCaf(params) {
+    return await this.http.post("/api/subs/addCaf", params).toPromise();
   }
-  async listCaf(params){
-    return await this.http.post("/api/subs/listCaf",params).toPromise();
+  async listCaf(params) {
+    return await this.http.post("/api/subs/listCaf", params).toPromise();
   }
-  async getCafEdit(params){
-    return await this.http.post("/api/subs/getCafEdit",params).toPromise();
+  async getCafEdit(params) {
+    return await this.http.post("/api/subs/getCafEdit", params).toPromise();
   }
-  async editCaf(params){
-    return await this.http.post("/api/subs/editCaf",params).toPromise();
+  async editCaf(params) {
+    return await this.http.post("/api/subs/editCaf", params).toPromise();
   }
-  async getCafNumber(params){
-    return await this.http.post("/api/subs/getCafNumber",params).toPromise();
+  async getCafNumber(params) {
+    return await this.http.post("/api/subs/getCafNumber", params).toPromise();
   }
-  async verifyDocument(params){
-    return await this.http.post("/api/subs/verifyDocument",params).toPromise();
+  async verifyDocument(params) {
+    return await this.http.post("/api/subs/verifyDocument", params).toPromise();
   }
   async custServiceMap(params) {
-    return await this.http.post("/api/subs/custServiceMap",params).toPromise();
+    return await this.http.post("/api/subs/custServiceMap", params).toPromise();
   }
-  async showCustServiceMap(params){
-    return await this.http.post("/api/subs/showCustServiceMap",params).toPromise();
+  async showCustServiceMap(params) {
+    return await this.http.post("/api/subs/showCustServiceMap", params).toPromise();
   }
-  async getlivetraffic(params){
-    return await this.http.post("/api/subs/getlivetraffic",params).toPromise();
+  async getlivetraffic(params) {
+    return await this.http.post("/api/subs/getlivetraffic", params).toPromise();
   }
-  async mobileverify(params){
-    return await this.http.post("/api/subs/mobileverify",params).toPromise();
+  async mobileverify(params) {
+    return await this.http.post("/api/subs/mobileverify", params).toPromise();
   }
-  async emailverify(params){
-    return await this.http.post("/api/subs/emailverify",params).toPromise();
+  async emailverify(params) {
+    return await this.http.post("/api/subs/emailverify", params).toPromise();
   }
   async changeSubscriberStatus(params) {
-    return await this.http.post("/api/subs/changeSubscriberStatus",params).toPromise();
+    return await this.http.post("/api/subs/changeSubscriberStatus", params).toPromise();
   }
   async changeSuspendStatus(params) {
-    return await this.http.post("/api/subs/changeSuspendStatus",params).toPromise();
-  } 
+    return await this.http.post("/api/subs/changeSuspendStatus", params).toPromise();
+  }
   async addVoice(params) {
-    return await this.http.post("/api/subs/addVoice",params).toPromise();
+    return await this.http.post("/api/subs/addVoice", params).toPromise();
   }
   async editVoice(params) {
-    return await this.http.post("/api/subs/editVoice",params).toPromise();
+    return await this.http.post("/api/subs/editVoice", params).toPromise();
   }
   async listVoice(params) {
-    return await this.http.post("/api/subs/listVoice",params).toPromise();
+    return await this.http.post("/api/subs/listVoice", params).toPromise();
   }
   async updateVoice(params) {
-    return await this.http.post("/api/subs/updateVoice",params).toPromise();
+    return await this.http.post("/api/subs/updateVoice", params).toPromise();
   }
   async changeVoicePwd(params) {
-    return await this.http.post("/api/subs/changeVoicePwd",params).toPromise();
+    return await this.http.post("/api/subs/changeVoicePwd", params).toPromise();
   }
-  async changeScheduleTime(params){
-    return await this.http.post("/api/subs/changeScheduleTime",params).toPromise();
+  async changeScheduleTime(params) {
+    return await this.http.post("/api/subs/changeScheduleTime", params).toPromise();
   }
-  async addlimit(params){
-    return await this.http.post("/api/subs/addlimit",params).toPromise();
+  async addlimit(params) {
+    return await this.http.post("/api/subs/addlimit", params).toPromise();
   }
-  async getlogoff(params){
-    return await this.http.post("/api/subs/getlogoff",params).toPromise();
+  async getlogoff(params) {
+    return await this.http.post("/api/subs/getlogoff", params).toPromise();
   }
-  async bulkUpdateExpiry(params){
-    return await this.http.post("/api/subs/updateSubscriberExpiry",params).toPromise();
+  async bulkUpdateExpiry(params) {
+    return await this.http.post("/api/subs/updateSubscriberExpiry", params).toPromise();
   }
-  
+  async showSubscriber(params) {
+    return await this.http.post("/api/subs/showSubscriber", params).toPromise();
+  }
 
 }

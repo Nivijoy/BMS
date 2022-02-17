@@ -7,7 +7,7 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { AutoCompleteNModule } from '../auto-complete-module/auto-completen-module';
 import {
   GroupService, BusinessService, ResellerService, RoleService, AdminuserService,
-  UserLogService, ReportService, NasService
+  UserLogService, ReportService, NasService,S_Service
 } from '../_service/indexService';
 import { TreeModule } from 'angular-tree-component';
 import { AddStaticIPComponent } from './add-staticip/addstaticip.component';
@@ -25,8 +25,18 @@ import { NgxLoadingModule } from 'ngx-loading';
 // import { OttcountComponent } from './ottcount/ottcount.component';
 import { ShareModule } from '../sharemodule/share.module';
 import { filterModule } from './../filter/filter-module';
+import { RevenueShareReportsComponent } from './revenue-share-reports/revenue-share-reports.component';
+import { SmscreditsComponent } from './smscredits/smscredits.component';
+import { AddsmscreditsComponent } from './addsmscredits/addsmscredits.component';
+import { OttMapComponent } from './ott-map/ott-map.component';
+import { UpdateottmapComponent } from './updateottmap/updateottmap.component';
+import { SendsmsComponent } from './sendsms/sendsms.component';
+import { SendemailComponent } from './sendemail/sendemail.component';
+import { SendsmsresellerComponent } from './sendsmsreseller/sendsmsreseller.component';
+import { SendemailresellerComponent } from './sendemailreseller/sendemailreseller.component';
+import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
 
-
+ 
   
 @NgModule({
   imports: [
@@ -51,6 +61,16 @@ import { filterModule } from './../filter/filter-module';
     SmstemplateIspComponent,
     EmailtemplateIspComponent,
     AddOTTComponent,
+    RevenueShareReportsComponent,
+    SmscreditsComponent,
+    AddsmscreditsComponent,
+    OttMapComponent,
+    UpdateottmapComponent,
+    SendsmsComponent,
+    SendemailComponent,
+    SendsmsresellerComponent,
+    SendemailresellerComponent,
+    SendsmsothersComponent,
     // OttcountComponent,
     //  ReadonlyDirective,
 
@@ -59,9 +79,10 @@ import { filterModule } from './../filter/filter-module';
     ChangepasswordComponent,
     AddStaticIPComponent,
     AddOTTComponent,
+    AddsmscreditsComponent,
     // OttcountComponent
   ],
-  providers: [CompanyService, GroupService, AdminuserService, NasService,
+  providers: [CompanyService, GroupService, AdminuserService, NasService,S_Service,
     RoleService, BusinessService, ResellerService, UserLogService, ReportService, NgbActiveModal],
 })
 

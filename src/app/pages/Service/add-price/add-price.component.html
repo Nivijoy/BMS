@@ -10,7 +10,7 @@
                      <label>ISP Name <span style="color:red;">*</span></label>
                      <select formControlName="bus_id"
                         [ngClass]="{'form-control':true,'form-control-danger':AddPriceForm.controls.invalid&&submit}"
-                        (change)="AddPriceForm.controls.reseller.setValue('');group();showReseller();showottplan();">
+                        (change)="AddPriceForm.controls.reseller.setValue('');group();showReseller();">
                         <option value="" selected>Select ISP Name</option>
                         <option *ngFor="let item of busname" [ngValue]=item.id>{{item.busname}}</option>
                      </select>
@@ -31,7 +31,7 @@
                      <auto-completen
                         [addclass]="{'form-control':true,'form-control-danger':AddPriceForm.controls.reseller.invalid&&submit}"
                         addclass="form-control" optValues="company" formControlName="reseller"
-                        (keyUp)="showReseller($event)" (changed)="packshow();share();servicetype();ottids()"
+                        (keyUp)="showReseller($event)" (changed)="packshow();share();servicetype();"
                         placeholder='Select Reseller' id="id" [item]="resell">
                      </auto-completen>
                      <small *ngIf="AddPriceForm.hasError('required','reseller')&&submit"
@@ -147,7 +147,7 @@
                                           class="form-text error">Voice Price is required!
                                        </small>
                                     </div>
-                                    <div class="col-sm-2" *ngIf="user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
+                                    <!-- <div class="col-sm-2" *ngIf="user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
                                     ||user.value['serv_type']=='8'">
                                              <label>OTT Price <span style="color:red;">*</span></label>
                                              <input type="number" style=" height:40px; width:137px!important
@@ -156,7 +156,7 @@
                                              <small *ngIf="AddPriceForm.hasError('required','ott_price')&&submit"
                                                 class="form-text error">OTT Price is required!
                                              </small>
-                                          </div>
+                                          </div> -->
                                  </div>
                                  <div class="form-group row" [formGroup]="user">
                                     <div class="col-sm-2" *ngIf="user.value['serv_type']=='4'||user.value['serv_type']=='6'||user.value['serv_type']=='7'
@@ -299,12 +299,12 @@
                                           Hungama
                                        </nb-checkbox>
                                     </div>
-                                    <div class="col-sm-2" *ngIf="role.getroleid()>=775">
+                                    <!-- <div class="col-sm-2" *ngIf="role.getroleid()>=775">
                                        <nb-checkbox class="form-control" formControlName="ottstatus"
                                           [ngClass]="{'form-control' : true,'form-control-danger':user['controls']['ottstatus'].invalid&&submit}">
                                           OTTstatus
                                        </nb-checkbox>
-                                    </div>
+                                    </div> -->
                                  </div>
                                  <div class="form-group row" [formGroup]="user">
                                     <div class="col-sm-2" *ngIf="user.value['hotstar']==true">
@@ -375,7 +375,7 @@
                                        " class="form-control" formControlName="hunga_price"
                                           [ngClass]="{'form-control' : true,'form-control-danger':user['controls']['hunga_price'].invalid&&submit}">
                                     </div>
-                                    <div class="col-sm-2" *ngIf="role.getroleid()>=775 && user.value['ottstatus']==true && user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
+                                    <!-- <div class="col-sm-2" *ngIf="role.getroleid()>=775 && user.value['ottstatus']==true && user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
                                        ||user.value['serv_type']=='8'">
                                           <label>OTT Plan <span style="color:red;">*</span> </label>
                                           <auto-completen
@@ -386,7 +386,7 @@
                                           <small *ngIf="AddPriceForm.hasError('required','ottplan')&&submit"
                                              class="form-text error">ottplan is
                                              required! </small>
-                                       </div>
+                                       </div> -->
                                     <div *ngIf="last||idx !=0" class="col-sm-2">
                                        <div class="dropdown ghost-dropdown" ngbDropdown style="width: 30px;">
                                           <button style="width: 75px;font-size: 10px;margin-top: 31px;"
@@ -469,7 +469,7 @@
                                           class="form-text error">Voice Price is required!
                                        </small>
                                     </div>
-                                    <div class="col-sm-2" *ngIf="user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
+                                    <!-- <div class="col-sm-2" *ngIf="user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
                                     ||user.value['serv_type']=='8'">
                                              <label>OTT Price <span style="color:red;">*</span></label>
                                              <input type="number" style=" height:40px; width:137px!important
@@ -478,7 +478,7 @@
                                              <small *ngIf="AddPriceForm.hasError('required','ott_price')&&submit"
                                                 class="form-text error">OTT Price is required!
                                              </small>
-                                          </div>
+                                          </div> -->
                                  </div>
                                  <div class="form-group row" [formGroupName]="idx">
                                     <div class="col-sm-2" *ngIf="user.value['serv_type']=='4'||user.value['serv_type']=='6'||user.value['serv_type']=='7'
@@ -534,7 +534,7 @@
                                           class="form-text error">Time unit is required!
                                        </small>
                                     </div>
-                                   
+
                                     <div class="col-sm-2">
                                        <label>Inet ISP share</label>
                                        <input type="number" style="height:40px; width:137px!important"
@@ -655,12 +655,12 @@
                                           Hungama
                                        </nb-checkbox>
                                     </div>
-                                    <div class="col-sm-2" *ngIf="role.getroleid()>=775">
+                                    <!-- <div class="col-sm-2" *ngIf="role.getroleid()>=775">
                                        <nb-checkbox class="form-control" formControlName="ottstatus"
                                           [ngClass]="{'form-control' : true,'form-control-danger':user['controls']['ottstatus'].invalid&&submit}">
                                           OTTstatus
                                        </nb-checkbox>
-                                    </div>
+                                    </div> -->
                                  </div>
                                  <div class="form-group row" [formGroup]="user">
                                     <div class="col-sm-2" *ngIf="user.value['hotstar']==true">
@@ -713,7 +713,7 @@
                                        " class="form-control" formControlName="hunga_price"
                                           [ngClass]="{'form-control' : true,'form-control-danger':user['controls']['hunga_price'].invalid&&submit}">
                                     </div>
-                                    <div class="col-sm-2" *ngIf="role.getroleid()>=775 && user.value['ottstatus']==true && user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
+                                    <!-- <div class="col-sm-2" *ngIf="role.getroleid()>=775 && user.value['ottstatus']==true && user.value['serv_type']=='3'||user.value['serv_type']=='5'||user.value['serv_type']=='7'
                                        ||user.value['serv_type']=='8'">
                                           <label>OTT Plan <span style="color:red;">*</span> </label>
                                           <auto-completen
@@ -724,7 +724,7 @@
                                           <small *ngIf="AddPriceForm.hasError('required','ottplan')&&submit"
                                              class="form-text error">ottplan is
                                              required! </small>
-                                       </div>
+                                       </div> -->
                                     <div *ngIf="last||idx !=0" class="col-sm-2">
                                        <div class="dropdown ghost-dropdown" ngbDropdown style="width: 30px;">
                                           <button style="width: 75px;font-size: 10px;margin-top: 31px;"

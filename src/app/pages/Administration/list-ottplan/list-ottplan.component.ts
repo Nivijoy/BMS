@@ -124,24 +124,32 @@ export class ListOTTPlanComponent implements OnInit {
 
 
   async download() {
-    // let res = await this.group.listgroup({
-    //   bus_id: this.bus_name,
-    //   groupid: this.group_name,
-    // })
-    // if (res) {
-    //   let tempdata = [], temp: any = res[0];
-    //   for (var i = 0; i < temp.length; i++) {
-    //     let param = {};
-    //     param['BUSINESS NAME'] = temp[i]['busname'];
-    //     param['GROUP NAME'] = temp[i]['groupname'];
-    //     param['DESCRIPTION'] = temp[i]['descr'];
-    //     tempdata[i] = param
-    //   }
-    //   const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
-    //   const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
-    //   JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-    //   JSXLSX.writeFile(wb, 'Group List' + EXCEL_EXTENSION);
-    // }
+    let res = await this.adminser.listOTTPlan({
+      bus_id: this.bus_name,
+      ottplan_code: this.ottplan_code,
+      ottplan_name: this.ottplan_name
+    })
+    if (res) {
+      let tempdata = [], temp: any = res[0];
+      for (var i = 0; i < temp.length; i++) {
+        let param = {};
+        if (this.role.getroleid() > 777) param['BUSINESS NAME'] = temp[i]['busname'];
+
+        param['OTTPLANNAME'] = temp[i]['ottplan_name'];
+        param['OTTPLANCODE'] = temp[i]['ottplancode'];
+        param['GLTVCODE'] = temp[i]['gltvplanid'];
+        param['TAXTYPE'] = temp[i]['otttaxtype'] == 0 ? 'Inclusive' : 'Exclusive';
+        param['TIMEUNIT'] = temp[i]['dayormonth'] == 1 ? temp[i]['days'] + "Days" : temp[i]['days'] + "Months";
+        param['AMOUNT'] = temp[i]['ottamount'];
+        param['STATUS'] = temp[i]['status'] == 1 ? 'Enable' : 'Disable';
+
+        tempdata[i] = param
+      }
+      const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
+      const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
+      JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+      JSXLSX.writeFile(wb, 'Ott_Plan_List' + EXCEL_EXTENSION);
+    }
   }
 
 }
