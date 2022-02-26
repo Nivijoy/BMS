@@ -45,6 +45,7 @@ export class ListBranchComponent implements OnInit {
 
   async showbranch($event = '') {
     this.branches = await this.ser.showResellerBranch({ resel_id: this.res_name, like: $event });
+    // console.log('branch',this.branches)
   }
 
   async showBusName($event = '') {

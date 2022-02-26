@@ -40,6 +40,7 @@ import { SendemailComponent } from './sendemail/sendemail.component';
 import { SendsmsresellerComponent } from './sendsmsreseller/sendsmsreseller.component';
 import { SendemailresellerComponent } from './sendemailreseller/sendemailreseller.component';
 import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
+import { OttLogComponent } from './ott-log/ott-log.component';
 
 const routes: Routes = [{
   path: '',
@@ -86,6 +87,7 @@ const routes: Routes = [{
     { path: 'send-sms-reseller', component: SendsmsresellerComponent },
     { path: 'send-email-reseller', component: SendemailresellerComponent },
     { path: 'send-sms-other', component: SendsmsothersComponent },
+    { path: 'ott-log', component: OttLogComponent },
   ],
 }];
 
@@ -130,5 +132,6 @@ export const routedComponents = [
   SendsmsresellerComponent,
   SendemailresellerComponent,
   SendsmsothersComponent,
+  OttLogComponent,
 
 ];

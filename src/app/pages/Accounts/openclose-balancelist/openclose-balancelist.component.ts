@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 
 export class OpenClosebalanceListComponent implements OnInit {
   submit: boolean = false; data; search; bus_name = ''; bus; res1; res_name = '';
-  tot; Download; count; profile; resel_type = '';
+  tot; Download; count; profile; resel_type = '';start_date:any;end_date:any;
 
   dateformat: string[] = [
     'd MMM y h:mm:ss a',
@@ -73,6 +73,7 @@ export class OpenClosebalanceListComponent implements OnInit {
     this.bus_name='';
     this.resel_type='';
     this.res_name='';
+    this.start_date = '';this.end_date ='';
     await this.initiallist();
   }
 
@@ -85,6 +86,8 @@ export class OpenClosebalanceListComponent implements OnInit {
         bus_id: this.bus_name,
         role: this.resel_type,
         resel_id: this.res_name,
+        start_date: this.start_date,
+        end_date: this.end_date
       });
     if (result) {
       this.data = result[0];
@@ -101,6 +104,8 @@ export class OpenClosebalanceListComponent implements OnInit {
       bus_id: this.bus_name,
       role: this.resel_type,
       resel_id: this.res_name,
+      start_date: this.start_date,
+      end_date: this.end_date
     });
     if (res) {
 

@@ -97,8 +97,9 @@
                                  <nb-card-body>
                                     <div class="form-group row" *ngIf="AddSubsForm.value['create_type']=='0'">
                                        <div class="col-sm-6">
-                                          <label>CAF No <span *ngIf="AddSubsForm.value['demo_accnt']!=3" style="color:red;">*</span></label>
-                                          <input type="text" [readonly]="ecaf" formControlName="CAF" 
+                                          <label>CAF No <span *ngIf="AddSubsForm.value['demo_accnt']!=3"
+                                                style="color:red;">*</span></label>
+                                          <input type="text" [readonly]="ecaf" formControlName="CAF"
                                              placeholder="CAF No"
                                              [ngClass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.CAF.invalid&&submit}" />
                                           <small *ngIf="AddSubsForm.hasError('required','CAF')&&submit"
@@ -341,18 +342,18 @@
                                        class="form-text error">Subscriber
                                        type is required! </small>
                                  </div>
-                                 <div class="col-sm-4"
-                                    *ngIf='AddSubsForm.value["subs_type"]!=""'>
+                                 <div class="col-sm-4" *ngIf='AddSubsForm.value["subs_type"]!=""'>
                                     <label>{{AddSubsForm.value["subs_type"]==1 ?
                                        'Company':AddSubsForm.value["subs_type"]==3 ? 'Institue':'Company'}}
-                                       Name <span *ngIf='AddSubsForm.value["subs_type"]!="1"' style="color:red;">*</span></label>
+                                       Name <span *ngIf='AddSubsForm.value["subs_type"]!="1"'
+                                          style="color:red;">*</span></label>
                                     <input type="text" formControlName="Company" placeholder="Name"
                                        [ngClass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.Company.invalid&&submit}" />
                                     <small *ngIf="AddSubsForm.hasError('required','Company')&&submit"
                                        class="form-text error">Company
                                        Name is required! </small>
                                  </div>
-                                 <div class="col-sm-4" *ngIf='AddSubsForm.value["subs_type"]!=""'> 
+                                 <div class="col-sm-4" *ngIf='AddSubsForm.value["subs_type"]!=""'>
                                     <!-- [hidden]="AddSubsForm.value['subs_type']=='1'"> -->
                                     <label>GST No</label>
                                     <input type="text" formControlName="GST" placeholder="GST No"
@@ -429,7 +430,8 @@
                         </nb-card>
                      </ng-template>
                   </ngb-tab>
-                  <ngb-tab title="DOCUMENTS" *ngIf="AddSubsForm.value['create_type']=='0' && AddSubsForm.value['demo_accnt']!='3'">
+                  <ngb-tab title="DOCUMENTS"
+                     *ngIf="AddSubsForm.value['create_type']=='0' && AddSubsForm.value['demo_accnt']!='3'">
                      <ng-template ngbTabContent><br>
                         <div class="form-group row" *ngIf="AddSubsForm.value['create_type']=='0'">
                            <div class="col-sm-8">
@@ -496,21 +498,22 @@
                               <br />
                               <div class="form-group row">
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='frontSnapshot()'
+                                    <button type="button" class="btn btn-md btn-success" (click)='frontSnapshot()'
                                        style="text-align:center;cursor: pointer;font-weight:bold;font-size: large ; padding: 4px;border-radius: 3px;
                                        border-radius: 3px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Snapme <i style="color: yellow;white-space: nowrap;" class="fa fa-camera"></i>
                                     </button>
                                  </div>&nbsp;
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='frontNextWebcam(true)'
+                                    <button type="button" class="btn btn-md btn-success" (click)='frontNextWebcam(true)'
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px;padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Rear&nbsp;&nbsp; <i style="color: yellow;" class="fa fa-retweet "></i>
                                     </button>
                                  </div>&nbsp;
-                                 <div class="col-sm-3" >
-                                    <button class="btn btn-md btn-success" (click)="confirm1()" style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
+                                 <div class="col-sm-3">
+                                    <button type="button" class="btn btn-md btn-success" (click)="confirm1()"
+                                       style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px; padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Confirm <i style="color: yellow;" class="fa fa-check "></i>
                                     </button>
@@ -544,21 +547,21 @@
                               <br />
                               <div class="form-group row">
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='backSnapshot()'
+                                    <button type="button" class="btn btn-md btn-success" (click)='backSnapshot()'
                                        style="text-align:center;cursor: pointer;font-weight:bold;font-size: large ; padding: 4px;border-radius: 3px;
                                        border-radius: 3px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Snapme <i style="color: yellow;white-space: nowrap;" class="fa fa-camera"></i>
                                     </button>
                                  </div>&nbsp;
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='backNextWebcam(true)'
+                                    <button type="button" class="btn btn-md btn-success" (click)='backNextWebcam(true)'
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px;padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Rear&nbsp;&nbsp; <i style="color: yellow;" class="fa fa-retweet "></i>
                                     </button>
                                  </div>
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)="confirm2()"
+                                    <button type="button" class="btn btn-md btn-success" (click)="confirm2()"
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px; padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Confirm <i style="color: yellow;" class="fa fa-check "></i>
@@ -646,21 +649,22 @@
                               <br />
                               <div class="form-group row">
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='idfrontSnapshot()'
+                                    <button type="button" class="btn btn-md btn-success" (click)='idfrontSnapshot()'
                                        style="text-align:center;cursor: pointer;font-weight:bold;font-size: large ; padding: 4px;border-radius: 3px;
                                        border-radius: 3px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Snapme <i style="color: yellow;white-space: nowrap;" class="fa fa-camera"></i>
                                     </button>
                                  </div>&nbsp;
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='idfrontNextWebcam(true)'
+                                    <button type="button" class="btn btn-md btn-success"
+                                       (click)='idfrontNextWebcam(true)'
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px;padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Rear&nbsp;&nbsp; <i style="color: yellow;" class="fa fa-retweet "></i>
                                     </button>
                                  </div>
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)="idconfirm1()"
+                                    <button type="button" class="btn btn-md btn-success" (click)="idconfirm1()"
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px; padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Confirm <i style="color: yellow;" class="fa fa-check "></i>
@@ -696,21 +700,22 @@
                               <br />
                               <div class="form-group row">
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='idbackSnapshot()'
+                                    <button type="button" class="btn btn-md btn-success" (click)='idbackSnapshot()'
                                        style="text-align:center;cursor: pointer;font-weight:bold;font-size: large ; padding: 4px;border-radius: 3px;
                                        border-radius: 3px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Snapme <i style="color: yellow;white-space: nowrap;" class="fa fa-camera"></i>
                                     </button>
                                  </div>&nbsp;
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)='idbackNextWebcam(true)'
+                                    <button type="button" class="btn btn-md btn-success"
+                                       (click)='idbackNextWebcam(true)'
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px;padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Rear&nbsp;&nbsp; <i style="color: yellow;" class="fa fa-retweet "></i>
                                     </button>
                                  </div>
                                  <div class="col-sm-3">
-                                    <button class="btn btn-md btn-success" (click)="idconfrim2()"
+                                    <button type="button" class="btn btn-md btn-success" (click)="idconfrim2()"
                                        style="cursor: pointer;text-align:center;font-weight:bold;font-size: large ;border-radius: 3px;
                                        border-radius: 3px; padding: 4px; color: #fafffb;background-color: #2b2d34 ;border: 2px solid #00abf3;">
                                        Confirm <i style="color: yellow;" class="fa fa-check "></i>
@@ -762,7 +767,7 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <div class="col-sm-6">
+                                       <div class="col-sm-8">
                                           <label>Package Name <span style="color:red;">*</span></label>
                                           <auto-completen
                                              [addclass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.package.invalid&&submit}"
@@ -771,7 +776,10 @@
                                              [item]="pack">
                                           </auto-completen>
                                        </div>
-                                       <div class="col-sm-6" *ngIf="role.getroleid()>=775">
+
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-8" *ngIf="role.getroleid()>=775">
                                           <label>Validity <span style="color:red;">*</span></label>
                                           <input type="datetime-local" formControlName="Expiry"
                                              placeholder="Expiry Date "
@@ -782,21 +790,24 @@
                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                       <div class="col-sm-4" *ngIf="role.getroleid()>=775">
+                                       <div class="col-sm-6" *ngIf="role.getroleid()>=775">
                                           <label>Download Limit</label>
                                           <input type="number" name="dllimit" formControlName="dllimit" placeholder="MB"
                                              [ngClass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.dllimit.invalid&&submit}" />
                                           <small style="text-align: right;float: right; ">Download Limit in MB
                                              !</small>
                                        </div>
-                                       <div class="col-sm-4" *ngIf="role.getroleid()>=775">
+                                       <div class="col-sm-6" *ngIf="role.getroleid()>=775">
                                           <label>Upload Limit</label>
                                           <input type="number" name="uplimit" formControlName="uplimit" placeholder="MB"
                                              [ngClass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.uplimit.invalid&&submit}" />
                                           <span style="text-align: right;float: right; ">Upload Limit in MB
                                              !</span>
                                        </div>
-                                       <div class="col-sm-4" *ngIf="role.getroleid()>=775">
+
+                                    </div>
+                                    <div class="form-group row">
+                                       <div class="col-sm-6" *ngIf="role.getroleid()>=775">
                                           <label>Total Limit</label>
                                           <input type="number" name="comblimit" formControlName="comblimit"
                                              placeholder="MB"
@@ -955,7 +966,8 @@
                                           </nb-checkbox>
                                        </div>
                                        <div class="col-sm-6">
-                                          <nb-checkbox formControlName="cust_renewal">Subscriber Auto Renewal</nb-checkbox>
+                                          <nb-checkbox formControlName="cust_renewal">Subscriber Auto Renewal
+                                          </nb-checkbox>
                                        </div>
                                     </div>
                                  </nb-card-body>

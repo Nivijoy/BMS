@@ -4,7 +4,7 @@ import { takeWhile } from 'rxjs/operators';
 import { SolarData } from '../../@core/data/solar';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { DashboardService, RoleService, PagerService, CustService, AccountService } from '../_service/indexService'
+import { DashboardService, RoleService, PagerService, CustService, AccountService, S_Service } from '../_service/indexService'
 import { RenewCustComponent } from '../customer/RenewCustomer/renewCust.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as JSXLSX from 'xlsx';
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnDestroy {
    valueObj: any;
    pagedcafItems: any = [];
    limit: number = 10; Opage: number = 1; Opager: any = {};
-   Climit: number = 10; Cpage: number = 1; Cpager: any = {}; daytype: any;
+   Climit: number = 10; Cpage: number = 1; Cpager: any = {}; daytype: any; ottPlatformDetails;
 
    public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname;
    public primaryColour = '#dd0031';
@@ -80,6 +80,7 @@ export class DashboardComponent implements OnDestroy {
       private nasmodel: NgbModal,
       private pageservice: PagerService,
       private datePipe: DatePipe,
+      private srv: S_Service,
    ) {
       // console.log('Router URL', router.url)
       this.themeService.getJsTheme()
@@ -132,6 +133,7 @@ export class DashboardComponent implements OnDestroy {
    async dashInitial() {
       // this.yesDetails();
       if (this.role.getroleid() > 111) {
+         this.loading = true;
          this.totalcount = await this.dash.getcount({});
          if (this.totalcount) {
             this.statusCards[0].value = this.totalcount.total;
@@ -152,10 +154,13 @@ export class DashboardComponent implements OnDestroy {
          // await this.getPayment();
          await this.getAggExpDet();
          await this.getcount();
+         this.loading = false;
          // await this.getAmount();
          await this.getcafpending();
          await this.getocbalance();
          await this.getnasstatus();
+      
+
       }
 
       if (this.role.getroleid() == 111) {
@@ -316,7 +321,18 @@ export class DashboardComponent implements OnDestroy {
       this.data.lclimitcomb = this.data.lclimitcomb == 0 ? 0 : this.bytefunc(this.data.lclimitcomb);
       if (result) {
          this.loading = false;
+         if ([3, 5, 7, 8].includes(this.data['service_type'])) {
+            await this.getOttPlatforms();
+         }
       }
+   }
+
+   async getOttPlatforms() {
+      let resp = await this.srv.getottplanname({ invid: this.data['inv_id'] })
+      console.log('Response', resp)
+      // if(resp) this.ottPlatformDetails = resp['ottname'].split(',');
+      // console.log('OTT',this.ottPlatformDetails)
+      if (resp) this.ottPlatformDetails = resp['ottname']
    }
 
    async splitdata() {

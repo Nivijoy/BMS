@@ -18,5 +18,9 @@ export class PaymentService {
   async paystatus(params){
     return await this.http.post("/api/pay/meTrnStaus",params).toPromise();
   }
+
+  async paystatusCust(params){
+    return await this.http.post("/api/pay/meTrnStausSub",params).toPromise();
+  }
   
 }

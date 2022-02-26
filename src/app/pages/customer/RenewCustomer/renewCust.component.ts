@@ -4,7 +4,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BusinessService, CustService, S_Service, OperationService, PaymentService, RoleService } from '../../_service/indexService';
+import { BusinessService, CustService, S_Service, OperationService, PaymentService, RoleService, ResellerService } from '../../_service/indexService';
 import { AddSuccessComponent } from './../success/add-success.component';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
@@ -17,7 +17,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 export class RenewCustComponent implements OnInit {
   submit: boolean = false; RenewSubsForm; modalHeader; servtype; pack; subser; id;
   subpack; datas; item; packc; expdate; lastpack; lastsubplan; sstatus; cu_date; expirydate; curentdate;
-  sched_date;
+  sched_date; ottplans; reselData: any; ottPlanDetails; ottsched_date; ottPlatforms;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
@@ -34,6 +34,7 @@ export class RenewCustComponent implements OnInit {
     private custser: CustService,
     private opser: OperationService,
     private role: RoleService,
+    private resrv: ResellerService,
 
   ) { }
 
@@ -48,6 +49,7 @@ export class RenewCustComponent implements OnInit {
     this.createForm();
     await this.Service();
     await this.previouspack();
+    await this.showReseller();
     // console.log("cdate",this.item.cdate)
     this.expdate = new Date(this.item.edate)
     this.expdate.setTime(Math.floor((this.expdate.getTime()) + (5 * 3600 * 1000 + 1800000)))
@@ -65,6 +67,13 @@ export class RenewCustComponent implements OnInit {
       // console.log("edate",this.expirydate);
       this.RenewSubsForm.get('schedule_date').setValue(this.expirydate);
     }
+  }
+
+  async showReseller() {
+    this.reselData = await this.resrv.showResellerName({ cust_id: this.item['cust_id'] });
+    [this.reselData] = this.reselData;
+    console.log('Reseller Data', this.reselData)
+    if ([3, 5, 7, 8].includes(this.reselData['service_type'])) await this.showottplan()
   }
 
   async previouspack() {
@@ -98,9 +107,12 @@ export class RenewCustComponent implements OnInit {
     }
   }
 
-  async Renewsubs() {
+  async showottplan($event = '') {
+    this.ottplans = await this.serv.renewOtt({ reseller_id: this.reselData['id'], like: $event });
+    console.log('ShowOttPlans', this.ottplans)
+  }
 
-    // console.log(this.RenewSubsForm.value)
+  async Renewsubs() {
     if (this.RenewSubsForm.invalid) {
       this.submit = true;
       return;
@@ -115,11 +127,20 @@ export class RenewCustComponent implements OnInit {
       }
     }
     if (this.packc[0].service_type == 1 || this.packc[0].service_type == 2 || this.packc[0].service_type == 4 || this.packc[0].service_type == 6) {
-      if (window.confirm("Are you sure want to continue ?")) {
-        await this.packrenewal();
+      if (this.RenewSubsForm.value['ottplanid']) {
+        if (window.confirm("Invoice cancellation is disabled for this services, Are you sure want to continue ?")) {
+          await this.packrenewal();
+        } else {
+          this.closeModal();
+        }
       } else {
-        this.closeModal();
+        if (window.confirm("Are you sure want to continue ?")) {
+          await this.packrenewal();
+        } else {
+          this.closeModal();
+        }
       }
+
     }
 
 
@@ -134,7 +155,6 @@ export class RenewCustComponent implements OnInit {
     let renewaldata = [this.RenewSubsForm.value]
     console.log('Loading', this.loading)
     let result = await this.opser.subscriber_renewal({ renewal: renewaldata })
-    this.loading = false;
 
     console.log('Loading', this.loading)
     // this.datas = result;
@@ -145,8 +165,10 @@ export class RenewCustComponent implements OnInit {
       this.closeModal();
     }
     if (result) {
+      this.loading = false;
       this.result_pop(result);
-    }
+    }else this.loading = false;
+
     console.log('Loading', this.loading)
 
 
@@ -154,7 +176,11 @@ export class RenewCustComponent implements OnInit {
 
   paidamount() {
     if (this.RenewSubsForm.value['pay_status'] == 2) {
-      this.RenewSubsForm.get('pay_amt').setValue(Number(this.packc[0]['base_amount']) + Number(this.packc[0]['tax_amount']))
+      if (this.RenewSubsForm.value['ottplanid']) {
+        this.RenewSubsForm.get('pay_amt').setValue(Number(this.packc[0]['base_amount']) + Number(this.packc[0]['tax_amount'] + Number(this.ottPlanDetails['ottamt'])))
+      } else {
+        this.RenewSubsForm.get('pay_amt').setValue(Number(this.packc[0]['base_amount']) + Number(this.packc[0]['tax_amount']))
+      }
     }
 
   }
@@ -162,10 +188,29 @@ export class RenewCustComponent implements OnInit {
   async packcal() {
     // console.log(this.RenewSubsForm.value['sub_plan_id'])
     this.packc = this.subpack.filter(item => item.id == this.RenewSubsForm.value['sub_plan_id'])
-    // console.log('asd',this.packc)
+    console.log('pack value', this.packc)
     await this.paidamount();
 
   }
+
+  async getottDetails() {
+    console.log('ottplanid', this.RenewSubsForm.value['ottplanid'])
+    this.ottPlanDetails = this.ottplans.filter(item => item.omid == this.RenewSubsForm.value['ottplanid']);
+    [this.ottPlanDetails] = this.ottPlanDetails;
+    console.log('Selected ott plan', this.ottPlanDetails);
+    await this.paidamount();
+  }
+
+  async getOttPlatforms() {
+    if (this.RenewSubsForm.value['ottplanid']) {
+      let resp = await this.serv.getottplanname({ ottplanid: this.ottPlanDetails['ottplanid'] })
+      console.log('Response', resp)
+      if (resp['ottname']) this.ottPlatforms = resp['ottname'].split(',')
+      console.log('ottplatform', this.ottPlatforms)
+    }
+
+  }
+
 
   async schedulecal() {
     if (this.RenewSubsForm.value['renew_type'] == 2) {
@@ -177,6 +222,18 @@ export class RenewCustComponent implements OnInit {
         const days = this.packc[0]['additional_days']
         if (days != 0) this.sched_date.setDate(this.sched_date.getDate() + days);
         this.sched_date.setMonth(this.sched_date.getMonth() + this.packc[0]['time_unit'])
+      }
+
+    }
+  }
+
+  async ottScheduleCal() {
+    if (this.RenewSubsForm.value['renew_type'] == 2 && this.RenewSubsForm.value['ottplanid']) {
+      this.ottsched_date = new Date(this.RenewSubsForm.value['schedule_date']);
+      if (this.ottPlanDetails['dayormonth'] == 1) {
+        this.ottsched_date.setDate(this.ottsched_date.getDate() + this.ottPlanDetails['days']);
+      } else {
+        this.ottsched_date.setMonth(this.ottsched_date.getMonth() + this.ottPlanDetails['days'])
       }
 
     }
@@ -215,6 +272,7 @@ export class RenewCustComponent implements OnInit {
       schedule_date: new FormControl(''),
       comment: new FormControl(''),
       pay_amt: new FormControl(''),
+      ottplanid: new FormControl(''),
 
     });
   }

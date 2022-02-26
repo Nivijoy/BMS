@@ -26,7 +26,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 export class CustOnlinePaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
-  res1; res_name; count; order_id; txnid; cdate; paydata; end_date;
+  res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any;
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
@@ -48,7 +48,10 @@ export class CustOnlinePaylistComponent implements OnInit {
     private nasmodel: NgbModal,
 
 
-  ) { }
+  ) {
+    let nowdate = new Date();
+    this.cdate = this.end_date = nowdate.toISOString().slice(0,10);
+   }
   async ngOnInit() {
     localStorage.removeItem('array');
     await this.initiallist();
@@ -181,10 +184,14 @@ export class CustOnlinePaylistComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid()==555) {
-          param['RESELLER TYPE'] = temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 555 ? 'Sub ISP Deposit' : 'Sub Distributor Deposit';
-          param['RESELLER BUSINESS NAME'] = temp[i]['company']
+        // if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid()==555) {
+        //   param['RESELLER TYPE'] = temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 555 ? 'Sub ISP Deposit' : 'Sub Distributor Deposit';
+        //   param['RESELLER BUSINESS NAME'] = temp[i]['company']
+        // }
+        if (this.role.getroleid() >= 775) {
+          param['RESELLER NAME'] = temp[i]['company'];
         }
+        param['SUBSCRIBER PROFILEID'] = temp[i]['profile_id'];
         param['PAY MODE'] = temp[i]['pay_mode'];
         param['ORDER ID'] = temp[i]['order_id'];
         param['TRANSACTION ID'] = temp[i]['txnid'];
@@ -211,7 +218,7 @@ export class CustOnlinePaylistComponent implements OnInit {
 
   async statuscheck(item) {
     this.loading = true;
-    let result = await this.payser.paystatus({ opid: item });
+    let result = await this.payser.paystatusCust({ opid: item });
     if (result) {
       this.paydata = result[0];
       this.loading = false

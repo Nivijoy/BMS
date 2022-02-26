@@ -94,7 +94,7 @@
               <label>Sub ISP Bulk <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':EditReselForm.controls.subisp_bulk.invalid&&submit}"
-                optValues="company" (changed)="sharedefault();" placeholder="Select subisp_bulk"
+                optValues="company" (changed)="sharedefault();" (keyUp)="showResellerUnder($event)" placeholder="Select subisp_bulk"
                 formControlName="subisp_bulk" id="subisp_bulk" [item]="resellist">
               </auto-completen>
               <small *ngIf="EditReselForm.controls.subisp_bulk.invalid&&submit" class="form-text error">Sub ISP Bulk is
@@ -105,7 +105,7 @@
               <label>Sub Isp Deposit <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':EditReselForm.controls.subdep_name.invalid&&submit}"
-                optValues="company" (changed)="sharedefault()" placeholder='Select ISP Deposit'
+                optValues="company" (changed)="sharedefault()" (keyUp)="showResellerUnder($event)" placeholder='Select ISP Deposit'
                 formControlName="subdep_name" id="subdep_name" [item]="resellist">
               </auto-completen>
               <small *ngIf="EditReselForm.controls.subdep_name.invalid&&submit" class="form-text error">Sub ISP Deposit
@@ -116,7 +116,7 @@
               <label>Sub Distributor Bulk <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':EditReselForm.controls.subdist_bulk.invalid&&submit}"
-                optValues="company" (changed)="sharedefault()" placeholder='Select Distributor Bulk'
+                optValues="company" (changed)="sharedefault()" (keyUp)="showResellerUnder($event)" placeholder='Select Distributor Bulk'
                 formControlName="subdist_bulk" id="subdist_bulk" [item]="resellist">
               </auto-completen>
               <small *ngIf="EditReselForm.controls.subdist_bulk.invalid&&submit" class="form-text error">Sub Distributor
@@ -126,7 +126,7 @@
               <label>Sub Distributor Deposit <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':EditReselForm.controls.subdis_name.invalid&&submit}"
-                optValues="company" (changed)="sharedefault()" placeholder='Select Distributor Deposit'
+                optValues="company" (changed)="sharedefault()" (keyUp)="showResellerUnder($event)" placeholder='Select Distributor Deposit'
                 formControlName="subdis_name" id="subdis_name" [item]="resellist">
               </auto-completen>
               <small *ngIf="EditReselForm.controls.subdis_name.invalid&&submit" class="form-text error">Sub Distributor

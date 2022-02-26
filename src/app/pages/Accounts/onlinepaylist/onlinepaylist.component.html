@@ -12,7 +12,7 @@
   <nb-card-body>
     <toaster-container></toaster-container>
     <hr style="border: 0px;">
-    <div class="modal-body" autocomplete="off" [hidden]='!search'>
+    <div class="modal-body">
       <div class="form-group row">
         <div class="col-sm-2" *ngIf="role.getroleid()>777">
           <label>ISP Name</label>
@@ -51,7 +51,7 @@
             placeholder="Select Date" />
           <nb-datepicker #from_date_layout></nb-datepicker>
         </div> -->
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <label>Start Date</label>
           <input type="text" class="form-control" [owlDateTime]="renstart_date" [owlDateTimeTrigger]="renstart_date"
             [(ngModel)]="cdate" placeholder="Select Start Date">
@@ -62,6 +62,15 @@
           <input type="text" class="form-control" [owlDateTime]="renend_date" [owlDateTimeTrigger]="renend_date"
             [(ngModel)]="end_date" placeholder="Select End Date">
           <owl-date-time [pickerType]="'calendar'" #renend_date></owl-date-time>
+        </div> -->
+
+        <div class="col-sm-2">
+          <label>Start Date</label>
+          <input type="date" pattern="Start Date" [(ngModel)]="cdate" class="form-control">
+        </div>
+        <div class="col-sm-2">
+          <label>End Date</label>
+          <input type="date" placeholder="End Date" [(ngModel)]="end_date" class="form-control">
         </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();'
@@ -69,12 +78,25 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <label class="left">
+        <!-- <label class="left">
           <h5>Total Deposit : {{count}}</h5>
-        </label>
+        </label> -->
         <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
       </div>
     </div>
+    <table class="table table-bordered table-striped">
+      <thead class="success">
+        <th style="text-align:left;color:white"><b>Total records : {{count}}</b></th>
+      </thead>
+      <tbody>
+         <tr>
+          <td style="text-align:left;font-weight:800;"> TOTAL DEPOSIT AMOUNT :</td>
+         </tr>
+        <tr>
+           <td style="text-align: left;font-size: x-large;"><i class="fas fa-rupee-sign">&nbsp;{{ totalOnlinePay }}</i></td>
+        </tr>
+      </tbody>
+    </table>
     <div class="pagination">
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
         <a [ngClass]="{disabled:pager.currentPage === 1}" (click)="page=1;getlist();">First</a>

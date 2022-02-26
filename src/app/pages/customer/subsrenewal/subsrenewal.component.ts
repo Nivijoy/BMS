@@ -4,7 +4,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BusinessService, CustService, S_Service, OperationService, RoleService, PaymentService } from '../../_service/indexService';
+import { BusinessService, CustService, S_Service, OperationService, RoleService, PaymentService, ResellerService } from '../../_service/indexService';
 import { AddSuccessComponent } from './../success/add-success.component';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
@@ -15,14 +15,15 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 })
 
 export class SubsRenewalComponent implements OnInit {
-  submit: boolean = false; SubsRenewForm; config; modalHeader; servtype; pack; subser; id;condition;
+  submit: boolean = false; SubsRenewForm; config; modalHeader; servtype; pack; subser; id; condition;
   subpack; datas; item; packc; expdate; lastpack; lastsubplan; sstatus; cu_date; expirydate; curentdate;
+  reselData; ottplans; ottPlanDetails; ottPlatforms; ottsched_date; sched_date;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
-  
+
   constructor(
     private alert: ToasterService,
     private router: Router,
@@ -31,8 +32,9 @@ export class SubsRenewalComponent implements OnInit {
     private serv: S_Service,
     private custser: CustService,
     private opser: OperationService,
-    private payser : PaymentService,
+    private payser: PaymentService,
     private role: RoleService,
+    private resrv: ResellerService,
 
   ) { }
 
@@ -42,6 +44,7 @@ export class SubsRenewalComponent implements OnInit {
     this.createForm();
     await this.Service();
     await this.previouspack();
+    await this.showReseller();
 
     var edate = window.localStorage.getItem('subsexp_date');
     this.expdate = new Date(edate)
@@ -52,17 +55,83 @@ export class SubsRenewalComponent implements OnInit {
     this.cu_date = new Date();
     this.cu_date.setTime(Math.floor((this.cu_date.getTime()) + (5 * 3600 * 1000 + 1800000)))
     this.curentdate = ((this.cu_date).toISOString()).slice(0, 16);
+    this.SubsRenewForm.get('pay_date').setValue(this.curentdate);
     // console.log('cdate',this.curentdate);
     if (this.expirydate <= this.curentdate) {
       this.SubsRenewForm.get('schedule_date').setValue(this.curentdate);
-      this.SubsRenewForm.get('renew_type').setValue(1);
+      this.SubsRenewForm.get('pay_type').setValue(2);
     } else {
       // console.log("edate",this.expirydate);
       this.SubsRenewForm.get('schedule_date').setValue(this.expirydate);
     }
-      
-      
+
+
   }
+  async showReseller() {
+    this.reselData = await this.resrv.showResellerName({ cust_id: this.role.getsubid() });
+    [this.reselData] = this.reselData;
+    console.log('Reseller Data', this.reselData)
+    if ([3, 5, 7, 8].includes(this.reselData['service_type'])) await this.showottplan()
+  }
+  async showottplan($event = '') {
+    this.ottplans = await this.serv.renewOtt({ reseller_id: this.reselData['id'], like: $event });
+    console.log('ShowOttPlans', this.ottplans)
+  }
+
+  async getottDetails() {
+    console.log('ottplanid', this.SubsRenewForm.value['ottplanid'])
+    this.ottPlanDetails = this.ottplans.filter(item => item.omid == this.SubsRenewForm.value['ottplanid']);
+    [this.ottPlanDetails] = this.ottPlanDetails;
+    console.log('Selected ott plan', this.ottPlanDetails);
+    await this.paidamount();
+  }
+
+  async getOttPlatforms() {
+    if (this.SubsRenewForm.value['ottplanid']) {
+      let resp = await this.serv.getottplanname({ ottplanid: this.ottPlanDetails['ottplanid'] })
+      console.log('Response', resp)
+      if (resp['ottname']) this.ottPlatforms = resp['ottname'].split(',')
+      console.log('ottplatform', this.ottPlatforms)
+    }
+
+  }
+
+  paidamount() {
+    if (this.SubsRenewForm.value['ottplanid']) {
+      this.SubsRenewForm.get('amt').setValue(Number(this.packc[0]['base_amount']) + Number(this.packc[0]['tax_amount'] + Number(this.ottPlanDetails['ottamt'])))
+    } else {
+      this.SubsRenewForm.get('amt').setValue(Number(this.packc[0]['base_amount']) + Number(this.packc[0]['tax_amount']))
+    }
+
+  }
+
+  async schedulecal() {
+    if (this.SubsRenewForm.value['pay_type'] == 5) {
+      this.sched_date = new Date(this.SubsRenewForm.value['schedule_date']);
+      if (this.packc[0]['type'] == 0) {
+        const days = this.packc[0]['time_unit'] + this.packc[0]['additional_days']
+        this.sched_date.setDate(this.sched_date.getDate() + days);
+      } else {
+        const days = this.packc[0]['additional_days']
+        if (days != 0) this.sched_date.setDate(this.sched_date.getDate() + days);
+        this.sched_date.setMonth(this.sched_date.getMonth() + this.packc[0]['time_unit'])
+      }
+
+    }
+  }
+
+  async ottScheduleCal() {
+    if (this.SubsRenewForm.value['pay_type'] == 5 && this.SubsRenewForm.value['ottplanid']) {
+      this.ottsched_date = new Date(this.SubsRenewForm.value['schedule_date']);
+      if (this.ottPlanDetails['dayormonth'] == 1) {
+        this.ottsched_date.setDate(this.ottsched_date.getDate() + this.ottPlanDetails['days']);
+      } else {
+        this.ottsched_date.setMonth(this.ottsched_date.getMonth() + this.ottPlanDetails['days'])
+      }
+
+    }
+  }
+
 
   async previouspack() {
     if (this.sstatus == 1) {
@@ -96,28 +165,34 @@ export class SubsRenewalComponent implements OnInit {
 
   async Renewsubs() {
     // console.log(this.SubsRenewForm.value)
+    this.loading = true;
     if (this.SubsRenewForm.invalid) {
       this.submit = true;
       return;
     }
     this.SubsRenewForm.value['cust_id'] = this.role.getsubid();
     this.SubsRenewForm.value['role'] = this.role.getroleid();
-  
+
     let renewaldata = [this.SubsRenewForm.value]
     // let result = await this.opser.subscriber_renewal({ renewal: renewaldata })
     let result = await this.payser.payment(this.SubsRenewForm.value);
-    console.log("result",result);
+    this.loading = false;
+    console.log("result", JSON.parse(result));
     result = JSON.parse(result);
     // console.log("result",JSON.parse(result));
-    
-    const div = document.createElement('div');
-    div.innerHTML = result['ldata'];
-    while (div.children.length > 0) {
-      document.body.appendChild(div.children[0])
+    if (result['error_msg'] == 0) {
+      const div = document.createElement('div');
+      div.innerHTML = result['ldata'];
+      while (div.children.length > 0) {
+        document.body.appendChild(div.children[0])
+      }
+      const form: any = document.getElementById("f1");
+      // console.log('form',form)
+      form.submit();
+    }else{
+      this.toastalert(result['msg'],result['error_msg']);
     }
-    const form:any = document.getElementById("f1");
-    // console.log('form',form)
-    form.submit();
+
     // console.log(result);
     //  let res = result[0]
     // if (result) {
@@ -125,10 +200,11 @@ export class SubsRenewalComponent implements OnInit {
     // }
   }
 
-  packcal() {
+  async packcal() {
     // console.log(this.SubsRenewForm.value['sub_plan_id'])
     this.packc = this.subpack.filter(item => item.id == this.SubsRenewForm.value['sub_plan_id'])
-    // console.log('asd',this.packc)
+    console.log('asd', this.packc)
+    await this.paidamount();
 
   }
 
@@ -153,18 +229,19 @@ export class SubsRenewalComponent implements OnInit {
   }
 
   createForm() {
-    this.SubsRenewForm = new FormGroup({
+     this.SubsRenewForm = new FormGroup({
       last_pack: new FormControl(''),
       srvid: new FormControl(''),
       sub_plan_id: new FormControl(''),
       // pay_status: new FormControl('1'),
       pay_date: new FormControl(''),
-      pay_type: new FormControl('1'),
+      pay_type: new FormControl('2'),
       Discount: new FormControl(''),
       exp_date: new FormControl(''),
       schedule_date: new FormControl(''),
       comment: new FormControl(''),
-      pay_amt: new FormControl(''),
+      amt: new FormControl(''),
+      ottplanid: new FormControl(''),
 
     });
   }

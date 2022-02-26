@@ -12,8 +12,27 @@
         <input type="number" formControlName="pay_amt" placeholder="Pay Amount"
 					[ngClass]="{'form-control':true,'form-control-danger':PayBalanceForm.controls.pay_amt.invalid&&submit}" 
          >
-				<small *ngIf="PayBalanceForm.controls.pay_amt.invalid&&submit" class="form-text error">Amount is
-					Required!</small>
+      </div>
+      <div class="col-sm-12">
+        <label>Collected By</label>
+        <auto-completen
+        [addclass]="{'form-control':true,'form-control-danger':PayBalanceForm.controls.collect_by.invalid&&submit}"
+        addclass="form-control" optValues="company" formControlName="collect_by"
+        (keyUp)="showReseller($event)"
+         placeholder='Select Reseller' id="id" [item]="resel">
+     </auto-completen>
+      </div>
+      <div class="col-sm-12">
+        <label>Payment Date</label>
+        <input type="date" formControlName="receipt_date" placeholder="Payment Date"
+					[ngClass]="{'form-control':true,'form-control-danger':PayBalanceForm.controls.receipt_date.invalid&&submit}" 
+         >
+      </div> 
+      <div class="col-sm-12">
+        <label>Remarks</label>
+        <input type="text" formControlName="rnote" placeholder="Remarks"
+					[ngClass]="{'form-control':true,'form-control-danger':PayBalanceForm.controls.rnote.invalid&&submit}" 
+         >
       </div>
     </div>
   </div>

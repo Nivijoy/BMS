@@ -21,34 +21,36 @@
         </div>
         <div class="col-sm-2" *ngIf="role.getroleid()>=775">
           <label>Circle</label>
-          <auto-completen [(ngModel)]="group_name" (changed)="showResellerName();changeclear(2);" addclass="form-control"
-            optValues="groupname"  placeholder='Select Group' optId="groupid" [item]="group1">
+          <auto-completen [(ngModel)]="group_name" (changed)="showResellerName();changeclear(2);"
+            addclass="form-control" optValues="groupname" placeholder='Select Group' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid()==666 || role.getroleid()== 555)">
           <label>Reseller Type</label>
-          <auto-completen [(ngModel)]="resel_type" addclass="form-control" (changed)="showResellerName();changeclear(3);"
-            optValues="menu_name" placeholder='Select Reseller Type' optId="role" [item]="profile">
+          <auto-completen [(ngModel)]="resel_type" addclass="form-control"
+            (changed)="showResellerName();changeclear(3);" optValues="menu_name" placeholder='Select Reseller Type'
+            optId="role" [item]="profile">
           </auto-completen>
         </div>
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid()==666 || role.getroleid()== 555)">
           <label>Reseller Name</label>
-          <auto-completen [(ngModel)]="res_name" (keyUp)="showResellerName($event)" addclass="form-control"  
-            optValues="company" (changed)="showUser();showService();changeclear(4);" placeholder='Select Reseller' id="mid"
-            [item]="res1">
+          <auto-completen [(ngModel)]="res_name" (keyUp)="showResellerName($event)" addclass="form-control"
+            optValues="company" (changed)="showUser();showService();changeclear(4);" placeholder='Select Reseller'
+            id="mid" [item]="res1">
           </auto-completen>
         </div>
         <div class="col-sm-2">
           <label>Invoice NO</label>
-          <auto-completen [(ngModel)]="invoice_num" addclass="form-control" optValues="rollid" (changed)="changeclear(5);"
-            placeholder='Select Reseller' (keyUp)="showinvoicenum($event)" optId="invid" [item]="invnum">
+          <auto-completen [(ngModel)]="invoice_num" addclass="form-control" optValues="rollid"
+            (changed)="changeclear(5);" placeholder='Select Reseller' (keyUp)="showinvoicenum($event)" optId="invid"
+            [item]="invnum">
           </auto-completen>
         </div>
         <div class="col-sm-2">
           <label>Service Name</label>
           <auto-completen [(ngModel)]="sername" (keyUp)="showService($event)" addclass="form-control"
-            optValues="srvname" (changed)="showUser();subplanshow();changeclear(6);" placeholder='Select Service name' optId="srvid"
-            [item]="pack">
+            optValues="srvname" (changed)="showUser();subplanshow();changeclear(6);" placeholder='Select Service name'
+            optId="srvid" [item]="pack">
           </auto-completen>
         </div>
       </div>
@@ -84,8 +86,8 @@
         </div>
         <div class="col-sm-2">
           <label>Service Type </label>
-          <auto-completen [(ngModel)]="serv_type"  addclass="form-control"
-            optValues="service_name" placeholder='Select Select Type' optId="srv_id" [item]="servtype">
+          <auto-completen [(ngModel)]="serv_type" addclass="form-control" optValues="service_name"
+            placeholder='Select Select Type' optId="srv_id" [item]="servtype">
           </auto-completen>
         </div>
       </div>
@@ -95,8 +97,10 @@
     <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
     <table class="table table-bordered table-striped">
       <thead class="success">
-        <th style="text-align: left;color: white;" colspan="7" class="black-muted-bg"><b> Total Invoice :</b>{{count?count:0}}
-          <span *ngIf="role.getroleid()>=775" style="cursor: pointer;float: right;color: white;" (click)='share=!share'><b><u>Click here to Show
+        <th style="text-align: left;color: white;" colspan="7" class="black-muted-bg"><b> Total Invoice
+            :</b>{{count?count:0}}
+          <span *ngIf="role.getroleid()>=775" style="cursor: pointer;float: right;color: white;"
+            (click)='share=!share'><b><u>Click here to Show
                 Details</u></b></span>
         </th>
       </thead>
@@ -214,8 +218,8 @@
         <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
           (click)="page=pager.totalPages;getlist();">Last</a>
       </ul>
-      <select *ngIf="pager.pages && pager.pages.length" [(ngModel)]="limit" (change)="initiallist()" class="form-control"
-        style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
+      <select *ngIf="pager.pages && pager.pages.length" [(ngModel)]="limit" (change)="initiallist()"
+        class="form-control" style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
         <option value="25">25</option>
         <option value="50">50</option>
         <option value="75">75</option>
@@ -225,10 +229,11 @@
     <div class="table-wrapper">
       <table class="table table-hover table-striped">
         <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
-          <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="!role.getmenurole(1036) || !role.getmenurole(1033)">Action</th>
-          <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>777">ISP Name</th>
-          <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>=775">ID</th>
-          <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Invoice NO</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"
+            *ngIf="!role.getmenurole(1036) || !role.getmenurole(1033)">Action</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>777">ISP Name</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>=775">ID</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Invoice NO</th>
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="2" *ngIf="role.getroleid()>=775">Reseller
           </th>
           <!-- <th *ngIf="role.getroleid()>=775">Reseller Type</th>
@@ -273,14 +278,14 @@
           <th style="border: 3px solid #aeb8b9;">Type</th>
           <th style="border: 3px solid #aeb8b9;">Status</th>
           <th style="border: 3px solid #aeb8b9;">Date</th>
-          <th style="border: 3px solid #aeb8b9;">ISP  </th>
-          <th style="border: 3px solid #aeb8b9;">Sub ISP  </th>
-          <th style="border: 3px solid #aeb8b9;">Sub Dist </th>
-          <th style="border: 3px solid #aeb8b9;">Reseller </th>
+          <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">ISP </th>
+          <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">Sub ISP </th>
+          <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">Sub Dist </th>
+          <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">Reseller </th>
           <th style="border: 3px solid #aeb8b9;">Collected</th>
           <th style="border: 3px solid #aeb8b9;">Status</th>
           <th style="border: 3px solid #aeb8b9;">Date</th>
-       </tr>
+        </tr>
         <tr>
           <td colspan="22" *ngIf="pagedItems==''">NO DATA FOUND</td>
         </tr>
@@ -313,7 +318,8 @@
           <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
           <td>{{item.user_name}}</td>
           <td style="text-transform: none !important;">{{item.userid}}</td>
-          <td *ngIf="!role.getmenurole(1046)" (click)="shareshow(item.invid,item.service_type)" style="cursor: pointer;"><b>{{item.service_name}}</b>
+          <td *ngIf="!role.getmenurole(1046)" (click)="shareshow(item.invid,item.service_type)"
+            style="cursor: pointer;"><b>{{item.service_name}}</b>
           </td>
           <td [hidden]="!this.role.getmenurole(1046)">{{item.service_name}}</td>
           <td>{{item.srvname}}</td>
@@ -326,10 +332,14 @@
           <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
           <td>{{item.inv_status==1 ? 'Active':inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
           <td>{{item.inv_date | date:'d MMM y h:mm:ss a'}}</td>
-          <td style="font-weight:bold;color:#181818">{{item.cum_ispper | number : '1.0-2' }}&nbsp;<b>%</b></td>
-          <td style="font-weight:bold;color:#181818">{{item.cum_subispper | number : '1.0-2' }}&nbsp;<b>%</b></td>
-          <td style="font-weight:bold;color:#181818">{{item.cum_subdistper | number : '1.0-2' }}&nbsp;<b>%</b></td>
-          <td style="font-weight:bold;color:#181818">{{item.cum_resellerper | number : '1.0-2' }}&nbsp;<b>%</b></td>
+          <td style="font-weight:bold;color:#181818" *ngIf="role.getroleid()>=775">{{item.cum_ispper | number : '1.0-2'
+            }}&nbsp;<b>%</b></td>
+          <td style="font-weight:bold;color:#181818" *ngIf="role.getroleid()>=775">{{item.cum_subispper | number :
+            '1.0-2' }}&nbsp;<b>%</b></td>
+          <td style="font-weight:bold;color:#181818" *ngIf="role.getroleid()>=775">{{item.cum_subdistper | number :
+            '1.0-2' }}&nbsp;<b>%</b></td>
+          <td style="font-weight:bold;color:#181818" *ngIf="role.getroleid()>=775">{{item.cum_resellerper | number :
+            '1.0-2' }}&nbsp;<b>%</b></td>
           <td>{{item.expiry_date | date: 'd MMM y h:mm:ss a'}}}</td>
           <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
           <td><i class="fas fa-rupee-sign">&nbsp;{{item.sub_payed_amt}}</i></td>

@@ -127,6 +127,12 @@ export class AddprofileComponent implements OnInit {
       ],
     },
     {
+      name: 'PROMOTION',
+      children: [
+        { id: 1058, name: 'Send Email'}
+      ]
+    },
+    {
       name: 'ISP',
       children: [
         { id: 101, name: 'List ISP' },

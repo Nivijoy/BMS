@@ -173,4 +173,12 @@ export class S_Service {
   async sharingReports(params) {
     return await this.http.post("/api/s_service/sharingReports", params).toPromise();
   }
+  async renewOtt(params) {
+    return await this.http.post("/api/s_service/renewOtt", params).toPromise();
+  }
+  async getottplanname(params) {
+    return await this.http.post("/api/s_service/getottplanname", params).toPromise();
+  }
+
+
 }

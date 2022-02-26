@@ -137,7 +137,9 @@
           <td>{{item.sub_plan}}</td>
           <td>{{item.inv_amt}}</td>
           <td>{{item.inv_tax}}</td>
-          <td *ngIf="item.schedule_status!=3">{{item.creator}}</td>
+          <td *ngIf="item.schedule_status!=3 && item.c_role != 111">{{item.creator}}</td>
+          <td *ngIf="item.schedule_status!=3 && item.c_role  == 111">{{item.cust_profile_id}}</td>
+
           <td *ngIf="item.schedule_status==3">{{item.modified}}</td>
           <td *ngIf="item.schedule_status!=3">{{item.schedule_date | date:'d MMM y h:mm:ss a'}}</td>
           <td *ngIf="item.schedule_status==3">{{item.lm_date | date:'d MMM y h:mm:ss a'}}</td>

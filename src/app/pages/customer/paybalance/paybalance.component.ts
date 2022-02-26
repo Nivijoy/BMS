@@ -3,7 +3,7 @@ import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RoleService, OperationService } from '../../_service/indexService';
+import { RoleService, OperationService, ResellerService } from '../../_service/indexService';
 
 @Component({
   selector: 'paybalance',
@@ -12,7 +12,7 @@ import { RoleService, OperationService } from '../../_service/indexService';
 
 export class BalancePayComponent implements OnInit {
   modalHeader: string; item; busname; grup; resell; pro;
-  PayBalanceForm; id
+  PayBalanceForm; id; resel;
   submit: boolean;
   Make;
   constructor(
@@ -20,6 +20,7 @@ export class BalancePayComponent implements OnInit {
     private alert: ToasterService,
     public role: RoleService,
     private opser: OperationService,
+    private reselser: ResellerService,
   ) { }
 
 
@@ -30,11 +31,17 @@ export class BalancePayComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.createForm();
+    console.log('Item',this.item)
+    await this.createForm();
     // console.log(this.role.getroleid())
-    this.PayBalanceForm.get('pay_amt').setValue(this.item['payamt'])
+    // this.PayBalanceForm.get('pay_amt').setValue(this.item['payamt'])
+    await this.showReseller();
 
   };
+
+  async showReseller($event=''){
+    this.resel = await this.reselser.showResellerName({service_role: 1})
+  }
 
   async payment() {
     // console.log(this.PayBalanceForm.value)
@@ -66,8 +73,12 @@ export class BalancePayComponent implements OnInit {
   };
 
   createForm() {
-    this.PayBalanceForm = new FormGroup({
-      pay_amt: new FormControl(this.item ? this.item['isp_id'] : '',Validators.required),
+    let nowdate = new Date();
+     this.PayBalanceForm = new FormGroup({
+      pay_amt: new FormControl(this.item['payamt'] || '',Validators.required),
+      receipt_date: new FormControl(nowdate.toISOString().slice(0,10)),
+      rnote: new FormControl(''),
+      collect_by: new FormControl('')
 
     });
   }

@@ -26,8 +26,8 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 export class OnlinePaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
-  res1; res_name; count; order_id; txnid; cdate = ''; paydata; end_date = '';
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
+  res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;totalOnlinePay;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -48,7 +48,10 @@ export class OnlinePaylistComponent implements OnInit {
     private nasmodel: NgbModal,
 
 
-  ) { }
+  ) {
+    let nowdate = new Date();
+    this.cdate = this.end_date = nowdate.toISOString().slice(0,10);
+   }
   async ngOnInit() {
     localStorage.removeItem('array');
     await this.initiallist();
@@ -140,6 +143,7 @@ export class OnlinePaylistComponent implements OnInit {
     // console.log(result)
     this.data = result[0];
     this.count = result[1]['count'];
+    this.totalOnlinePay = result[1]['total'];
     this.setPage();
     if (result) {
       this.loading = false;

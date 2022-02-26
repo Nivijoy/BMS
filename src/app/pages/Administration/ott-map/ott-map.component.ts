@@ -145,6 +145,7 @@ export class OttMapComponent implements OnInit {
     if (this.role.getroleid() <= 777) {
       this.AddOttMapForm.get('isp_id').setValue(this.role.getispid())
       await this.showReseller();
+      await this.showOttPlan();
     }
   }
 

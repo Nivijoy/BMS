@@ -9,7 +9,7 @@
       </div>
       <div class="col-sm-9" id="hidedesktop">
          <select [(ngModel)]="show_inv" class="form-control" style="background: white;width: 39%; margin-top: -23px;
-   margin-left: 270px;height: fit-content;font-weight:bold;text-transform:uppercase;">
+   margin-left: 150px;height: fit-content;font-weight:bold;text-transform:uppercase;">
             <option value="1" selected>Single</option>
             <option value="2">Double </option>
          </select>
@@ -32,7 +32,7 @@
                      </span>
                      <br> -->
                      <span
-                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.bus_address:'--'}}<br>
+                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
                      </span>
                   </p>
                </tbody>
@@ -92,7 +92,7 @@
                               </tr>
                               <tr>
                                  <td>Invoice No</td>
-                                 <td>:{{data?data.rollid:''}}</td>
+                                 <td>:{{data?data.billno:''}}</td>
                               </tr>
                               <tr>
                                  <td>Invoice Date</td>
@@ -106,7 +106,7 @@
                               </tr>
                               <tr>
                                  <td>Paid Date</td>
-                                 <td>{{data ? data.paydate==null?'--':(data.paydate | date : 'd MMM y h:mm:ss
+                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y h:mm:ss
                                     a'):'N/A'}}</td>
                                  <!-- <td>:{{data?data.paydate | date : 'd MMM y h:mm:ss a':''}}</td> -->
                               </tr>
@@ -182,9 +182,9 @@
                         <table>
                            <tbody>
                               <tr>
-                                 PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:AAFCB2450H
-                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:33AAFCB2450H1Z3
-                                 <br>HSN/SAC No:99842
+                                 PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.pan_no : '--'}}
+                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno : '--'}}
+                                 <br>HSN/SAC No:{{data ? data.hsn : '--'}}
                               </tr>
                            </tbody>
                         </table>
@@ -206,8 +206,8 @@
                   </div>
                </div>
             </table>
-            <div style="text-align: center;">***
-               This is a Computer Generated Invoice and requires no Seal and Sign***
+            <div style="text-align: center;">
+               This is Computer Generated Invoice no Signature required 
             </div>
             <!-- <div style="text-align: center;">Thankyou for being Our Business Partner</div> -->
 
@@ -222,7 +222,7 @@
                      <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
                      </span><br> -->
                      <span
-                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.bus_address:'--'}}<br>
+                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
                      </span>
                   </p>
                </tbody>
@@ -282,7 +282,7 @@
                               </tr>
                               <tr>
                                  <td>Invoice No</td>
-                                 <td>:{{data?data.rollid:''}}</td>
+                                 <td>:{{data?data.billno:''}}</td>
                               </tr>
                               <tr>
                                  <td>Invoice Date</td>
@@ -295,7 +295,7 @@
                               </tr>
                               <tr>
                                  <td>Paid Date</td>
-                                 <td>{{data ? data.paydate==null?'--':(data.paydate | date : 'd MMM y h:mm:ss
+                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y h:mm:ss
                                     a'):'N/A'}}</td>
 
                               </tr>
@@ -373,9 +373,9 @@
                         <table>
                            <tbody>
                               <tr>
-                                 PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:AAFCB2450H
-                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:33AAFCB2450H1Z3
-                                 <br>HSN/SAC No:99842
+                                 PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.pan_no : '--'}}
+                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno : '--'}}
+                                 <br>HSN/SAC No:{{data ? data.hsn : '--'}}
                               </tr>
                            </tbody>
                         </table>
@@ -398,9 +398,9 @@
                </div>
             </table>
             <!-- <div *ngIf="show_inv ==2" style="text-align: center;">Thankyou for being Our Business Partner</div> -->
-            <div *ngIf="show_inv ==2" style="text-align: center;">***
+            <!-- <div *ngIf="show_inv ==2" style="text-align: center;">***
                This is a Computer Generated Invoice and requires no Seal and Sign***
-            </div>
+            </div> -->
          </div>
       </div>
    </div>

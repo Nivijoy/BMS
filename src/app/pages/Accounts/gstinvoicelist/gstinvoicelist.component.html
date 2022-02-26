@@ -286,6 +286,8 @@
                </th>
                <!-- <th>Collected</th> -->
                <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Payment</th>
+               <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Renewal Type</th>
+
                <!-- <th>Pay Status</th>
                <th>Pay Date</th> -->
             </tr>
@@ -369,6 +371,8 @@
                <td><i class="fas fa-rupee-sign">&nbsp;{{item.sub_payed_amt}}</i></td>
                <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
                <td>{{item.pay_status==2 ? (item.paydate | date:'d MMM y h:mm:ss a'):'--'}}</td>
+               <td>{{item.pay_through ==1? 'Manual' : item.pay_through==2? 'Scheduled' : item.pay_through == 3? 'Through Gateway By Subscriber' : 'Scheduled By Subscriber' }}</td>
+
             </tr>
          </table>
       </div>

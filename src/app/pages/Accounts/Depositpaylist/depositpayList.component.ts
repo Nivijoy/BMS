@@ -23,8 +23,8 @@ import { DepositProofComponent } from '../depositproof/depositproof.component';
 
 export class DepositpaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
-  res1; res_name; count; dep_by; depositer; dep_amt;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; start_date = ''; end_date = '';
+  res1; res_name; count; dep_by; depositer; dep_amt;totalDepositAmount;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; start_date : any; end_date : any;
 
   constructor(
     private alert: ToasterService,
@@ -39,7 +39,10 @@ export class DepositpaylistComponent implements OnInit {
     private nasmodel: NgbModal,
 
 
-  ) { }
+  ) {
+    let nowdate = new Date();
+    this.start_date = this.end_date = nowdate.toISOString().slice(0,10);
+   }
   async ngOnInit() {
     localStorage.removeItem('array');
     await this.initiallist();
@@ -151,6 +154,7 @@ export class DepositpaylistComponent implements OnInit {
       })
     this.data = result[0];
     this.count = result[1]['tot'];
+    this.totalDepositAmount = result[1]['deposit'];
     // console.log(result)
     this.setPage();
   }

@@ -169,6 +169,7 @@
           <th>Business Name</th>
           <th>Service Type</th>
           <th>Mobile</th>
+          <th>Email</th>
           <th>GST No</th>
           <th>Subscriber Limit</th>
           <th>Prefix</th>
@@ -216,7 +217,7 @@
           <td style="text-align: center;">{{item.company}}</td>
           <td>{{item.service_name}}</td>
           <td>{{item.mobile}}</td>
-
+          <td  style="text-transform: none !important;">{{item.email}}</td>
           <td>{{item.gst_no}}</td>
           <td style="text-align: center;">{{item.sub_limit==0 ? 'Unlimited':'No Limit'}}</td>
           <td>{{item.prefix_on == true? 'Enable':'Disable'}}</td>

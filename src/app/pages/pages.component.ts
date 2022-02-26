@@ -239,7 +239,7 @@ export class PagesComponent {
             {
               title: 'List',
               link: '/pages/administration/list-sms-credit',
-             },
+            },
           ],
         },
       ],
@@ -376,27 +376,28 @@ export class PagesComponent {
     {
       title: 'Promotion',
       icon: 'fa fa-paper-plane',
-       children: [
+      hidden: !(this.role.find(x => x == 1058)),
+      children: [
+        // {
+        //   title: 'Send SMS',
+        //   link: '/pages/administration/send-sms',
+        // },
         {
-          title: 'Send SMS',
-          link: '/pages/administration/send-sms',
-         },
-         {
           title: 'Send Email',
           link: '/pages/administration/send-email',
-         },
-         {
-          title: 'Send SMS Reseller',
-          link: '/pages/administration/send-sms-reseller',
-         },
-         {
-          title: 'Send Email Reseller',
-          link: '/pages/administration/send-email-reseller',
-         },
-         {
-          title: 'Send SMS Others',
-          link: '/pages/administration/send-sms-other',
-         },
+        },
+        // {
+        //   title: 'Send SMS Reseller',
+        //   link: '/pages/administration/send-sms-reseller',
+        // },
+        // {
+        //   title: 'Send Email Reseller',
+        //   link: '/pages/administration/send-email-reseller',
+        // },
+        // {
+        //   title: 'Send SMS Others',
+        //   link: '/pages/administration/send-sms-other',
+        // },
       ],
     },
     {
@@ -617,7 +618,7 @@ export class PagesComponent {
         },
 
         {
-          title: 'Balance',
+          title: 'Open/Close Balance',
           link: '/pages/Accounts/openclose-balancelist',
           hidden: (!this.role.find(x => x == 812)),
 
@@ -671,11 +672,11 @@ export class PagesComponent {
           link: '/pages/Accounts/cancelgstinvreport',
           hidden: (!this.role.find(x => x == 1009))
         },
-        {
-          title: 'OTT Invoice',
-          link: '/pages/reports/ottinvoicelist',
-          hidden: this.roleid < 775
-        },
+        // {
+        //   title: 'OTT Invoice',
+        //   link: '/pages/reports/ottinvoicelist',
+        //   hidden: this.roleid < 775
+        // },
         {
           title: 'Subscriber Count',
           link: '/pages/reports/dailysubs-count',
@@ -842,6 +843,11 @@ export class PagesComponent {
           link: '/pages/administration/listresellersharelog',
           hidden: !this.role.find(x => x == 1005)
         },
+        {
+          title: 'OTTMonitorLog',
+          link: '/pages/administration/ott-log',
+          hidden: this.roleid < 775
+        }
 
       ],
     },

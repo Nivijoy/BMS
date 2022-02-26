@@ -11,6 +11,7 @@ pdfmake.vfs = pdfFonts.pdfMake.vfs;
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 // import htmltoPdfmake  from 'html-to-pdfmake'
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'viewinvoice',
@@ -19,7 +20,7 @@ import jsPDF from 'jspdf';
 })
 
 export class ViewInvoiceComponent implements OnInit {
-  modalHeader: string; invdata; views;
+  modalHeader: string; invdata; views;bus_address;
   submit: boolean; cuser: any = []; data; receiptdata; rcptvalue; paystatus; username; invperiod;
   show_inv = 1;
 
@@ -27,6 +28,7 @@ export class ViewInvoiceComponent implements OnInit {
   @ViewChild('content') content: ElementRef;
 
   public downloadAsPDF() {
+    console.log('Download PDF')
     // const pdfTable = document.getElementById('pdfTable');
     // html2canvas(pdfTable).then((canvas) => {
     //   console.log('CANVAS', canvas)
@@ -39,18 +41,60 @@ export class ViewInvoiceComponent implements OnInit {
     // });
 
     const pdfTable = document.getElementById('pdfTable');
-    html2canvas(pdfTable).then((canvas) => {
-        
-        var imgData = canvas.toDataURL('image/png')
-        // var doc = new jsPDF();
-        // var imgHeight = canvas.height * 200 / canvas.width
-        var pdf = new jsPDF("p", "mm", "a4");
-        var imgData = canvas.toDataURL('image/png', 1.0);
-        // due to lack of documentation; try setting w/h based on unit
-        pdf.addImage(imgData,17, 15, 170, 270);   // 180x150 mm @ (10,10)mm
-        // doc.addImage(imgData, 0, 0, 200, imgHeight)
-        pdf.save("Invoice.pdf")
-    });
+    // html2canvas(pdfTable).then((canvas) => {
+
+    //     var imgData = canvas.toDataURL('image/png')
+    //     // var doc = new jsPDF();
+    //     // var imgHeight = canvas.height * 200 / canvas.width
+    //     var pdf = new jsPDF("p", "mm", "a4");
+    //     var imgData = canvas.toDataURL('image/png', 1.0);
+    //     // due to lack of documentation; try setting w/h based on unit
+    //     pdf.addImage(imgData,17, 15, 170, 270);   // 180x150 mm @ (10,10)mm
+    //     // doc.addImage(imgData, 0, 0, 200, imgHeight)
+    //     pdf.save("Invoice.pdf")
+    // });
+    let nowdate = + new Date();
+    let media = window.matchMedia('(max-width:600px)');
+
+    console.log('Media', media.matches)
+    if (media.matches && this.show_inv == 2) {
+      let opt = {
+        margin: [-0.05, 0.5, 0, 0.5],
+        html2canvas: {
+          scale: 2,
+          // dpi: 192,
+          letterRendering: true
+        },
+        filename: `${nowdate.toString().slice(0, 10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.95 },
+        // html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        // pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
+
+      // New Promise-based usage:
+      html2pdf().set(opt).from(pdfTable).save();
+      // html2pdf().from(pdfTable).set(opt).toPdf().get('pdf').then(function (pdf) {
+      //   $("p").css("font-size", "26px");
+      //   }).save();
+
+    } else {
+      let opt = {
+        margin: [0.25, 0.25, 0.25, 0.25],
+        filename: `${nowdate.toString().slice(0, 10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      // New Promise-based usage:
+      html2pdf().set(opt).from(pdfTable).save();
+
+      // Old monolithic-style usage:
+      // html2pdf(pdfTable, opt);
+    }
+
   }
 
   constructor(
@@ -103,22 +147,26 @@ export class ViewInvoiceComponent implements OnInit {
   }
 
   async view() {
-    if (this.views == 2 || this.views == 4) {
+    if (this.views == 2 || this.views == 4) {      // GST
       let result = await this.ser.showGSTInvoiceReceipt({ invid: this.invdata, ref_flag: 1 })
       // console.log("gstinv",result);
       if (result) {
         this.data = result[0][0];
         this.receiptdata = result[1];
-        this.paystatus = this.data['pay_status']
+        this.paystatus = this.data['pay_status'];
+        this.bus_address = this.data['bus_address'].replace(/<br>/g,'');
+        console.log('Bus address',this.bus_address)
       }
     }
-    if (this.views == 1 || this.views == 3) {
+    if (this.views == 1 || this.views == 3) {   // Non-GST
       let result = await this.ser.showInvoiceReceipt({ invid: this.invdata, ref_flag: 1 })
       // console.log("invres",result);
       if (result) {
         this.data = result[0][0];
         this.receiptdata = result[1];
         this.paystatus = this.data['pay_status']
+        this.bus_address = this.data['bus_address'].replace(/<br>/g,'');
+        console.log('Bus address',this.bus_address)
       }
     }
   }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RenewCustComponent } from '../RenewCustomer/renewCust.component';
 import { ProfilePasswordComponent } from '../ProfilePassword/profilepass.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RoleService, CustService, BusinessService, GroupService, S_Service, ResellerService, NasService, PagerService } from '../../_service/indexService';
+import { RoleService, CustService, BusinessService, GroupService, S_Service, ResellerService, NasService, PagerService, SelectService } from '../../_service/indexService';
 import { unescapeIdentifier } from '@angular/compiler';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 import { JsonPipe, DatePipe } from '@angular/common';
@@ -27,8 +27,8 @@ export class CustListComponent implements OnInit {
   regular_user; mac_user; expiry_status; online_status; active_status; ofline_status; limit = 25;
   subs_type = ''; subs_status = ''; conn_type = ''; subs_gst = ''; subs_profileid = ''; subs_accno = ''; act_status: any;
   date_type = ''; st_date = ''; en_date = ''; cstart_date = ''; cend_date = ''; start_date = ''; end_date = ''; acc_type = ''; on_status: any;
-  servtype; custname; gst; suspend; hold; exp_track = ''; acnt_type = ''; on_expiry: any; logoff_flag = false;
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; on_exp;
+  servtype; custname; gst; suspend; hold; exp_track = ''; acnt_type = ''; on_expiry: any; logoff_flag = false; state_id; state;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; on_exp;disconnected;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
@@ -45,6 +45,7 @@ export class CustListComponent implements OnInit {
     public role: RoleService,
     public pageservice: PagerService,
     private datePipe: DatePipe,
+    private select: SelectService,
 
   ) { this.dashstatus = JSON.parse(localStorage.getItem('dash_status')) }
 
@@ -98,6 +99,9 @@ export class CustListComponent implements OnInit {
     this.custname = await this.custser.showUser({ bus_id: this.bus_name, groupid: this.group_name, role: this.resel_type, role_flag: 1, resel_id: this.res_name, srvid: this.name, like: $event })
     // console.log("customer", this.custname)
   }
+  async showState($event = '') {
+    this.state = await this.select.showState({ like: $event })
+  }
 
   async ngOnInit() {
     localStorage.removeItem('array');
@@ -105,6 +109,7 @@ export class CustListComponent implements OnInit {
     localStorage.removeItem('datas');
     await this.showBusName();
     await this.initiallist();
+    await this.showState();
     if (this.role.getroleid() <= 777) {
       this.bus_name = this.role.getispid();
       await this.showGroupName();
@@ -129,6 +134,7 @@ export class CustListComponent implements OnInit {
       this.name = '';
       this.cust_name = '';
       this.subs_gst = '';
+      this.state_id = '';
     }
     if (item == 2) {
       this.resel_type = '';
@@ -137,6 +143,7 @@ export class CustListComponent implements OnInit {
       this.name = '';
       this.cust_name = '';
       this.subs_gst = '';
+      this.state_id = '';
     }
     if (item == 3) {
       this.res_name = '';
@@ -144,17 +151,20 @@ export class CustListComponent implements OnInit {
       this.name = '';
       this.cust_name = '';
       this.subs_gst = '';
+      this.state_id = '';
     }
     if (item == 4) {
       this.serv_type = '';
       this.name = '';
       this.cust_name = '';
       this.subs_gst = '';
+      this.state_id = '';
     }
     if (item == 5) {
       this.name = '';
       this.cust_name = '';
       this.subs_gst = '';
+      this.state_id = '';
     }
     if (item == 6) {
       this.cust_name = '';
@@ -164,6 +174,7 @@ export class CustListComponent implements OnInit {
       this.st_date = '';
       this.en_date = '';
       this.exp_track = '';
+      this.on_status = '';
     }
   }
 
@@ -191,7 +202,8 @@ export class CustListComponent implements OnInit {
     this.dashstatus = '';
     this.exp_track = '';
     this.group1 = ''; this.profile = ''; this.res1 = ''; this.servtype = ''; this.nam1 = ''; this.custname = ''; this.gst = '';
-    this.start_exp = ''; this.end_exp = ''; this.s_branch = '';
+    this.start_exp = ''; this.end_exp = ''; this.s_branch = ''; this.state_id = '';
+
     await this.initiallist();
     if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
       await this.showProfileReseller();
@@ -230,42 +242,46 @@ export class CustListComponent implements OnInit {
       expsdate: this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
+      sort_exp: (this.start_exp && this.end_exp) || this.dashstatus == 4 ? 1 : 0,
+      state_id: this.state_id,
     })
-    // console.log("cuslist",result);
+    console.log("cuslist------------", result);
     if (result) {
+      this.loading = false;
       localStorage.removeItem('dash_status')
-    }
-    this.data = result[0];
-    for (let l = 0; l < this.data.length; l++) {
-      if (this.data[l]['online_time'] != null) {
-        let ontime = this.data[l]['online_time']
-        let a = ontime.split(':')
-        let sec = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2])
-        this.data[l]['online_time'] = this.secondconvert(sec);
+      this.data = result[0];
+      for (let l = 0; l < this.data.length; l++) {
+        if (this.data[l]['online_time'] != null) {
+          let ontime = this.data[l]['online_time']
+          let a = ontime.split(':')
+          let sec = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2])
+          this.data[l]['online_time'] = this.secondconvert(sec);
+        }
       }
+      this.tot = result[1]['count'];
+      this.regular_user = result[1]['regular_user'];
+      this.mac_user = result[1]['mac_user'];
+      this.active_status = result[1]['active_status'];
+      this.online_status = result[1]['online_status'];
+      this.disconnected = result[1]['disconnected'];
+      this.expiry_status = result[1]['expiry_status'];
+      this.suspend = result[1]['suspend'];
+      this.hold = result[1]['hold'];
+      this.on_exp = result[1]['expired_online'];
+      console.log(this.data)
+      for (var l = 0; l < this.data.length; l++) {
+        this.data[l].lcdllimit = this.data[l].lcdllimit == 0 ? 0 : this.bytefunc(this.data[l].lcdllimit);
+        this.data[l].lcuplimit = this.data[l].lcuplimit == 0 ? 0 : this.bytefunc(this.data[l].lcuplimit);
+        this.data[l].lclimitcomb = this.data[l].lclimitcomb == 0 ? 0 : this.bytefunc(this.data[l].lclimitcomb);
+      }
+      this.setPage();
     }
-    this.tot = result[1]['count'];
-    this.regular_user = result[1]['regular_user'];
-    this.mac_user = result[1]['mac_user'];
-    this.active_status = result[1]['active_status'];
-    this.online_status = result[1]['online_status'];
-    this.ofline_status = result[1]['ofline_status'];
-    this.expiry_status = result[1]['expiry_status'];
-    this.suspend = result[1]['suspend'];
-    this.hold = result[1]['hold'];
-    this.on_exp = result[1]['expired_online'];
-    // console.log(this.data)
-    this.loading = false;
-    for (var l = 0; l < this.data.length; l++) {
-      this.data[l].lcdllimit = this.data[l].lcdllimit == 0 ? 0 : this.bytefunc(this.data[l].lcdllimit);
-      this.data[l].lcuplimit = this.data[l].lcuplimit == 0 ? 0 : this.bytefunc(this.data[l].lcuplimit);
-      this.data[l].lclimitcomb = this.data[l].lclimitcomb == 0 ? 0 : this.bytefunc(this.data[l].lclimitcomb);
-    }
-    this.setPage();
+
 
   }
 
   async download() {
+    this.loading = true;
     let res = await this.custser.listSubscriber({
       bus_id: this.bus_name,
       groupid: this.group_name,
@@ -292,14 +308,18 @@ export class CustListComponent implements OnInit {
       expsdate: this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
+      state_id: this.state_id,
+      sort_exp: (this.start_exp && this.end_exp) || this.dashstatus == 4 ? 1 : 0,
     })
     if (res) {
+      this.loading = false;
       let tempdata = [], temp: any = res[0];
       for (var i = 0; i < temp.length; i++) {
         let param = {};
         if (this.role.getroleid() >= 775) {
           param['ID'] = temp[i]['uid'];
         }
+
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
@@ -316,13 +336,13 @@ export class CustListComponent implements OnInit {
         param['SERVICE TYPE'] = temp[i]['srvdatatype'] == 1 ? 'Unlimited' : 'FUP';
         param['SERVICE NAME'] = temp[i]['srvname'] || 'N/A';
         param['DL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitdl'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
-        param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
-        param['TOTAL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitcomb'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : 'Unlimited';
-        temp[i]['registered'] = temp[i]['registered'] != null ? this.datePipe.transform(temp[i]['registered'], 'd MMM y') : '-';
+        param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcuplimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcuplimit']) : '--';
+        param['TOTAL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitcomb'] == 0 ? '--' : temp[i]['lclimitcomb'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lclimitcomb']) : 'Unlimited';
+        temp[i]['registered'] = temp[i]['registered'] != null ? this.datePipe.transform(temp[i]['registered'], 'dd-MM-yyyy', 'es-ES') : '-';
         param['REGISTERED DATE'] = temp[i]['registered'];
-        temp[i]['createdon'] = this.datePipe.transform(temp[i]['createdon'], 'd MMM y');
+        temp[i]['createdon'] = this.datePipe.transform(temp[i]['createdon'], 'dd-MM-yyyy');
         param['CREATION DATE'] = temp[i]['createdon'];
-        temp[i]['expiration'] = this.datePipe.transform(temp[i]['expiration'], 'd MMM y hh:mm:ss a');
+        temp[i]['expiration'] = this.datePipe.transform(temp[i]['expiration'], 'dd-MM-yyyy hh:mm:ss a','es-ES');
         param['EXPIRY DATE'] = temp[i]['expiration'];
         param['MOBILE NUMBER'] = temp[i]['mobile'];
         param['ADDRESS'] = temp[i]['address'];
@@ -336,7 +356,7 @@ export class CustListComponent implements OnInit {
       const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
       JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
       JSXLSX.writeFile(wb, 'Subscribers List' + EXCEL_EXTENSION);
-    }
+    }else this.loading = false;
   }
 
   getlist(page) {

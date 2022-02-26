@@ -49,12 +49,7 @@
             <div style="padding: 2px;" *ngIf="(!role.getmenurole(1052) && data.srvdatatype==2)">
                <button class="btn btn-xs btn-outline-primary" (click)="updateLimit();"><b>Update Limit</b></button>
             </div>
-            <div style="padding: 2px;" *ngIf="data.online_status==1 || (data.online_status==0 && data.expired_online ==1)">
-               <button class="btn btn-xs btn-outline-primary" (click)="logoff()"><b>Log Off</b></button>
-            </div>
-            <div style="padding: 2px;" *ngIf="data.online_status==1 || (data.online_status==0 && data.expired_online ==1)">
-               <button class="btn btn-xs btn-outline-primary" (click)="close();"><b>Close Session</b></button>
-            </div>
+
             <div style="padding: 2px;" *ngIf="data.status==1">
                <button class="btn btn-xs btn-outline-primary" (click)="subshold(id,1);"><b>HOLD</b></button>
             </div>
@@ -73,6 +68,14 @@
             </div>
             <div style="padding: 2px;">
                <button class="btn btn-xs btn-outline-primary" (click)="Edit_subs(id);"><b>Edit</b></button>
+            </div>
+            <div style="padding: 2px;"
+               *ngIf="data.online_status==1 || (data.online_status==0 && data.expired_online ==1)">
+               <button class="btn btn-xs btn-outline-primary" (click)="logoff()"><b>Log Off</b></button>
+            </div>
+            <div style="padding: 2px;"
+               *ngIf="data.online_status==1 || (data.online_status==0 && data.expired_online ==1)">
+               <button class="btn btn-xs btn-outline-primary" (click)="close();"><b>Close Session</b></button>
             </div>
          </div>
          <hr>
@@ -118,7 +121,8 @@
                                  </tr>
                                  <tr *ngIf="data.schedule_status == 1">
                                     <th>Schedule Date</th>
-                                    <td style="color:#474795"><b>{{data.schedule_date ? (data.schedule_date| date : 'd
+                                    <td style="font-size:medium;color:blue"><b>{{data.schedule_date ?
+                                          (data.schedule_date| date : 'd
                                           MMM y h:mm:ss a'):'N/A' }}</b>
                                     </td>
                                  </tr>
@@ -153,22 +157,57 @@
                                  </tr>
                                  <tr>
                                     <th>Mobile Number</th>
-                                    <td><a [ngStyle]="{'color' : data.smsverifystatus==1 ? 'green' : 'red' }"
+                                    <th><a [ngStyle]="{'color' : data.smsverifystatus==1 ? 'green' : 'red' }"
                                           [ngClass]="{'ion-close-round': data.smsverifystatus!=1 ? true:false,'ion-checkmark-round': data.smsverifystatus==1 ? true:false  }"></a>&nbsp;&nbsp;&nbsp;{{data
                                        ? data.mobile: ''}}
-                                       &nbsp;&nbsp;&nbsp;<button [hidden]="data.smsverifystatus==1"
-                                          class="btn btn-sm btn-primary" (click)="mobverify(1)">Verify</button>
-                                    </td>
+                                       &nbsp;&nbsp;&nbsp;
+                                    </th>
+                                    <th [hidden]="data.smsverifystatus==1">
+                                       <!-- <button [hidden]="data.smsverifystatus==1"
+                                          class="btn btn-sm btn-primary" (click)="mobverify(1)">Verify</button> -->
+                                       <div class="dropdown ghost-dropdown" ngbDropdown>
+                                          <button style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white; 
+                                             font-weight: bold;" class="btn btn-primary btn-icon" type="button"
+                                             ngbDropdownToggle>Action&nbsp;
+                                          </button>
+                                          <ul style="width: 75px; margin-left:-105px;z-index: 1; line-height: 30px; top: 43px;"
+                                             class="dropdown-menu" ngbDropdownMenu>
+                                             <li (click)="mobverify(1)" style="cursor: pointer;font-weight: 800;">&nbsp;
+                                                <i class="fa fa-key" style="color: black;"></i>&nbsp;OTP
+                                             </li>
+                                             <li (click)="mobverify(3)" style="cursor: pointer;font-weight: 800;">&nbsp;
+                                                <i class="fa fa-check" style="color: #00ff81;"></i>&nbsp;Force
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </th>
                                  </tr>
                                  <tr>
                                     <th>Email ID</th>
-                                    <td style="text-transform: none!important;"><a
+                                    <th style="text-transform: none!important;"><a
                                           [ngStyle]="{'color' : data.emailverifystatus==1  ? 'green' : 'red' }"
                                           [ngClass]="{'ion-close-round':data.emailverifystatus!=1 ? true:false,'ion-checkmark-round': data.emailverifystatus==1  ? true:false  }"></a>&nbsp;&nbsp;&nbsp;{{data
                                        ? data.email:''}}
-                                       &nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-primary"
-                                          [hidden]="data.emailverifystatus==1 " (click)="mailverify(1)">Verify</button>
-                                    </td>
+                                       &nbsp;&nbsp;&nbsp;
+                                       <!-- <button class="btn btn-sm btn-primary"
+                                          [hidden]="data.emailverifystatus==1 " (click)="mailverify(1)">Verify</button> -->
+                                    </th>
+                                    <th [hidden]="data.emailverifystatus==1">
+                                       <div class="dropdown ghost-dropdown" ngbDropdown>
+                                          <button style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white; 
+                                             font-weight: bold;" class="btn btn-primary btn-icon" type="button"
+                                             ngbDropdownToggle>Action&nbsp;
+                                          </button>
+                                          <ul style="width: 75px; margin-left:-105px;z-index: 1; line-height: 30px; top: 43px;"
+                                             class="dropdown-menu" ngbDropdownMenu>
+                                             <li (click)="mailverify(1)" style="cursor: pointer;font-weight: 800;">
+                                                &nbsp; <i class="fa fa-key" style="color: black;"></i>&nbsp;OTP </li>
+                                             <li (click)="mailverify(3)" style="cursor: pointer;font-weight: 800;">
+                                                &nbsp; <i class="fa fa-check" style="color: #00ff81;"></i>&nbsp;Force
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </th>
                                  </tr>
                                  <tr>
                                     <th>Auto Renewal</th>
@@ -255,7 +294,8 @@
 
                                  <tr>
                                     <th>Expiry Date</th>
-                                    <td>{{data.expiration ? (data.expiration| date : 'd MMM y h:mm:ss a'):'N/A' }}</td>
+                                    <td style="font-size:medium;color:red;font-weight:600">{{data.expiration ?
+                                       (data.expiration| date : 'd MMM y h:mm:ss a'):'N/A' }}</td>
                                  </tr>
                                  <tr>
                                     <th>IP Mode</th>
@@ -631,6 +671,7 @@
                         <th>Receipt Number</th>
                         <th>Receipt Date</th>
                         <th>Amount</th>
+                        <th>Created By</th>
                         <th>Receipt Status</th>
                      </tr>
                      <tr *ngFor="let item of receiptdata">
@@ -653,10 +694,11 @@
                         </td>
                         <td>{{item.srvname}}</td>
                         <td>{{item.sub_plan}}</td>
-                        <td>{{item.creator}}</td>
+                        <td>{{item.collected || '--'}}</td>
                         <td>{{item.receipt_num}}</td>
                         <td>{{item.receipt_date | date : 'd MMM y h:mm:ss a'}}</td>
                         <td>{{item.received_amt}}</td>
+                        <td>{{item.creator|| '--'}}</td>
                         <td style="text-align: center;"><a [ngStyle]="{'color' :item.rstatus==1 ? 'green' : 'red' }"
                               [ngClass]="{'ion-close-round':item.rstatus!=1? true:false,'ion-checkmark-round': item.rstatus==1 ? true:false  }"></a>
                         </td>
@@ -700,13 +742,13 @@
                                     type="button" ngbDropdownToggle>Action
                                  </button>
                                  <ul style="width: 75px;" class="dropdown-menu" ngbDropdownMenu>
-                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,1)"><i
+                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,2)"><i
                                           style="font-size: 20px;" class="far fa-eye "></i>&nbsp;View</li>
                                     <li [hidden]="item.inv_status==3||item.pay_status==2" class="dropdown-item"
                                        title="View" (click)="pay(item.invid,id,item.topay)"><i style="font-size: 20px;"
                                           class="fa fa-credit-card "></i>&nbsp;Pay</li>
 
-                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,3)"><i
+                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,4)"><i
                                           style="font-size: 20px;" class="fa fa-receipt "></i>&nbsp;Reference</li>
                                  </ul>
                               </div>
@@ -757,7 +799,8 @@
                         <td>{{item.billno}}</td>
                         <td>{{item.company}}</td>
                         <td>{{item.c_date ? (item.c_date | date:'d MMM y h:mm:ss a'):'--'}}</td>
-                        <td>{{item.pay_through==1 ? 'Manual':'Schedule'}}</td>
+                        <td>{{item.pay_through==1 ? 'Manual':item.pay_through == 2?'Schedule': item.pay_through ==3?
+                           'Gateway by Subscriber': 'Schedule by Subscriber'}}</td>
                         <td>{{item.expiry_date ? item.expiry_date :'--'}}</td>
                         <td>{{item.srvname}}</td>
                         <td style="text-align: center;">{{item.srvdatatype==1 ? 'Unlimited':'FUP'}}</td>
@@ -975,14 +1018,29 @@
             <ngb-tab title="Traffic Report">
                <ng-template ngbTabContent>
                   <div class="row">
-                     <div class="col-sm-4">
+                     <div class="col-sm-2">
+                        <label>Select Data</label>
+                        <select class="form-control" [(ngModel)]="oldnew" (change)="showTableName();radact_tname=''">
+                           <option value="1" selected>New</option>
+                           <option value="2">Old</option>
+                        </select>
+                     </div>
+                     <div class="col-sm-2" *ngIf="oldnew ==2">
+                        <label>Select Data</label>
+                        <select class="form-control" [(ngModel)]="radact_tname">
+                           <option selected="" value="">Select Data</option>
+                           <option *ngFor="let item of table_data" [ngValue]=item.table_name>{{item.showname}}
+                           </option>
+                        </select>
+                     </div>
+                     <div class="col-sm-2">
                         <label>From Date</label>
                         <input type="text" [(ngModel)]="from_date" [owlDateTime]="from_date_layout"
                            [owlDateTimeTrigger]="from_date_layout" name="from_date" placeholder="Select Date "
                            class="form-control" for />
                         <owl-date-time [pickerType]="'calendar'" #from_date_layout></owl-date-time>
                      </div>
-                     <div class="col-sm-4">
+                     <div class="col-sm-2">
                         <label>To Date</label>
                         <input type="text" [(ngModel)]="to_date" [owlDateTime]="to_date_layout"
                            [owlDateTimeTrigger]="to_date_layout" name="to_date" placeholder="Select Date "

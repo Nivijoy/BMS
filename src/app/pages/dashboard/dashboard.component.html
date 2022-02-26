@@ -241,15 +241,20 @@
                   <th>Last Log OFF </th>
                   <td>{{data ? (data.lastlogoff | date:'d MMM y h:mm:ss a'):'N/A'}}</td>
                 </tr>
-                <tr>
+                <tr
+                  *ngIf=" data ? (data.service_type ==3 || data.service_type == 5 || data.service_type == 7 || data.service_type ==8) : '' ">
                   <th>Ott App </th>
-                  <td
-                    *ngIf="data.service_type ==3 || data.service_type == 5 || data.service_type == 7 || data.service_type ==8">
+                  <td>
                     <!-- <a href="http://103.231.217.170/gltv/app/GoldenLeafTv.apk">Download .apk File</a> -->
                     <button class="btn btn-sm btn-primary"
                       onclick="location.href='http://103.231.217.170/gltv/app/GoldenLeafTv.apk'">
                       Download .apk file</button>
                   </td>
+                </tr>
+                <tr
+                  *ngIf=" data ? (data.service_type ==3 || data.service_type == 5 || data.service_type == 7 || data.service_type ==8) : '' ">
+                  <th>Ott Plan </th>
+                   <td>{{ottPlatformDetails? ottPlatformDetails : '--'}}</td>
                 </tr>
               </table>
             </nb-card-body>

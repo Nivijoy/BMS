@@ -63,8 +63,8 @@ export class BulkUpdateLimitComponent implements OnInit {
         let ulimit = this.bulk[i]['Upload Limit']
         this.bulk[i].ul_limit = ulimit;
 
-        this.bulk[i].hasOwnProperty('Uload Size')
-        let ulsize = this.bulk[i]['Uload Size']
+        this.bulk[i].hasOwnProperty('Upload Size')
+        let ulsize = this.bulk[i]['Upload Size']
         this.bulk[i].ul_size = ulsize;
 
         this.bulk[i].hasOwnProperty('Total Limit')

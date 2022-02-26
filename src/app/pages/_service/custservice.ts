@@ -172,5 +172,8 @@ export class CustService {
   async showSubscriber(params) {
     return await this.http.post("/api/subs/showSubscriber", params).toPromise();
   }
+  async showRadacctName(params) {
+    return await this.http.post("/api/subs/showRadacctName", params).toPromise();
+  }
 
 }

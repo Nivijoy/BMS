@@ -125,7 +125,8 @@ export class ListSubsDocPendingomponent implements OnInit {
       groupid: this.group_name,
       role:this.resel_type,
       resel_id: this.res_name,
-      uid:this.cust_name
+      uid:this.cust_name,
+      sort_exp:0
     });
     if (result) {
       // console.log(result)
@@ -154,12 +155,14 @@ export class ListSubsDocPendingomponent implements OnInit {
   }
 
   async download() {
+    this.loading = true;
     let res = await this.custser.listSubscriber({
       bus_id: this.bus_name,
       groupid: this.group_name,
       resel_id: this.res_name,
       res_branch: this.branch_name,
     });
+    this.loading = false;
     if (res) {
       let tempdata = [], temp: any = res[0];
       for (var i = 0; i < temp.length; i++) {

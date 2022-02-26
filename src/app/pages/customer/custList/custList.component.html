@@ -29,8 +29,8 @@
         </div>
         <div class="col-sm-2" *ngIf="role.getroleid()>=775">
           <label>Circle</label>
-          <auto-completen [(ngModel)]="group_name" (changed)="showUser();showResellerBranch();changeclear(2)" addclass="form-control"
-            optValues="groupname" placeholder='Select Circle' optId="groupid" [item]="group1">
+          <auto-completen [(ngModel)]="group_name" (changed)="showUser();showResellerBranch();changeclear(2)"
+            addclass="form-control" optValues="groupname" placeholder='Select Circle' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid()==666 || role.getroleid()==555)">
@@ -44,7 +44,8 @@
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid()==666 || role.getroleid()==555)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
-            (keyUp)="showResellerName($event)" (changed)="showService();showUser();showgst();showResellerBranch();changeclear(4)"
+            (keyUp)="showResellerName($event)"
+            (changed)="showService();showUser();showgst();showResellerBranch();changeclear(4)"
             placeholder='Select Reseller' id="id" [item]="res1">
           </auto-completen>
         </div>
@@ -65,7 +66,7 @@
         <div class="col-sm-2">
           <label>Profile ID</label>
           <auto-completen [(ngModel)]="cust_name" (keyUp)="showUser($event)" (changed)="showgst();subs_gst=''"
-            addclass="form-control" optValues="username" placeholder='Select Subs AccountID' optId="uid"
+            addclass="form-control" optValues="profileid" placeholder='Select Subs AccountID' optId="uid"
             [item]="custname">
           </auto-completen>
         </div>
@@ -153,8 +154,14 @@
         </div>
         <div class="col-sm-2">
           <label>Branch Name</label>
-          <auto-completen [(ngModel)]="s_branch" addclass="form-control" optValues="branch"
-            placeholder='Select Branch' optId="b_id" [item]="sbranch">
+          <auto-completen [(ngModel)]="s_branch" addclass="form-control" optValues="branch" placeholder='Select Branch'
+            optId="b_id" [item]="sbranch">
+          </auto-completen>
+        </div>
+        <div class="col-sm-2" *ngIf="this.role.getroleid()>=775">
+          <label>State</label>
+          <auto-completen [(ngModel)]="state_id" addclass="form-control" optValues="name" placeholder='Select State'
+            id="id" (keyUp)="showState($event)" [item]="state">
           </auto-completen>
         </div>
       </div>
@@ -226,7 +233,7 @@
           <td style="text-align: center;" class="changesize"><b> Online
             </b>
           </td>
-          <td style="text-align: center;" class="changesize"><b> Offline
+          <td style="text-align: center;" class="changesize"><b> Disconnect
             </b>
           </td>
           <td style="text-align: center;" class="changesize"><b> Quarantine
@@ -244,12 +251,12 @@
           <td style="text-align: center;"> {{regular_user || 0 }}</td>
           <td style="text-align: center;"> {{mac_user || 0 }}</td>
           <td style="text-align: center;"> {{active_status || 0 }}</td>
-          <td style="text-align: center;"> {{expiry_status }}</td>
-          <td style="text-align: center;"> {{online_status }}</td>
-          <td style="text-align: center;"> {{ofline_status }}</td>
-          <td style="text-align: center;"> {{on_exp }}</td>
-          <td style="text-align: center;"> {{suspend }}</td>
-          <td style="text-align: center;"> {{hold }}</td>
+          <td style="text-align: center;"> {{expiry_status || 0 }}</td>
+          <td style="text-align: center;"> {{online_status || 0 }}</td>
+          <td style="text-align: center;"> {{disconnected || 0 }}</td>
+          <td style="text-align: center;"> {{on_exp || 0 }}</td>
+          <td style="text-align: center;"> {{suspend || 0 }}</td>
+          <td style="text-align: center;"> {{hold || 0 }}</td>
         </tr>
       </tbody>
     </table>
@@ -376,13 +383,13 @@
                   title="ChangePassword" (click)="propassword(item.uid)"><i style="font-size: 20px;"
                     class="fa fa-keyboard"></i>&nbsp;Password
                 </li>
-                <li *ngIf="item.online_status==1 || dashstatus == 7 || on_status == 3" style="padding-top: 0px;padding-bottom: 2px;" class="dropdown-item"
-                  title="CloseSession" (click)="close(item.uid)"><i style="font-size: 20px;"
-                    class="fa fa-power-off"></i>&nbsp;CloseSesn
+                <li *ngIf="item.online_status==1 || dashstatus == 7 || on_status == 3"
+                  style="padding-top: 0px;padding-bottom: 2px;" class="dropdown-item" title="CloseSession"
+                  (click)="close(item.uid)"><i style="font-size: 20px;" class="fa fa-power-off"></i>&nbsp;CloseSesn
                 </li>
-                <li *ngIf="item.online_status==1 || dashstatus == 7 || on_status == 3" style="padding-top: 0px;padding-bottom: 2px;" class="dropdown-item"
-                  title="Log-Off" (click)="logoff(item.uid)"><i style="font-size: 20px;"
-                    class="fa fa-pause-circle"></i>&nbsp;Log-Off
+                <li *ngIf="item.online_status==1 || dashstatus == 7 || on_status == 3"
+                  style="padding-top: 0px;padding-bottom: 2px;" class="dropdown-item" title="Log-Off"
+                  (click)="logoff(item.uid)"><i style="font-size: 20px;" class="fa fa-pause-circle"></i>&nbsp;Log-Off
                 </li>
               </ul>
             </div>
@@ -434,6 +441,7 @@
             over':item.lclimitcomb:'Unlimited'}}</td>
           <td *ngIf="dashstatus==2||on_status==1">{{item.nasipaddress}}</td>
           <td *ngIf="item.expiration != '0000-00-00 00:00:00'">{{item.expiration| date : 'd MMM y h:mm:ss a'}}</td>
+          <td *ngIf="item.expiration == '0000-00-00 00:00:00'">{{'--'}}</td>
           <!-- <td [hidden]="dashstatus==2||on_status==1">{{item.mobile}}</td> -->
           <td>{{item.branch}}</td>
           <td>{{item.area==0 ? 'Rural':item.area==1 ? 'Urban':'--'}}</td>

@@ -79,11 +79,11 @@
         <td>{{item.supplier_gst_number}}</td>
         <td>{{item.recipient_gst_number}}</td>
         <td>{{item.billno}}</td>
-        <td>{{item.ack_date | date: 'd MMM y' }}</td>
+        <td>{{item.ack_date == "0000-00-00 00:00:00" ? '--' : (item.ack_date | date: 'd MMM y') }}</td>
         <td>{{item.tot_amt}}</td>
-        <td>{{item.hsn}}</td>
-        <td>{{item.irn}}</td>
-        <td>{{item.ack_date | date: 'd MMM y h:mm:ss a'}}</td>
+        <td>{{item.hsn || '--'}}</td>
+        <td>{{item.irn || '--'}}</td>
+        <td>{{item.ack_date == "0000-00-00 00:00:00" ? '--' : (item.ack_date | date: 'd MMM y h:mm:ss a')}}</td>
       </tr>
       <!-- <tr>
           <td colspan="8" *ngIf="pagedItems==''">NO DATA FOUND</td>

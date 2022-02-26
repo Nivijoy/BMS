@@ -91,7 +91,7 @@ export class GstInvoicelistComponent implements OnInit {
   }
 
   async showinvoicenum($event = '') {
-    this.invnum = await this.ser.showInvoiceNo({ bus_id: this.bus_name, like: $event });
+    this.invnum = await this.ser.showInvoiceNo({ bus_id: this.bus_name, like: $event, gst: 1 });
     // console.log(this.invnum);
   }
 
@@ -310,7 +310,7 @@ export class GstInvoicelistComponent implements OnInit {
         temp[i]['expiry_date'] = this.datePipe.transform(temp[i]['expiry_date'], 'd MMM y hh:mm:ss a')
         param['expiry_date'] = temp[i]['expiry_date'];
         param['PAY STATUS'] = temp[i]['pay_status'] == 2 ? 'Paid' : 'Unpaid';
-        temp[i]['paydate'] = this.datePipe.transform(temp[i]['paydate'], 'd MMM y hh:mm:ss a')
+        temp[i]['paydate'] = temp[i]['paydate']=='0000-00-00 00:00:00'? '--' : this.datePipe.transform(temp[i]['paydate'], 'd MMM y hh:mm:ss a') ;
         param['PAY DATE'] = temp[i]['pay_status'] == 2 ? temp[i]['paydate'] : '--';
         param['COLLECTED'] = temp[i]['sub_payed_amt'];
         tempdata[i] = param
@@ -357,6 +357,8 @@ export class GstInvoicelistComponent implements OnInit {
           param['igst_amount'] = temp[i]['igst_amount'];
         }
         param['final_invoice_amount'] = temp[i]['total_amount'];
+        param['Invoice Status'] = temp[i]['inv_status'] == 1 ? 'Active' : temp[i]['inv_status'] == 2 ? 'Proforma Invoice' : 'Cancelled';
+
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

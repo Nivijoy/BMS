@@ -20,7 +20,7 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
-import { balancePreviousStylesIntoKeyframes } from '@angular/animations/browser/src/util';
+// import { balancePreviousStylesIntoKeyframes } from '@angular/animations/browser/src/util';
 
 
 @Component({

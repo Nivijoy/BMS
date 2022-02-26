@@ -3,13 +3,13 @@
       [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
    </ngx-loading>
    <nb-card-header>List Opening/Closing Balance
-      <!-- <a type="button" class="btn btn-primary btn-sm btn-floating "
+      <a type="button" class="btn btn-primary btn-sm btn-floating "
          style="float: right; margin: 5px;
     background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px; cursor: pointer; padding-right: 3px;color:white;" (click)="search=!search;"><i
             class="fa fa-search"></i></a>
       <a type="button" class="btn btn-primary btn-sm btn-floating "
          style="float: right; margin: 5px;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px; cursor: pointer ;padding-right: 3px;color:white;"
-         (click)="refresh()"><i class="fa fa-sync"></i></a> -->
+         (click)="refresh()"><i class="fa fa-sync"></i></a>
    </nb-card-header>
    <nb-card-body>
       <toaster-container></toaster-container>
@@ -31,9 +31,19 @@
             </div>
             <div class="col-sm-3" *ngIf="role.getroleid()>=775">
                <label>Reseller Name</label>
-               <auto-completen [(ngModel)]="res_name" (keyUp)="showResellerName($event)" addclass="form-control" optValues="company"
-                  placeholder='Select Reseller' id="mid" [item]="res1">
+               <auto-completen [(ngModel)]="res_name" (keyUp)="showResellerName($event)" addclass="form-control"
+                  optValues="company" placeholder='Select Reseller' id="mid" [item]="res1">
                </auto-completen>
+            </div>
+         </div>
+         <div class="form-group row">
+            <div class="col-sm-3">
+               <label>Start Date</label>
+               <input type="date" pattern="Start Date" [(ngModel)]="start_date" class="form-control">
+            </div>
+            <div class="col-sm-3">
+               <label>End Date</label>
+               <input type="date" placeholder="End Date" [(ngModel)]="end_date" class="form-control">
             </div>
          </div>
          <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();page=1;'
@@ -42,7 +52,7 @@
       <div class="row">
          <div class="col-md-12">
             <label class="left">
-               <h5>Total Invoice : {{count}}</h5>
+               <h5>Total Records : {{count}}</h5>
             </label>
             <i (click)="download()" class="green right fa fa-file-excel fa-2x" aria-hidden="true"></i>
          </div>
@@ -72,7 +82,8 @@
             </tr>
             <tr *ngFor="let item of pagedItems">
                <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
-               <td *ngIf="role.getroleid()>=775">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit Reseller':item.role==666?'Sub
+               <td *ngIf="role.getroleid()>=775">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit
+                  Reseller':item.role==666?'Sub
                   ISP Bulk':item.role==555 ? 'Sub ISP Deposit':item.role==551 ? 'Sub Distributor Deposit':item.role==661
                   ? 'Sub Distributor Bulk':'Hotel'}}</td>
                <td *ngIf="role.getroleid()>=775">{{item.company}}</td>

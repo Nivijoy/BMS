@@ -13,7 +13,7 @@
     <toaster-container></toaster-container>
    
     <hr style="border: 0px;">
-    <div class="modal-body" autocomplete="off" [hidden]='!search'>
+    <div class="modal-body">
       <div class="form-group row">
         <div class="col-sm-2" *ngIf="role.getroleid()>777">
           <label>ISP Name</label>
@@ -49,7 +49,7 @@
         </div> -->
       </div>
       <div class="form-group row">
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <label>Start Date</label>
           <input type="text" class="form-control" [owlDateTime]="renstart_date" [owlDateTimeTrigger]="renstart_date"
             [(ngModel)]="cdate" placeholder="Select Start Date">
@@ -60,6 +60,15 @@
           <input type="text" class="form-control" [owlDateTime]="renend_date" [owlDateTimeTrigger]="renend_date"
             [(ngModel)]="end_date" placeholder="Select End Date">
           <owl-date-time [pickerType]="'calendar'" #renend_date></owl-date-time>
+        </div> -->
+
+        <div class="col-sm-2">
+          <label>Start Date</label>
+          <input type="date" pattern="Start Date" [(ngModel)]="cdate" class="form-control">
+        </div>
+        <div class="col-sm-2">
+          <label>End Date</label>
+          <input type="date" placeholder="End Date" [(ngModel)]="end_date" class="form-control">
         </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();'
@@ -68,7 +77,7 @@
     <div class="row">
       <div class="col-md-12">
         <label class="left">
-          <h5>Total Deposit : {{count}}</h5>
+          <h5>Total Records : {{count}}</h5>
         </label>
         <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
       </div>
@@ -91,8 +100,8 @@
           <th *ngIf="role.getroleid()>=775">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
           <!-- <th *ngIf="role.getroleid()>=775">Reseller Type</th> -->
-          <!-- <th *ngIf="role.getroleid()>=775">Reseller Business Name</th> -->
-          <th>Name</th>
+          <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
+          <th>Subscriber ProfileID</th>
           <th>Pay Mode</th>
           <th>OrderID</th>
           <th>Transaction ID</th>
@@ -124,8 +133,8 @@
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
           <!-- <td *ngIf="role.getroleid()>=775">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
             Deposit':item.role==551 ? 'Sub Distributor Deposit':'Subscriber'}}</td> -->
-          <!-- <td *ngIf="role.getroleid()>=775">{{item.company}}</td> -->
-          <td>{{item.user_name}}</td>
+          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td>{{item.profile_id}}</td>
           <td style="text-align: center;">{{item.pay_mode}}</td>
           <td>{{item.order_id}}</td>
           <td>{{item.txnid}}</td>

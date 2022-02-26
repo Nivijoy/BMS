@@ -5,15 +5,15 @@
       </ngx-loading>
       <nb-card-header *ngIf="role.getroleid()>=775">View Reseller
          <a type="button" class="btn btn-primary btn-sm btn-floating "
-            style="float: right;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px;cursor: pointer; ;padding-right: 3px;color:white;" (click)="refresh()"><i
-         class="fas fa-sync"></i> Refresh</a>
+            style="float: right;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px;cursor: pointer; ;padding-right: 3px;color:white;"
+            (click)="refresh()"><i class="fas fa-sync"></i> Refresh</a>
       </nb-card-header>
       <nb-card-header *ngIf="role.getroleid()<775">Reseller Info
          <a type="button" class="btn btn-primary btn-sm btn-floating "
-         style="float: right;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px;cursor: pointer; ;padding-right: 3px;color:white;" (click)="refresh()"><i
-         class="fas fa-sync"></i> Refresh</a>
+            style="float: right;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px;cursor: pointer; ;padding-right: 3px;color:white;"
+            (click)="refresh()"><i class="fas fa-sync"></i> Refresh</a>
       </nb-card-header>
-      
+
       <nb-card-body>
          <div class="row" style="padding-left: 10px;">
             <div style="padding: 2px;" *ngIf="role.getroleid()>=775">
@@ -75,11 +75,16 @@
                                  </tr>
                                  <tr>
                                     <th>Reseller LoginID</th>
-                                    <td style="text-transform: none !important;font-size: medium"><b>{{data.managername}}</b></td>
+                                    <td style="text-transform: none !important;font-size: medium">
+                                       <b>{{data.managername}}</b></td>
                                  </tr>
                                  <tr>
                                     <th>Mobile No</th>
                                     <td>{{data.mobile}}</td>
+                                 </tr>
+                                 <tr>
+                                    <th>Email</th>
+                                    <td style="text-transform: none !important">{{data.email}}</td>
                                  </tr>
                                  <tr>
                                     <th>SMS Id</th>
@@ -100,7 +105,8 @@
                      </div>
                      <div class="col-lg-6">
                         <nb-card>
-                           <nb-card-header style="background-color :  #01a7ee;color: white;">Agreement Info</nb-card-header>
+                           <nb-card-header style="background-color :  #01a7ee;color: white;">Agreement Info
+                           </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
                                  <tr>
@@ -133,7 +139,8 @@
                   <div class="row">
                      <div class="col-lg-6">
                         <nb-card>
-                           <nb-card-header style="background-color :  #01a7ee;color: white;">Business Info</nb-card-header>
+                           <nb-card-header style="background-color :  #01a7ee;color: white;">Business Info
+                           </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
                                  <tr>
@@ -162,7 +169,8 @@
                      </div>
                      <div class="col-lg-6">
                         <nb-card>
-                           <nb-card-header style="background-color :  #01a7ee;color: white;">Branch Info</nb-card-header>
+                           <nb-card-header style="background-color :  #01a7ee;color: white;">Branch Info
+                           </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
                                  <tr>
@@ -245,7 +253,8 @@
                                        </nb-card-body>
                                     </nb-card>
                                  </div>
-                                 <div class="col-md-6" *ngIf="(data.service_type==2||data.service_type==5||data.service_type==6||data.service_type==8)&& data.Vshare==1">
+                                 <div class="col-md-6"
+                                    *ngIf="(data.service_type==2||data.service_type==5||data.service_type==6||data.service_type==8)&& data.Vshare==1">
                                     <nb-card>
                                        <nb-card-header style="background-color: aquamarine;">Voice Share
                                        </nb-card-header>
@@ -273,7 +282,8 @@
                                  </div>
                               </div>
                               <div class="row">
-                                 <div class="col-md-6" *ngIf="(data.service_type==8||data.service_type==3||data.service_type==5||data.service_type==7)&& data.Oshare==1">
+                                 <div class="col-md-6"
+                                    *ngIf="(data.service_type==8||data.service_type==3||data.service_type==5||data.service_type==7)&& data.Oshare==1">
                                     <nb-card>
                                        <nb-card-header style="background-color: aquamarine;">OTT Share</nb-card-header>
                                        <nb-card-body>
@@ -298,9 +308,11 @@
                                        </nb-card-body>
                                     </nb-card>
                                  </div>
-                                 <div class="col-md-6" *ngIf="(data.service_type==4||data.service_type==6||data.service_type==7||data.service_type==8)&& data.AONshare==1">
+                                 <div class="col-md-6"
+                                    *ngIf="(data.service_type==4||data.service_type==6||data.service_type==7||data.service_type==8)&& data.AONshare==1">
                                     <nb-card>
-                                       <nb-card-header style="background-color: aquamarine;">ADDON Share</nb-card-header>
+                                       <nb-card-header style="background-color: aquamarine;">ADDON Share
+                                       </nb-card-header>
                                        <nb-card-body>
                                           <table class="table table-hover table-striped">
                                              <tr>
@@ -336,7 +348,8 @@
                   <div class="row">
                      <div class="col-lg-6">
                         <nb-card>
-                           <nb-card-header style="background-color :  #01a7ee;color: white;">Settings Info</nb-card-header>
+                           <nb-card-header style="background-color :  #01a7ee;color: white;">Settings Info
+                           </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
                                  <tr>

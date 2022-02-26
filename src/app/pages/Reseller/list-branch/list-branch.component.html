@@ -31,10 +31,10 @@
             placeholder='Select Reseller' (keyUp)="showReseller($event)" id="res_name" [item]="resell">
           </auto-completen>
         </div>
-        <div>
+        <div class="col-sm-3">
           <label>Branch Name</label>
           <auto-completen [(ngModel)]="branch_name" addclass="form-control" optValues="branch"
-            placeholder='Select Branch' (keyUp)="showbranch($event)" optId="branch_name" [item]="branches">
+            placeholder='Select Branch' (keyUp)="showbranch($event)" optId="b_id" [item]="branches">
           </auto-completen>
         </div>
       </div>

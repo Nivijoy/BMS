@@ -43,14 +43,20 @@ export class CancelInvoiceComponent implements OnInit {
       this.CancelInvForm.value['invid'] = this.item['invid'];
       let canceldat =[this.CancelInvForm.value]
       let result = await this.opser.cancel_renewal({crenewal:canceldat})
+      // window.alert(result[0]['msg'])
       const toast: Toast = {
         type: result[0]['error_msg'] == 0 ? 'success' : 'warning',
+        // progressBar: true,
+        // progressBarDirection: 'increasing',
         title: result[0]['error_msg'] == 0 ? 'Success' : 'Failure',
         body: result[0]['msg'],
         timeout: 3000,
         showCloseButton: true,
+       
+        // position-class:toast-top-full-width,
         bodyOutputType: BodyOutputType.TrustedHtml,
       };
+      
       this.alert.popAsync(toast);
       if (result[0]['error_msg'] == 0) {
         this.closeModal();

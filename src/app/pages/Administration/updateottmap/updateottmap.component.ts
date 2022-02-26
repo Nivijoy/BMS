@@ -156,7 +156,7 @@ export class UpdateottmapComponent implements OnInit {
     if (this.role.getroleid() <= 777) {
       this.UpdateOttMapForm.get('isp_id').setValue(this.role.getispid())
       await this.showReseller();
-    }
+     }
   }
 
 

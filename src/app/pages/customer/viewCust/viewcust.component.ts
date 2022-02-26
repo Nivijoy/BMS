@@ -58,7 +58,7 @@ export class ViewCustComponent implements OnInit {
   flip: boolean = false; flip1: boolean = false; flip2: boolean = false; state: string = 'default';
   verify: boolean = false; notverify: boolean = false; verifyid: boolean = false; notverifyid: boolean = false;
   verifyaddr: boolean = false; notverifyaddr: boolean = false; verifypic: boolean = false; notverifypic: boolean = false;
-  cafverify: boolean = false; cafnotverify: boolean = false; renew_history;
+  cafverify: boolean = false; cafnotverify: boolean = false; renew_history; oldnew = 1; radact_tname; table_data;
 
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname;
@@ -118,7 +118,7 @@ export class ViewCustComponent implements OnInit {
     this.data = result || [];
     this.data['addr'] = 1;
     this.serid = result['srvid'];
-    // console.log("Hold", this.data.hold_in_second, 'length', this.data.length)
+    // console.log("Hold", this.data.lastlogoff, 'length', this.data.length)
     this.data.lcdllimit = this.data.lcdllimit == 0 ? 0 : this.bytefunc(this.data.lcdllimit);
     this.data.lcuplimit = this.data.lcuplimit == 0 ? 0 : this.bytefunc(this.data.lcuplimit);
     this.data.lclimitcomb = this.data.lclimitcomb == 0 ? 0 : this.bytefunc(this.data.lclimitcomb);
@@ -130,58 +130,77 @@ export class ViewCustComponent implements OnInit {
 
   async mobverify(flag) {
     console.log('Moile Verify In', flag);
-    if (this.role.getroleid() != 111) {
-      console.log('Moile Verify', flag);
-      let res = await this.ser.mobileverify({ flag: flag, uid: this.id });
-      if (res[0]['error_msg'] == 0) {
-        const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
-        activeModal.componentInstance.item = { mobflag: 1, custid: this.id };
-        activeModal.componentInstance.modalHeader = 'Mobile OTP';
-        activeModal.result.then((data) => {
-          this.view();
-        });
+    if (window.confirm('Are you sure want to continue')) {
+      if (this.role.getroleid() != 111) {
+        console.log('Moile Verify', flag);
+        this.loading = true;
+        let res = await this.ser.mobileverify({ flag: flag, uid: this.id });
+        if (res[0]['error_msg'] == 0 && flag == 1) {
+          this.loading = false;
+          const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
+          activeModal.componentInstance.item = { mobflag: 1, custid: this.id };
+          activeModal.componentInstance.modalHeader = 'Mobile OTP';
+          activeModal.result.then((data) => {
+            this.view();
+          });
+        } else {
+          console.log('response', res)
+          this.loading = false;
+          if (res[0]['error_msg'] == 0) this.view();
+          this.toastalert(res[0]['msg'], res[0]['error_msg']);
+        }
       } else {
-        this.toastalert(res[0]['msg'], res[0]['error_msg']);
-      }
-    } else {
-      let res = await this.ser.mobileverify({ flag: flag });
-      if (res[0]['error_msg'] == 0) {
-        const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
-        activeModal.componentInstance.item = { mobflag: 1 };
-        activeModal.componentInstance.modalHeader = 'Mobile OTP';
-        activeModal.result.then((data) => {
-          this.view();
-        });
-      }else {
-        this.toastalert(res[0]['msg'], res[0]['error_msg']);
+        this.loading = true;
+        let res = await this.ser.mobileverify({ flag: flag });
+        this.loading = false;
+        if (res[0]['error_msg'] == 0) {
+          const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
+          activeModal.componentInstance.item = { mobflag: 1 };
+          activeModal.componentInstance.modalHeader = 'Mobile OTP';
+          activeModal.result.then((data) => {
+            this.view();
+          });
+        } else {
+          this.toastalert(res[0]['msg'], res[0]['error_msg']);
+        }
       }
     }
   }
 
   async mailverify(flag) {
-    if (this.role.getroleid() != 111) {
-      let res = await this.ser.emailverify({ flag: flag, uid: this.id });
-      if (res[0]['error_msg'] == 0) {
-        const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
-        activeModal.componentInstance.item = { mailflag: 2, custid: this.id };
-        activeModal.componentInstance.modalHeader = 'Email OTP';
-        activeModal.result.then((data) => {
-          this.view();
-        });
-      }else {
-        this.toastalert(res[0]['msg'], res[0]['error_msg']);
-      }
-    } else {
-      let res = await this.ser.emailverify({ flag: flag });
-      if (res[0]['error_msg'] == 0) {
-        const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
-        activeModal.componentInstance.item = { mailflag: 2 };
-        activeModal.componentInstance.modalHeader = 'Email OTP';
-        activeModal.result.then((data) => {
-          this.view();
-        });
-      }else {
-        this.toastalert(res[0]['msg'], res[0]['error_msg']);
+    if (window.confirm('Are you sure want to continue')) {
+      if (this.role.getroleid() != 111) {
+        this.loading = true;
+        let res = await this.ser.emailverify({ flag: flag, uid: this.id });
+        this.loading = false;
+        if (res[0]['error_msg'] == 0 && flag == 1) {
+          const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
+          activeModal.componentInstance.item = { mailflag: 2, custid: this.id };
+          activeModal.componentInstance.modalHeader = 'Email OTP';
+          activeModal.result.then((data) => {
+            this.view();
+          });
+        } else {
+          this.loading = false;
+          if (res[0]['error_msg'] == 0) this.view();
+          this.toastalert(res[0]['msg'], res[0]['error_msg']);
+        }
+      } else {
+        this.loading = true;
+        let res = await this.ser.emailverify({ flag: flag });
+        if (res[0]['error_msg'] == 0) {
+          this.loading = false;
+          const activeModal = this.nasmodel.open(OTPComponent, { size: 'sm', container: 'nb-layout' });
+          activeModal.componentInstance.item = { mailflag: 2 };
+          activeModal.componentInstance.modalHeader = 'Email OTP';
+          activeModal.result.then((data) => {
+            this.view();
+          });
+        } else {
+          this.loading = false;
+          if (res[0]['error_msg'] == 0) this.view();
+          this.toastalert(res[0]['msg'], res[0]['error_msg']);
+        }
       }
     }
   }
@@ -207,10 +226,10 @@ export class ViewCustComponent implements OnInit {
     }
   }
 
-  toastalert(msg, status = 0) {
+  toastalert(msg, status = 1) {
     const toast: Toast = {
-      type: status == 1 ? 'success' : 'warning',
-      title: status == 1 ? 'Success' : 'Failure',
+      type: status == 0 ? 'success' : 'warning',
+      title: status == 0 ? 'Success' : 'Failure',
       body: msg,
       timeout: 3000,
       showCloseButton: true,
@@ -455,19 +474,25 @@ export class ViewCustComponent implements OnInit {
   }
 
   async invoicelist() {
+    this.loading = true
     let res = await this.accser.listInvoice({ uid: this.id, invtype: 1 })  // Non-GST Invoice
+    this.loading = false;
     this.invoicedata = res[0];
   }
 
   async gstInvoice() {
-    let resp = await this.accser.listInvoice({ uid: this.id, invtype: 2 })  // Non-GST Invoice
+    this.loading = true;
+    let resp = await this.accser.listInvoice({ uid: this.id, invtype: 2 })  // GST Invoice
+    this.loading = false;
     this.gstinvoice = resp[0];
     // console.log(res);
   }
 
   async renewal_history() {
+    this.loading = true;
     let resp = await this.accser.renewalHistory({ uid: this.id });
-    console.log('Renewal History Result', resp);
+    // console.log('Renewal History Result', resp);
+    this.loading = false;
     this.renew_history = resp[0];
     for (let i = 0; i < this.renew_history.length; i++) {
       this.renew_history[i]['upload'] = this.renew_history[i]['trafficunitul'] == 0 ? 0 : this.bytefunct(this.renew_history[i]['trafficunitul']);
@@ -507,7 +532,9 @@ export class ViewCustComponent implements OnInit {
   }
 
   async receiptlist() {
+    this.loading = true;
     let res = await this.accser.listInvReceipt({ uid: this.id })
+    this.loading = false;
     this.receiptdata = res[0];
     // console.log(res);
   }
@@ -560,10 +587,20 @@ export class ViewCustComponent implements OnInit {
     return (parseFloat((datam / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i])
   }
 
+  async showTableName() {
+    this.table_data = await this.ser.showRadacctName({});
+  }
+
   async trafficreport() {
+    console.log('Oldnew',this.oldnew,'Table data',this.radact_tname)
+    if (this.oldnew == 2 && !this.radact_tname) {
+      window.alert('Please select table name');
+      return;
+    }
     let result = await this.ser.showdatatrafic({
       index: (this.page - 1) * this.limit,
-      limit: this.limit, uid: this.id, stime: this.from_date, etime: this.to_date
+      limit: this.limit, uid: this.id, stime: this.from_date, etime: this.to_date,
+      oldnew: this.oldnew,tname:this.radact_tname
     })
     this.trafficdata = result[0];
     this.trafcount = result[1]['count']
@@ -587,7 +624,8 @@ export class ViewCustComponent implements OnInit {
 
   async downloadtraffic() {
     let result = await this.ser.showdatatrafic({
-      uid: this.id, stime: this.from_date, etime: this.to_date
+      uid: this.id, stime: this.from_date, etime: this.to_date,
+      oldnew: this.oldnew,tname:this.radact_tname
     })
     if (result) {
 

@@ -14,7 +14,7 @@ const EXCEL_EXTENSION = '.xlsx';
 })
 export class SmscreditsComponent implements OnInit {
   data; totalpage = 10; pages = [1, 2, 3, 4, 5]; count; search;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;download;
 
   constructor(
     private nasmodel: NgbModal,
