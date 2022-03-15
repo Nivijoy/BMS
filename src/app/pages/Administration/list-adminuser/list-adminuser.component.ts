@@ -6,7 +6,6 @@ import { AdminuserService, GroupService, BusinessService, RoleService, ResellerS
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
-import { ngxLoadingAnimationTypes} from 'ngx-loading';
 
 
 @Component({
@@ -99,6 +98,7 @@ export class ListAdminuserComponent implements OnInit {
   }
 
   async initiallist() {
+    debugger;
     let result = await this.adminuser.listAdminuser(
       {
         bus_id: this.bus_name,

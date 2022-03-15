@@ -157,7 +157,7 @@
       <table class="table table-hover table-striped">
         <tr style="background-color :  #01a7ee;color:white;font-size: medium;">
           <th>Action</th>
-          <th *ngIf="role.getroleid()>777">ID</th>
+          <th *ngIf="role.getroleid()>=775">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
           <th *ngIf="role.getroleid()>775">Circle</th>
           <th *ngIf="role.getroleid()==444||role.getroleid()==333||role.getroleid()==222">Nas Name</th>
@@ -200,7 +200,7 @@
               </ul>
             </div>
           </td>
-          <td *ngIf="role.getroleid()>777">{{item.id}}</td>
+          <td *ngIf="role.getroleid()>=775">{{item.id}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
           <td *ngIf="role.getroleid()>775">{{item.groupname}}</td>
           <td *ngIf="role.getroleid()==444||role.getroleid()==333||role.getroleid()==222">{{item.nasname}}</td>

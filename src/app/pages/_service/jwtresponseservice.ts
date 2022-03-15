@@ -72,6 +72,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     // this.alert.popAsync(toast);
                     // this.loginService.logout();
                     window.alert('Kindly Logout & Login Once Again')
+                    this.loginService.logout();
                 }
             }
             return throwError(error);

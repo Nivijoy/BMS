@@ -33,6 +33,7 @@ export class CustListComponent implements OnInit {
   public secondaryColour = '#006ddd';
   public loading = false;
   pager: any = {}; page: number = 1; pagedItems: any = []; start_exp = ''; end_exp = ''; sbranch; s_branch;
+  today_date;yes_date;tom_date;dft_date;exp_status;
   constructor(
     private alert: ToasterService,
     private router: Router,
@@ -47,7 +48,29 @@ export class CustListComponent implements OnInit {
     private datePipe: DatePipe,
     private select: SelectService,
 
-  ) { this.dashstatus = JSON.parse(localStorage.getItem('dash_status')) }
+  ) { 
+    this.dashstatus = JSON.parse(localStorage.getItem('dash_status'));
+    this.exp_status = JSON.parse(localStorage.getItem('expstatus'));
+    // console.log('Exp status',this.exp_status)
+    let today=new Date();
+    let yesterday=new Date();
+    let tom=new Date();
+    let dft = new Date();
+    yesterday.setDate(today.getDate()-1);
+    tom.setDate(today.getDate()+1);
+    dft.setDate(today.getDate()+2);
+    this.today_date =today.toISOString().slice(0,10);this.yes_date = yesterday.toISOString().slice(0,10);this.tom_date=tom.toISOString().slice(0,10);
+    this.dft_date=dft.toISOString().slice(0,10);
+
+    // console.log('Date',this.today_date)
+    // console.log('yes Date',this.yes_date)
+
+    // console.log('tom Date',this.tom_date)
+    // console.log('dft date',this.dft_date)
+   this.start_exp = this.end_exp = this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
+        this.exp_status==4?this.dft_date: ''
+
+  }
 
   async showBusName($event = '') {
     this.bus = await this.busser.showBusName({ like: $event })
@@ -121,7 +144,8 @@ export class CustListComponent implements OnInit {
     }
     if (this.role.getroleid() < 775) {
       this.group_name = this.role.getgrupid();
-      await this.showUser()
+      await this.showUser();
+      await this.showResellerBranch();
     }
   }
 
@@ -239,13 +263,17 @@ export class CustListComponent implements OnInit {
       redate: this.end_date,
       csdate: this.cstart_date,
       cedate: this.cend_date,
-      expsdate: this.start_exp,
+      // expsdate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
+      //   this.exp_status==4?this.dft_date: this.start_exp,
+      //   expedate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
+      //   this.exp_status==4?this.dft_date: this.end_exp,
+      expsdate:this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
       sort_exp: (this.start_exp && this.end_exp) || this.dashstatus == 4 ? 1 : 0,
       state_id: this.state_id,
     })
-    console.log("cuslist------------", result);
+    // console.log("cuslist------------", result);
     if (result) {
       this.loading = false;
       localStorage.removeItem('dash_status')
@@ -268,7 +296,7 @@ export class CustListComponent implements OnInit {
       this.suspend = result[1]['suspend'];
       this.hold = result[1]['hold'];
       this.on_exp = result[1]['expired_online'];
-      console.log(this.data)
+      // console.log(this.data)
       for (var l = 0; l < this.data.length; l++) {
         this.data[l].lcdllimit = this.data[l].lcdllimit == 0 ? 0 : this.bytefunc(this.data[l].lcdllimit);
         this.data[l].lcuplimit = this.data[l].lcuplimit == 0 ? 0 : this.bytefunc(this.data[l].lcuplimit);
@@ -305,7 +333,11 @@ export class CustListComponent implements OnInit {
       redate: this.end_date,
       csdate: this.cstart_date,
       cedate: this.cend_date,
-      expsdate: this.start_exp,
+      // expsdate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
+      //   this.exp_status==4?this.dft_date: this.start_exp,
+      //   expedate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
+      //   this.exp_status==4?this.dft_date: this.end_exp,
+      expsdate:this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
       state_id: this.state_id,
@@ -335,6 +367,7 @@ export class CustListComponent implements OnInit {
         param['SUBSCRIBER NAME'] = temp[i]['cust_name'];
         param['SERVICE TYPE'] = temp[i]['srvdatatype'] == 1 ? 'Unlimited' : 'FUP';
         param['SERVICE NAME'] = temp[i]['srvname'] || 'N/A';
+        param['SUBPLAN'] = temp[i]['sub_plan'] || 'N/A';
         param['DL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitdl'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
         param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcuplimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcuplimit']) : '--';
         param['TOTAL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitcomb'] == 0 ? '--' : temp[i]['lclimitcomb'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lclimitcomb']) : 'Unlimited';

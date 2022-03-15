@@ -66,7 +66,7 @@ export class ListInvoiceAckComponent implements OnInit {
     this.data = result[0];
     this.count = result[1]['count'];
     for (let l = 0; l < this.data.length; l++) {
-      this.data[l].tot_amt = Number(this.data[l].inv_amt) + Number(this.data[l].inv_tax)
+      this.data[l].tot_amt = Number(Number(this.data[l].inv_amt) + Number(this.data[l].inv_tax)).toFixed(2)
     }
     this.loading = false;
     this.setPage();

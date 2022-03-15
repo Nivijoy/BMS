@@ -29,7 +29,7 @@
 .dropdown, .dropup {
     position: relative;
     margin-left: 10px;
-}
+ }
 
 body {
     overflow: hidden;
@@ -37,6 +37,8 @@ body {
     overflow-y: hidden;
     text-transform: uppercase;
 }
+
+ 
 
 .form-control::-webkit-inner-spin-button, 
 .form-control::-webkit-outer-spin-button { 
@@ -278,3 +280,18 @@ a.lightedit:hover{
 
 }
 
+
+// .nb-theme-corporate select.form-control:not([size]):not([multiple]) {
+//    font-size: 14px;
+// }
+ 
+
+select.form-control:not([size]):not([multiple]) {
+  font-size: 14px;
+}
+
+
+
+// select.form-control {
+//   font-size: 14px;
+// }

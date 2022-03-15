@@ -47,6 +47,7 @@ export class RenewCustComponent implements OnInit {
 
   async ngOnInit() {
     this.createForm();
+    this.loading = true;
     await this.Service();
     await this.previouspack();
     await this.showReseller();
@@ -67,6 +68,7 @@ export class RenewCustComponent implements OnInit {
       // console.log("edate",this.expirydate);
       this.RenewSubsForm.get('schedule_date').setValue(this.expirydate);
     }
+    this.loading = false
   }
 
   async showReseller() {
@@ -82,7 +84,7 @@ export class RenewCustComponent implements OnInit {
       this.lastpack = await this.pack.filter(item => item.sstatus == 1).map(item => item.srvid);
       // this.RenewSubsForm.get('last_pack').setValue(this.lastpack)
       this.RenewSubsForm.get('srv_id').setValue(Number(this.lastpack))
-      this.subplanshow();
+     await this.subplanshow();
     }
   }
 
@@ -167,7 +169,7 @@ export class RenewCustComponent implements OnInit {
     if (result) {
       this.loading = false;
       this.result_pop(result);
-    }else this.loading = false;
+    } else this.loading = false;
 
     console.log('Loading', this.loading)
 

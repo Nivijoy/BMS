@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MacComponent } from '../MacManagment/mac.component';
@@ -11,7 +11,7 @@ import { RenewCustComponent } from '../RenewCustomer/renewCust.component';
 import { ShowAuthpassComponent } from '../showauthpassword/showauthpass.component';
 import {
   AccountService, CustService, RoleService, PagerService,
-  ComplaintService, S_Service, OperationService
+  ComplaintService, S_Service, OperationService, AdminuserService
 } from '../../_service/indexService';
 import { ViewInvoiceComponent } from '../../Accounts/viewinvoice/viewinvoice.component';
 import { ViewReceiptComponent } from '../../Accounts/viewreceipt/viewreceipt.component';
@@ -43,6 +43,10 @@ import { JsonPipe, DatePipe } from '@angular/common';
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
+import { OttcountComponent } from '../../Administration/ottcount/ottcount.component';
+import { ITreeOptions } from 'angular-tree-component';
+import { toJS } from "mobx";
+import { AddSuccessComponent } from '../success/add-success.component';
 
 @Component({
   selector: 'viewCust',
@@ -58,13 +62,16 @@ export class ViewCustComponent implements OnInit {
   flip: boolean = false; flip1: boolean = false; flip2: boolean = false; state: string = 'default';
   verify: boolean = false; notverify: boolean = false; verifyid: boolean = false; notverifyid: boolean = false;
   verifyaddr: boolean = false; notverifyaddr: boolean = false; verifypic: boolean = false; notverifypic: boolean = false;
-  cafverify: boolean = false; cafnotverify: boolean = false; renew_history; oldnew = 1; radact_tname; table_data;
+  cafverify: boolean = false; cafnotverify: boolean = false; renew_history; oldnew = 1; radact_tname; table_data; ottInvoiceData;
 
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; srvidData: any[] = [];
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname;selectdata;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
+
+  @ViewChild('tree') public tree; selectedNodes = []; service = []; price = []; getSelected;
+  nodes: any[] = []; pack: any;
 
   constructor(
     public router: Router,
@@ -79,7 +86,7 @@ export class ViewCustComponent implements OnInit {
     private opser: OperationService,
     private confirmservice: ConfirmationDialogService,
     private datePipe: DatePipe,
-
+    private adminser: AdminuserService,
   ) {
     this.id = JSON.parse(localStorage.getItem('details'));
     this.schlist_flag = JSON.parse(localStorage.getItem('schedflag'))
@@ -116,6 +123,7 @@ export class ViewCustComponent implements OnInit {
       this.loading = false;
     }
     this.data = result || [];
+    // console.log('data',this.data)
     this.data['addr'] = 1;
     this.serid = result['srvid'];
     // console.log("Hold", this.data.lastlogoff, 'length', this.data.length)
@@ -129,10 +137,10 @@ export class ViewCustComponent implements OnInit {
   }
 
   async mobverify(flag) {
-    console.log('Moile Verify In', flag);
+    // console.log('Moile Verify In', flag);
     if (window.confirm('Are you sure want to continue')) {
       if (this.role.getroleid() != 111) {
-        console.log('Moile Verify', flag);
+        // console.log('Moile Verify', flag);
         this.loading = true;
         let res = await this.ser.mobileverify({ flag: flag, uid: this.id });
         if (res[0]['error_msg'] == 0 && flag == 1) {
@@ -144,7 +152,7 @@ export class ViewCustComponent implements OnInit {
             this.view();
           });
         } else {
-          console.log('response', res)
+          // console.log('response', res)
           this.loading = false;
           if (res[0]['error_msg'] == 0) this.view();
           this.toastalert(res[0]['msg'], res[0]['error_msg']);
@@ -488,6 +496,14 @@ export class ViewCustComponent implements OnInit {
     // console.log(res);
   }
 
+  async ottInvoice() {
+    this.loading = true
+    let res = await this.accser.ottInvoice({ uid: this.id })  // Non-GST Invoice
+    this.loading = false;
+    this.ottInvoiceData = res[0];
+  }
+
+
   async renewal_history() {
     this.loading = true;
     let resp = await this.accser.renewalHistory({ uid: this.id });
@@ -592,7 +608,7 @@ export class ViewCustComponent implements OnInit {
   }
 
   async trafficreport() {
-    console.log('Oldnew',this.oldnew,'Table data',this.radact_tname)
+    // console.log('Oldnew', this.oldnew, 'Table data', this.radact_tname)
     if (this.oldnew == 2 && !this.radact_tname) {
       window.alert('Please select table name');
       return;
@@ -600,7 +616,7 @@ export class ViewCustComponent implements OnInit {
     let result = await this.ser.showdatatrafic({
       index: (this.page - 1) * this.limit,
       limit: this.limit, uid: this.id, stime: this.from_date, etime: this.to_date,
-      oldnew: this.oldnew,tname:this.radact_tname
+      oldnew: this.oldnew, tname: this.radact_tname
     })
     this.trafficdata = result[0];
     this.trafcount = result[1]['count']
@@ -625,7 +641,7 @@ export class ViewCustComponent implements OnInit {
   async downloadtraffic() {
     let result = await this.ser.showdatatrafic({
       uid: this.id, stime: this.from_date, etime: this.to_date,
-      oldnew: this.oldnew,tname:this.radact_tname
+      oldnew: this.oldnew, tname: this.radact_tname
     })
     if (result) {
 
@@ -961,5 +977,154 @@ export class ViewCustComponent implements OnInit {
     // localStorage.setItem('view',JSON.stringify(view_id));
     this.router.navigate(['/pages/cust/edit-cust']);
   }
+
+  async ottcount(item) {
+    let result = await this.adminser.showOTTPlan({ ottid: item });
+    await this.ottcountshow(result)
+  }
+
+  ottcountshow(data) {
+    const activeModal = this.nasmodel.open(OttcountComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.componentInstance.modalHeader = 'OTT PLATFORM';
+    activeModal.componentInstance.item = data;
+    activeModal.result.then((data) => {
+      // this.initiallist();
+    });
+  }
+
+  options: ITreeOptions = {
+    useCheckbox: true,
+    // getChildren: this.getChildren.bind(this),
+    useVirtualScroll: true,
+    nodeHeight: 22
+  };
+
+  async getPlanData() {
+    this.loading = true
+    this.nodes = [];
+    let plandata: any;
+    plandata = await this.packser.sharingReports({ resel_id: this.data['reseller_id'], bus_id: this.data['isp_id'], tree_flag: 1,uid:this.data['uid'] });
+    console.log('Get Plan Result', plandata);
+    for (var val of plandata) {
+      val.hasChildren = true;
+      this.nodes.push(val);
+    }
+    this.tree.treeModel.update();
+    for (var i = 0; i < this.nodes.length; i++) {
+      await this.getChildren(this.nodes[i])
+      this.tree.treeModel.update();
+    }
+    this.loading = false;
+    let planDetails= await this.packser.showCustPlanMap({ bus_id: this.data['isp_id'], reseller_id: this.data['reseller_id'],uid:this.data['uid'] })
+    // console.log('Select',planDetails,planDetails[0]['subplanid']);
+    if(planDetails[0]['subplanid']){
+      this.selectdata = planDetails[0]['subplanid']
+      this.getSelected = this.selectdata.split(',')
+      // console.log('Select',this.getSelected,typeof(this.getSelected));
+  
+      this.selectnodes(this.getSelected)
+    }
+    
+
+
+  }
+
+  async getChildren(node: any) {
+    // console.log('Node child', node)
+    this.pack = node.subplan
+    // console.log('Node child', this.pack, 'length', this.pack.length)
+
+    this.tree.treeModel.setFocus(true);
+    if (this.pack.length != 0 && node['id']) {
+      let id = this.nodes.find(e => e.id === node['id']);
+      if (!this.nodes.find(e => e.id === node['id']).children) {
+        this.nodes.find(e => e.id === node['id']).children = new Array();
+      }
+
+      for (let val of this.pack) {
+        val.hasChildren = false;
+        this.nodes.find(e => e.id === node['id']).children.push(val);
+        this.tree.treeModel.update();
+      }
+    }
+    else {
+      this.nodes.find(e => e.id === node['id']).hasChildren = false;
+    }
+    return this.pack;
+  }
+  selectednodes() {
+    const selectedNodes = [];
+     Object.entries(toJS(this.tree.treeModel.selectedLeafNodeIds)).forEach(([key, value]) => {
+      // console.log(key, value);
+      if (value === true) {
+        selectedNodes.push(parseInt(key));
+      }
+    });
+    this.tree.treeModel.update();
+    return (selectedNodes);
+  }
+
+  selectnodes(item) {
+    let index: number = item.indexOf(404);
+    if (index !== -1) {
+      item.splice(index, 1);
+    }
+    let nodedata = this.tree.treeModel.nodes;
+    for (var i = 0; i < item.length; ++i) {
+      // console.log("checkdatas", item[i]);
+      let leaf = this.tree.treeModel.getNodeById(JSON.parse(item[i]))
+      // console.log(leaf)
+      if (leaf)
+        leaf.setIsSelected(true);
+    }
+  }
+
+  getParentNodeId(item) {
+    let parentNodeid = []
+    for (let val of this.nodes) {
+      // console.log('Val', val);
+      for (let ids of item) {
+        let pids = val['subplan'].filter(x => x.id == ids);
+        // console.log('Pids', pids, 'val', val.id);
+        if (pids.length) {
+          parentNodeid.push(val.id);
+        }
+
+      }
+    }
+
+    // console.log('Srvid', parentNodeid);
+    // To remove Duplicates in Array
+    parentNodeid = parentNodeid.filter((v, i, x) =>
+      x.indexOf(v) == i);
+    return parentNodeid;
+  }
+
+  async planMapping() {
+    let planid = this.selectednodes();
+    // console.log('Result', planid);
+    this.srvidData = this.getParentNodeId(planid)
+    // console.log('Unique parentId', this.srvidData);
+    // console.log('Result', planid,'uid',this.data['uid']);
+    let result = await this.packser.subscriberPlanMap({
+      isp_id: this.data['isp_id'], reseller: this.data['reseller_id'],uid:this.data['uid'], service_id: this.srvidData, plan_id: planid
+    });
+    // console.log('plan  Map result', result);
+    if(result){
+      this.result_pop(result);
+    }
+
+  }
+
+  
+  result_pop(item) {
+    const activemodal = this.nasmodel.open(AddSuccessComponent, { size: 'lg', container: 'nb-layout' });
+    activemodal.componentInstance.modalHeader = 'Result';
+    activemodal.componentInstance.item = item;
+    activemodal.result.then((data) => {
+       this.view();
+    });
+  }
+
 
 }

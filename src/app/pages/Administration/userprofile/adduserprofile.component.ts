@@ -125,6 +125,8 @@ export class AddUserprofileComponent implements OnInit {
         { id: 1028, name: 'List OTT' },
         { id: 1029, name: 'Add OTT' },
         { id: 1030, name: 'Edit OTT' },
+        { id: 1059, name: 'Reseller OTT PLAN'}
+
       ],
     },
     {

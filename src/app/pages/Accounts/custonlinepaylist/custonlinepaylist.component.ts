@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 // import { PaymentReceived } from '../PaymentReceived/payment_received.component';
 import {
   AccountService, BusinessService, PaymentService,
-  GroupService, ResellerService, RoleService, PagerService
+  GroupService, ResellerService, RoleService, PagerService,CustService
 } from '../../_service/indexService';
 // import { CancelPayment } from './CancelPayment/cancel_payment.component';
 // import { ViewDeposit } from './ViewDeposit/view_deposit.component';
@@ -27,7 +27,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 export class CustOnlinePaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
   res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;order;trans;cust_name;custname;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -46,7 +46,7 @@ export class CustOnlinePaylistComponent implements OnInit {
     private datePipe: DatePipe,
     public pageservice: PagerService,
     private nasmodel: NgbModal,
-
+    private custser: CustService,
 
   ) {
     let nowdate = new Date();
@@ -64,6 +64,8 @@ export class CustOnlinePaylistComponent implements OnInit {
     if (this.role.getroleid() < 775) {
       this.group_name = this.role.getgrupid();
     }
+    await this.showOrderId();
+    await this.showTransId();
   }
 
   async showBusName($event = '') {
@@ -81,8 +83,21 @@ export class CustOnlinePaylistComponent implements OnInit {
   async showResellerName($event = '') {
     // console.log('inside', this.resel_type)
     this.res1 = await this.reselser.showResellerName({ bus_id: this.bus_name, role: this.resel_type, like: $event });
-
     // console.log("resellername",result)
+  }
+
+  async showOrderId($event =''){
+    this.order = await this.ser.showOrdertransactionId({bus_id: this.bus_name,like: $event,pay_type: 1})
+  }
+
+  async showTransId($event =''){
+    this.trans = await this.ser.showOrdertransactionId({bus_id: this.bus_name,trn_like: $event,pay_type: 1})
+ 
+  }
+
+  async showUser($event = '') {
+    this.custname = await this.custser.showUser({ bus_id: this.bus_name,role: this.resel_type, role_flag: 1, resel_id: this.res_name,  like: $event })
+    // console.log("customer", this.custname)
   }
 
   changeclear(item) {
@@ -93,6 +108,7 @@ export class CustOnlinePaylistComponent implements OnInit {
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+      this.cust_name='';
     }
     if (item == 2) {
       this.res_name = '';
@@ -100,12 +116,15 @@ export class CustOnlinePaylistComponent implements OnInit {
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+      this.cust_name='';
+
     }
     if (item == 3) {
       this.order_id = '';
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+ 
     }
     if (item == 4) {
       this.txnid = '';
@@ -122,11 +141,17 @@ export class CustOnlinePaylistComponent implements OnInit {
     this.end_date = '';
     this.profile = '';
     this.res1 = '';
+    this.cust_name='';
+
     await this.initiallist();
+    await this.showBusName();
+
     if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
       await this.showProfileReseller();
       await this.showResellerName();
     }
+    await this.showOrderId();
+    await this.showTransId();
   }
 
   async initiallist() {
@@ -142,6 +167,7 @@ export class CustOnlinePaylistComponent implements OnInit {
         txnid: this.txnid,
         cdate: this.cdate,
         end_date: this.end_date,
+        uid:this.cust_name
         // res_id:this.reseller_under,
       })
     // console.log(result)
@@ -176,6 +202,7 @@ export class CustOnlinePaylistComponent implements OnInit {
       txnid: this.txnid,
       cdate: this.cdate,
       end_date: this.end_date,
+      uid:this.cust_name,
     })
     if (res) {
       let tempdata = [], temp: any = res[0];

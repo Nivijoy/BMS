@@ -191,7 +191,7 @@
           <nb-datepicker #regend_date></nb-datepicker>
         </div>
 
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <label>Expiry Start Date</label>
           <input type="text" [nbDatepicker]="expst_date" [(ngModel)]="start_exp" class="form-control"
             placeholder="Start Date" />
@@ -202,10 +202,27 @@
           <input type="text" [nbDatepicker]="expend_date" [(ngModel)]="end_exp" class="form-control"
             placeholder="End Date" />
           <nb-datepicker #expend_date></nb-datepicker>
+        </div> -->
+
+        <div class="col-sm-2">
+          <label>Start Date</label>
+          <input type="date" pattern="Start Date" [(ngModel)]="start_exp" class="form-control">
+        </div>
+        <div class="col-sm-2">
+          <label>End Date</label>
+          <input type="date" placeholder="End Date" [(ngModel)]="end_exp" class="form-control">
         </div>
 
 
       </div>
+      <!-- <div class="row">
+        <div class="col-sm-2" *ngIf="on_status ==1 && role.getroleid()>=775">
+          <label>Nasname</label>
+          <auto-completen [(ngModel)]="nasname" addclass="form-control" optValues="nas_ip" placeholder='Select Nas'
+          id="id" (keyUp)="showState($event)" [item]="nas_list">
+        </auto-completen>
+        </div>
+      </div> -->
       <br>
       <button type="button" class="btn btn-md btn-success middle" (click)='page=1;initiallist();'
         style="margin: auto; display: block;">Search</button>
@@ -330,6 +347,7 @@
           <th style="border: 3px solid #aeb8b9;color: white;" *ngIf="dashstatus==2||on_status==1" rowspan="2"><br>MAC
           </th>
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Service</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Subplan</th>
 
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Time</th>
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Limit</th>
@@ -338,6 +356,7 @@
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Expiry Date</th>
           <!-- <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" [hidden]="dashstatus==2||on_status==1">
             <br>Mobile Number</th> -->
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Address</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Branch</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Locality</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Connection Type</th>
@@ -425,8 +444,9 @@
           <td *ngIf="dashstatus==2||on_status==1">{{item.framedipaddress}}</td>
           <td *ngIf="dashstatus==2||on_status==1">{{item.callingstationid}}</td>
           <td>{{item.srvdatatype==1?'unlimited':'FUP'}}</td>
-          <td>{{item.srvname || N/A}}</td>
+          <td>{{item.srvname || 'N/A'}}</td>
           <td>{{item.online_status==1?item.rsrvname:'--'}}</td>
+          <td>{{item.sub_plan || 'N/A'}}</td>
           <td>{{item.acctstarttime == null? '--': item.acctstarttime | date:'d MMM y h:mm:ss a '}}</td>
           <td>{{item.online_time== null ? '--':item.online_time}}</td>
           <td>{{item.lastlogoff == null ? '--': item.lastlogoff | date:'d MMM y h:mm:ss a'}}</td>
@@ -442,7 +462,7 @@
           <td *ngIf="dashstatus==2||on_status==1">{{item.nasipaddress}}</td>
           <td *ngIf="item.expiration != '0000-00-00 00:00:00'">{{item.expiration| date : 'd MMM y h:mm:ss a'}}</td>
           <td *ngIf="item.expiration == '0000-00-00 00:00:00'">{{'--'}}</td>
-          <!-- <td [hidden]="dashstatus==2||on_status==1">{{item.mobile}}</td> -->
+          <td style="white-space:break-spaces">{{item.address || '--'}}</td>
           <td>{{item.branch}}</td>
           <td>{{item.area==0 ? 'Rural':item.area==1 ? 'Urban':'--'}}</td>
           <td>{{item.subs_type==0?'SME':item.subs_type==1?'BroadBand':item.subs_type==2?'corporate':'Edu/Inst' }}</td>

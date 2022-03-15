@@ -36,7 +36,7 @@ interface CardSettings {
 })
 
 export class DashboardComponent implements OnDestroy {
-   alive = true;
+   alive = true;snapidproof;flip;snapaddrproof;flip1;flip2;
    lival: any;
    // live=null;
    value1 = 100;
@@ -133,7 +133,7 @@ export class DashboardComponent implements OnDestroy {
    async dashInitial() {
       // this.yesDetails();
       if (this.role.getroleid() > 111) {
-         this.loading = true;
+         // this.loading = true;
          this.totalcount = await this.dash.getcount({});
          if (this.totalcount) {
             this.statusCards[0].value = this.totalcount.total;
@@ -154,12 +154,12 @@ export class DashboardComponent implements OnDestroy {
          // await this.getPayment();
          await this.getAggExpDet();
          await this.getcount();
-         this.loading = false;
+         // this.loading = false;
          // await this.getAmount();
          await this.getcafpending();
          await this.getocbalance();
          await this.getnasstatus();
-      
+
 
       }
 
@@ -811,6 +811,13 @@ export class DashboardComponent implements OnDestroy {
       this.router.navigate(['/pages/cust/custList'])
    }
 
+
+   listExpiryCust(event) {
+      // console.log('status', event)
+      localStorage.setItem('expstatus', JSON.stringify(event));
+      this.router.navigate(['/pages/cust/custList'])
+   }
+
    async apkDownload() {
       console.log('Inside Apk Download');
       // let resp = await this.custser.getApkFile({})
@@ -834,13 +841,16 @@ export class DashboardComponent implements OnDestroy {
          let tempdata = [], temp: any = resp[0];
          for (var i = 0; i < temp.length; i++) {
             let param = {};
-            param['RESELLER PROFILEID'] = temp[i]['managername'];
-            param['BUSINESS NAME'] = temp[i]['company']
-            param['RESELLER TYPE'] = temp[i]['mrole'] == 444 ? 'Bulk Resellre' : temp[i]['mrole'] == 333 ? 'Deposit Reseller' : temp[i]['mrole'] == 666 ? 'Sub ISP Bulk' :
-               temp[i]['mrole'] == 555 ? 'Sub ISP Deposit' : temp[i]['mrole'] == 551 ? 'Sub Distributor Deposit' : temp[i]['mrole'] == 661 ? 'Sun Distributor Bulk' : 'Hotel';
+            if (this.role.getroleid() > 444) {
+               param['RESELLER PROFILEID'] = temp[i]['managername'];
+               param['BUSINESS NAME'] = temp[i]['company']
+               param['RESELLER TYPE'] = temp[i]['mrole'] == 444 ? 'Bulk Resellre' : temp[i]['mrole'] == 333 ? 'Deposit Reseller' : temp[i]['mrole'] == 666 ? 'Sub ISP Bulk' :
+                  temp[i]['mrole'] == 555 ? 'Sub ISP Deposit' : temp[i]['mrole'] == 551 ? 'Sub Distributor Deposit' : temp[i]['mrole'] == 661 ? 'Sun Distributor Bulk' : 'Hotel';
+            }
             param['SUBSCRIBER NAME'] = temp[i]['firstname'];
             param['SUBSCRIBER PROFILEID'] = temp[i]['cust_profile_id'];
             param['MOBILE'] = temp[i]['mobile'];
+            param['ADDRESS'] = temp[i]['address'];
             param['SERVICE NAME'] = temp[i]['srvname'];
             temp[i]['expiration'] = this.datePipe.transform(temp[i]['expiration'], 'd MMM y hh:mm:ss a')
             param['EXPIRATION DATE'] = temp[i]['expiration'];

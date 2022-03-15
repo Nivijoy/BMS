@@ -36,6 +36,7 @@ import { SendsmsresellerComponent } from './sendsmsreseller/sendsmsreseller.comp
 import { SendemailresellerComponent } from './sendemailreseller/sendemailreseller.component';
 import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
 import { OttLogComponent } from './ott-log/ott-log.component';
+import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.component';
 
  
   
@@ -73,6 +74,7 @@ import { OttLogComponent } from './ott-log/ott-log.component';
     SendemailresellerComponent,
     SendsmsothersComponent,
     OttLogComponent,
+    ResellerOttPlanComponent,
     // OttcountComponent,
     //  ReadonlyDirective,
 

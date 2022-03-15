@@ -54,13 +54,15 @@
                <button class="btn btn-xs btn-outline-primary" (click)="subshold(id,1);"><b>HOLD</b></button>
             </div>
             <div style="padding: 2px;" *ngIf="data.status==3">
-               <button class="btn btn-xs btn-outline-primary" (click)="subshold(id,2);"><b>Unhold</b></button>
+               <button style="padding: 5px;" class="btn btn-warning" (click)="subshold(id,2);">
+                  <b>Unhold</b>
+               </button>
             </div>
             <div style="padding: 2px;" *ngIf="data.status==1">
                <button class="btn btn-xs btn-outline-primary" (click)="subshold(id,3);"><b>Suspend</b></button>
             </div>
             <div style="padding: 2px;" *ngIf="data.status==2">
-               <button class="btn btn-xs btn-outline-primary" (click)="subshold(id,4);"><b>Resume</b></button>
+               <button style="padding: 5px;" class="btn btn-danger" (click)="subshold(id,4);"><b>Un-Suspend</b></button>
             </div>
             <div style="padding: 2px;" *ngIf="data.online_status==1">
                <button class="btn btn-xs btn-outline-primary" (click)="getlivegraph(data.cust_profile_id);"><b>Live
@@ -163,16 +165,17 @@
                                        &nbsp;&nbsp;&nbsp;
                                     </th>
                                     <th [hidden]="data.smsverifystatus==1">
-                                       <!-- <button [hidden]="data.smsverifystatus==1"
-                                          class="btn btn-sm btn-primary" (click)="mobverify(1)">Verify</button> -->
+
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
-                                          <button style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white; 
-                                             font-weight: bold;" class="btn btn-primary btn-icon" type="button"
+                                          <button
+                                             style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white;font-weight: bold;"
+                                             class="btn btn-primary btn-icon" type="button"
                                              ngbDropdownToggle>Action&nbsp;
                                           </button>
                                           <ul style="width: 75px; margin-left:-105px;z-index: 1; line-height: 30px; top: 43px;"
                                              class="dropdown-menu" ngbDropdownMenu>
-                                             <li (click)="mobverify(1)" style="cursor: pointer;font-weight: 800;">&nbsp;
+                                             <li (click)="mobverify(1)" style="cursor: pointer;font-weight: 800;">
+                                                &nbsp;
                                                 <i class="fa fa-key" style="color: black;"></i>&nbsp;OTP
                                              </li>
                                              <li (click)="mobverify(3)" style="cursor: pointer;font-weight: 800;">&nbsp;
@@ -189,15 +192,15 @@
                                           [ngClass]="{'ion-close-round':data.emailverifystatus!=1 ? true:false,'ion-checkmark-round': data.emailverifystatus==1  ? true:false  }"></a>&nbsp;&nbsp;&nbsp;{{data
                                        ? data.email:''}}
                                        &nbsp;&nbsp;&nbsp;
-                                       <!-- <button class="btn btn-sm btn-primary"
-                                          [hidden]="data.emailverifystatus==1 " (click)="mailverify(1)">Verify</button> -->
                                     </th>
                                     <th [hidden]="data.emailverifystatus==1">
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
-                                          <button style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white; 
-                                             font-weight: bold;" class="btn btn-primary btn-icon" type="button"
+                                          <button
+                                             style="width:70px;height:27px;font-size: 10px;margin-left:-105px;background-color: #0380fc;color: white; font-weight: bold;"
+                                             class="btn btn-primary btn-icon" type="button"
                                              ngbDropdownToggle>Action&nbsp;
                                           </button>
+
                                           <ul style="width: 75px; margin-left:-105px;z-index: 1; line-height: 30px; top: 43px;"
                                              class="dropdown-menu" ngbDropdownMenu>
                                              <li (click)="mailverify(1)" style="cursor: pointer;font-weight: 800;">
@@ -299,8 +302,8 @@
                                  </tr>
                                  <tr>
                                     <th>IP Mode</th>
-                                    <td>{{data.ipmodecpe==0 ? 'Nas Pool or DHCP':data.ipmodecpe==1 ? 'IP Pool':'Static
-                                       Pool'}}</td>
+                                    <td>{{data.ipmodecpe==0 ? 'Nas Pool or DHCP':data.ipmodecpe==1 ? 'IP
+                                       Pool':'StaticPool'}}</td>
                                  </tr>
                                  <tr *ngIf="data.ipmodecpe==2">
                                     <th>Static IP</th>
@@ -649,7 +652,7 @@
                         <td style="text-align: center;">{{item.cgst+" "+'%'}}</td>
                         <td style="text-align: center;">{{item.sgst+" "+'%'}}</td>
                         <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
-                        <td>{{item.inv_status==1 ? 'Active':inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
+                        <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
                         <td>{{item.inv_date | date:'d MMM y'}}</td>
                         <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
                         <td>{{item.pay_status==2 ? (item.paydate | date:'d MMM y '):'--'}}</td>
@@ -765,7 +768,7 @@
                         <td style="text-align: center;">{{item.cgst+" "+'%'}}</td>
                         <td style="text-align: center;">{{item.sgst+" "+'%'}}</td>
                         <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
-                        <td>{{item.inv_status==1 ? 'Active':inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
+                        <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
                         <td>{{item.inv_date | date:'d MMM y'}}</td>
                         <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
                         <td>{{item.pay_status==2 ? (item.paydate | date:'d MMM y '):'--'}}</td>
@@ -773,6 +776,50 @@
                   </table>
                </ng-template>
             </ngb-tab>
+
+
+            <ngb-tab>
+               <ng-template ngbTabTitle>
+                  <div (click)="ottInvoice()">OTT Status</div>
+               </ng-template>
+               <ng-template ngbTabContent>
+                  <table class="table table-hover table-striped">
+                     <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
+                        <th *ngIf="role.getroleid()>=775">Invoice ID</th>
+                        <th *ngIf="role.getroleid()>=775">OTT ID</th>
+                        <th>BillNo</th>
+                        <th>OTTPlan Name</th>
+                        <th>OTTPlanCode</th>
+                        <th>Time Unit</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                        <th>Invoice Date</th>
+                     </tr>
+                     <tr *ngFor="let item of ottInvoiceData">
+                        <td *ngIf="role.getroleid()>775">{{item.invid}}</td>
+                        <td *ngIf="role.getroleid()>=775">{{item.iolid}}</td>
+                        <td>{{item.billno}}</td>
+                        <td>{{item.ottplan_name}}</td>
+                        <td>{{item.ottplancode}}</td>
+                      
+                        <td style="text-align: center;">{{item.dayormonth == 1? item.ottdays + "Days" : item.ottdays +
+                           "Months" }}
+                        </td>
+                        <td style="font-size:medium;font-weight:900;cursor:pointer" (click)="ottcount(item.ottplanid)">
+                           {{item.tot}}
+                        </td>
+                        <td>{{item.ottstatus == 1 ? 'Processing': item.ottstatus == 2 ? 'Activated': item.ottstatus == 3
+                           ? 'Cancelled'
+                           : 'Need to check' }}</td>
+                        <td>{{item.cdate | date: 'dd MMM yyyy'}}</td>
+
+                     </tr>
+                  </table>
+               </ng-template>
+            </ngb-tab>
+
+
+
             <ngb-tab>
                <ng-template ngbTabTitle>
                   <div (click)="renewal_history()">Renewal History</div>
@@ -1238,6 +1285,30 @@
                   </table>
                </ng-template>
             </ngb-tab>
+
+            <ngb-tab>
+               <ng-template ngbTabTitle>
+                  <div (click)="getPlanData()">Plan Mapping</div>
+                  <ng-template ngbTabContent>
+                     <nb-card>
+                        <nb-card-header style="background-color: #01a7ee;">Service Maping</nb-card-header>
+                        <nb-card-body>
+                           <div class="form-group row" >
+                              <div class="col-sm-12" style="height: 500px;">
+                                 <tree-root #tree [options]="options" [nodes]="nodes"></tree-root>
+                              </div>
+                           </div>
+                        </nb-card-body>
+                     </nb-card>
+
+                     <div class="col text-center">
+                        <button type="button" (click)="planMapping();" class="btn btn-md btn-success">Update</button>
+                     </div>
+                  </ng-template>
+               </ng-template>
+            </ngb-tab>
+
+
          </ngb-tabset>
          <div class="modal-footer">
             <button type="submit" class="btn btn-mid btn-danger" (click)="cancel()">Back</button>

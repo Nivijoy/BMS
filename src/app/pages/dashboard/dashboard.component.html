@@ -247,14 +247,14 @@
                   <td>
                     <!-- <a href="http://103.231.217.170/gltv/app/GoldenLeafTv.apk">Download .apk File</a> -->
                     <button class="btn btn-sm btn-primary"
-                      onclick="location.href='http://103.231.217.170/gltv/app/GoldenLeafTv.apk'">
+                      onclick="location.href='https://eronet.in/images/app-debug.apk'">
                       Download .apk file</button>
                   </td>
                 </tr>
                 <tr
                   *ngIf=" data ? (data.service_type ==3 || data.service_type == 5 || data.service_type == 7 || data.service_type ==8) : '' ">
                   <th>Ott Plan </th>
-                   <td>{{ottPlatformDetails? ottPlatformDetails : '--'}}</td>
+                  <td>{{ottPlatformDetails? ottPlatformDetails : '--'}}</td>
                 </tr>
               </table>
             </nb-card-body>
@@ -514,6 +514,7 @@
                 <th>Mobile</th>
                 <th>Service Name</th>
                 <th>Time</th>
+                <th>Address</th>
               </tr>
               <tr *ngFor="let item of pagedItemsyest">
                 <td style=" padding: 1px;" class=" last" data-title="'Action'">
@@ -539,21 +540,29 @@
                 <td>{{item.mobile}}</td>
                 <td>{{item.srvname}}</td>
                 <td>{{item.expiration| date : ' h:mm:ss a'}}</td>
+                <td class="address">{{item.address || '--'}}</td>
               </tr>
             </table>
-            <div class="pagination" [hidden]='pageryest.totalPages == 1'>
-              <ul *ngIf="pageryest.pages && pageryest.pages.length" class="pagination">
-                <a [ngClass]="{disabled:pageryest.currentPage === 1}" (click)="getExpiryDetails(0,1);">First</a>
-                <a [ngClass]="{disabled:pageryest.currentPage === 1}"
-                  (click)="getExpiryDetails(0,pageyest-1);">Previous</a>
-                <a *ngFor="let page of pageryest.pages" [ngClass]="{active:pageryest.currentPage === page}"
-                  (click)="getExpiryDetails(0,page);">{{page}}</a>
-                <a [ngClass]="{disabled:pageryest.currentPage === pageryest.totalPages}"
-                  (click)="getExpiryDetails(0,pageyest+1);">Next</a>
-                <a [ngClass]="{disabled:pageryest.currentPage === pageryest.totalPages}"
-                  (click)="getExpiryDetails(0,pageryest.totalPages);">Last</a>
-              </ul>
+            <div class="row">
+              <div class="pagination" [hidden]='pageryest.totalPages == 1'>
+                <ul *ngIf="pageryest.pages && pageryest.pages.length" class="pagination">
+                  <a [ngClass]="{disabled:pageryest.currentPage === 1}" (click)="getExpiryDetails(0,1);">First</a>
+                  <a [ngClass]="{disabled:pageryest.currentPage === 1}"
+                    (click)="getExpiryDetails(0,pageyest-1);">Previous</a>
+                  <a *ngFor="let page of pageryest.pages" [ngClass]="{active:pageryest.currentPage === page}"
+                    (click)="getExpiryDetails(0,page);">{{page}}</a>
+                  <a [ngClass]="{disabled:pageryest.currentPage === pageryest.totalPages}"
+                    (click)="getExpiryDetails(0,pageyest+1);">Next</a>
+                  <a [ngClass]="{disabled:pageryest.currentPage === pageryest.totalPages}"
+                    (click)="getExpiryDetails(0,pageryest.totalPages);">Last</a>
+                </ul>
+              </div>
+
+              <div class="col-md-2" *ngIf="pagedItemsyest.length >1">
+                <button type="button" class="btn btn-md btn-success" (click)="listExpiryCust(1)">More</button>
+              </div>
             </div>
+
           </nb-tab>
           <!-- /*Today*/ -->
           <nb-tab badgeText={{tot2}} badgeStatus="danger" tabTitle="Today" active style="height: 287px;">
@@ -567,6 +576,7 @@
                 <th>Mobile Number</th>
                 <th>Service Name</th>
                 <th>Time</th>
+                <th>Address</th>
               </tr>
               <tr *ngFor="let item of pagedItemtoday">
                 <td *ngIf="!role.getmenurole(704) || !role.getmenurole(705)" style=" padding: 1px;text-align: center;"
@@ -596,21 +606,28 @@
                 <td>{{item.mobile}}</td>
                 <td>{{item.srvname}}</td>
                 <td>{{item.expiration| date : ' h:mm:ss a'}}</td>
+                <td class="address">{{item.address || '--'}}</td>
+
               </tr>
             </table>
-            <div class="pagination" [hidden]='pagertod.totalPages == 1'>
-              <ul *ngIf="pagertod.pages && pagertod.pages.length" class="pagination">
-                <a [ngClass]="{disabled:pagertod.currentPage === 1}"
-                  (click)="pagetom=1;getExpiryDetails(1,1);">First</a>
-                <a [ngClass]="{disabled:pagertod.currentPage === 1}"
-                  (click)="getExpiryDetails(1,pagetom-1);">Previous</a>
-                <a *ngFor="let page of pagertod.pages" [ngClass]="{active:pagertod.currentPage === page}"
-                  (click)="getExpiryDetails(1,page);">{{page}}</a>
-                <a [ngClass]="{disabled:pagertod.currentPage === pagertod.totalPages}"
-                  (click)="getExpiryDetails(1,pagetom+1);">Next</a>
-                <a [ngClass]="{disabled:pagertod.currentPage === pagertod.totalPages}"
-                  (click)="getExpiryDetails(1,pagertod.totalPages);">Last</a>
-              </ul>
+            <div class="row">
+              <div class="pagination" [hidden]='pagertod.totalPages == 1'>
+                <ul *ngIf="pagertod.pages && pagertod.pages.length" class="pagination">
+                  <a [ngClass]="{disabled:pagertod.currentPage === 1}"
+                    (click)="pagetom=1;getExpiryDetails(1,1);">First</a>
+                  <a [ngClass]="{disabled:pagertod.currentPage === 1}"
+                    (click)="getExpiryDetails(1,pagetom-1);">Previous</a>
+                  <a *ngFor="let page of pagertod.pages" [ngClass]="{active:pagertod.currentPage === page}"
+                    (click)="getExpiryDetails(1,page);">{{page}}</a>
+                  <a [ngClass]="{disabled:pagertod.currentPage === pagertod.totalPages}"
+                    (click)="getExpiryDetails(1,pagetom+1);">Next</a>
+                  <a [ngClass]="{disabled:pagertod.currentPage === pagertod.totalPages}"
+                    (click)="getExpiryDetails(1,pagertod.totalPages);">Last</a>
+                </ul>
+              </div>
+              <div class="col-md-2" *ngIf="pagedItemtoday.length >1">
+                <button type="button" class="btn btn-md btn-success" (click)="listExpiryCust(2)">More</button>
+              </div>
             </div>
           </nb-tab>
           <!-- /*Tomorrow*/ -->
@@ -625,6 +642,7 @@
                 <th>Mobile Number</th>
                 <th>Service Name</th>
                 <th>Time</th>
+                <th>Address</th>
               </tr>
               <tr *ngFor="let item of pagedItemtom">
                 <td *ngIf="!role.getmenurole(704) || !role.getmenurole(705)" style="padding: 1px;" class=" last"
@@ -654,20 +672,27 @@
                 <td>{{item.mobile}}</td>
                 <td>{{item.srvname}}</td>
                 <td>{{item.expiration| date : ' h:mm:ss a'}}</td>
+                <td class="address">{{item.address || '--'}}</td>
+
               </tr>
             </table>
-            <div class="pagination" [hidden]='pagertom.totalPages == 1 '>
-              <ul *ngIf="pagertom.pages && pagertom.pages.length" class="pagination">
-                <a [ngClass]="{disabled:pagertom.currentPage === 1}" (click)="getExpiryDetails(2,1);">First</a>
-                <a [ngClass]="{disabled:pagertom.currentPage === 1}"
-                  (click)="getExpiryDetails(2,pageytmr-1);">Previous</a>
-                <a *ngFor="let page of pagertom.pages" [ngClass]="{active:pagertom.currentPage === page}"
-                  (click)="getExpiryDetails(2,page);">{{page}}</a>
-                <a [ngClass]="{disabled:pagertom.currentPage === pagertom.totalPages}"
-                  (click)="getExpiryDetails(2,pageytmr+1);">Next</a>
-                <a [ngClass]="{disabled:pagertom.currentPage === pagertom.totalPages}"
-                  (click)="getExpiryDetails(2,pagertom.totalPages);">Last</a>
-              </ul>
+            <div class="row">
+              <div class="pagination" [hidden]='pagertom.totalPages == 1 '>
+                <ul *ngIf="pagertom.pages && pagertom.pages.length" class="pagination">
+                  <a [ngClass]="{disabled:pagertom.currentPage === 1}" (click)="getExpiryDetails(2,1);">First</a>
+                  <a [ngClass]="{disabled:pagertom.currentPage === 1}"
+                    (click)="getExpiryDetails(2,pageytmr-1);">Previous</a>
+                  <a *ngFor="let page of pagertom.pages" [ngClass]="{active:pagertom.currentPage === page}"
+                    (click)="getExpiryDetails(2,page);">{{page}}</a>
+                  <a [ngClass]="{disabled:pagertom.currentPage === pagertom.totalPages}"
+                    (click)="getExpiryDetails(2,pageytmr+1);">Next</a>
+                  <a [ngClass]="{disabled:pagertom.currentPage === pagertom.totalPages}"
+                    (click)="getExpiryDetails(2,pagertom.totalPages);">Last</a>
+                </ul>
+              </div>
+              <div class="col-md-2" *ngIf="pagedItemtom.length>1">
+                <button type="button" class="btn btn-md btn-success" (click)="listExpiryCust(3)">More</button>
+              </div>
             </div>
           </nb-tab>
           <!-- /*Day after Tomorrow8? -->
@@ -682,6 +707,7 @@
                 <th>Mobile Number</th>
                 <th>Service Name</th>
                 <th>Time</th>
+                <th>Address</th>
               </tr>
               <tr *ngFor="let item of pagedItemdft">
                 <td *ngIf="!role.getmenurole(704) || !role.getmenurole(705)" style="padding: 1px" class=" last"
@@ -711,21 +737,28 @@
                 <td>{{item.mobile}}</td>
                 <td>{{item.srvname}}</td>
                 <td>{{item.expiration| date : ' h:mm:ss a'}}</td>
+                <td class="address">{{item.address || '--'}}</td>
+
               </tr>
             </table>
-            <div class="pagination" [hidden]='pagerdayafttmr.totalPages == 1 '>
-              <ul *ngIf="pagerdayafttmr.pages && pagerdayafttmr.pages.length" class="pagination">
-                <a [ngClass]="{disabled:pagerdayafttmr.currentPage === 1}"
-                  (click)="pagedataftertmr=1;getExpiryDetails(3,1);">First</a>
-                <a [ngClass]="{disabled:pagerdayafttmr.currentPage === 1}"
-                  (click)="getExpiryDetails(3,pagedataftertmr-1);">Previous</a>
-                <a *ngFor="let page of pagerdayafttmr.pages" [ngClass]="{active:pagerdayafttmr.currentPage === page}"
-                  (click)="getExpiryDetails(3,page);">{{page}}</a>
-                <a [ngClass]="{disabled:pagerdayafttmr.currentPage === pagerdayafttmr.totalPages}"
-                  (click)="getExpiryDetails(3,pagedataftertmr+1);">Next</a>
-                <a [ngClass]="{disabled:pagerdayafttmr.currentPage === pagerdayafttmr.totalPages}"
-                  (click)="getExpiryDetails(3,pagerdayafttmr.totalPages);">Last</a>
-              </ul>
+            <div class="row">
+              <div class="pagination" [hidden]='pagerdayafttmr.totalPages == 1 '>
+                <ul *ngIf="pagerdayafttmr.pages && pagerdayafttmr.pages.length" class="pagination">
+                  <a [ngClass]="{disabled:pagerdayafttmr.currentPage === 1}"
+                    (click)="pagedataftertmr=1;getExpiryDetails(3,1);">First</a>
+                  <a [ngClass]="{disabled:pagerdayafttmr.currentPage === 1}"
+                    (click)="getExpiryDetails(3,pagedataftertmr-1);">Previous</a>
+                  <a *ngFor="let page of pagerdayafttmr.pages" [ngClass]="{active:pagerdayafttmr.currentPage === page}"
+                    (click)="getExpiryDetails(3,page);">{{page}}</a>
+                  <a [ngClass]="{disabled:pagerdayafttmr.currentPage === pagerdayafttmr.totalPages}"
+                    (click)="getExpiryDetails(3,pagedataftertmr+1);">Next</a>
+                  <a [ngClass]="{disabled:pagerdayafttmr.currentPage === pagerdayafttmr.totalPages}"
+                    (click)="getExpiryDetails(3,pagerdayafttmr.totalPages);">Last</a>
+                </ul>
+              </div>
+              <div class="col-md-2" *ngIf="pagedItemdft.length>1">
+                <button type="button" class="btn btn-md btn-success" (click)="listExpiryCust(4)">More</button>
+              </div>
             </div>
             <!-- </ng-template>
               </ngb-tab> -->
@@ -753,7 +786,7 @@
               <th>Ip Address</th>
               <th>Status</th>
               <th>Time</th>
-            </tr>
+             </tr>
             <tr *ngFor="let item of pagednasItems">
               <td *ngIf="role.getroleid()<775">{{item.company}}</td>
               <td>{{item.shortname}}</td>

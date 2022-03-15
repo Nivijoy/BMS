@@ -7,6 +7,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BusinessService, CustService, S_Service, OperationService, RoleService, PaymentService, ResellerService } from '../../_service/indexService';
 import { AddSuccessComponent } from './../success/add-success.component';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'subsrenewal',
@@ -164,12 +165,13 @@ export class SubsRenewalComponent implements OnInit {
   }
 
   async Renewsubs() {
-    // console.log(this.SubsRenewForm.value)
-    this.loading = true;
-    if (this.SubsRenewForm.invalid) {
+    console.log(this.SubsRenewForm.value)
+    if (this.SubsRenewForm.invalid || this.SubsRenewForm.value['srvid'] == null || this.SubsRenewForm.value['sub_plan_id'] == null) {
+      window.alert('Please fill mandatory fields')
       this.submit = true;
       return;
     }
+    this.loading = true;
     this.SubsRenewForm.value['cust_id'] = this.role.getsubid();
     this.SubsRenewForm.value['role'] = this.role.getroleid();
 
@@ -231,8 +233,8 @@ export class SubsRenewalComponent implements OnInit {
   createForm() {
      this.SubsRenewForm = new FormGroup({
       last_pack: new FormControl(''),
-      srvid: new FormControl(''),
-      sub_plan_id: new FormControl(''),
+      srvid: new FormControl('',Validators.required),
+      sub_plan_id: new FormControl('',Validators.required),
       // pay_status: new FormControl('1'),
       pay_date: new FormControl(''),
       pay_type: new FormControl('2'),

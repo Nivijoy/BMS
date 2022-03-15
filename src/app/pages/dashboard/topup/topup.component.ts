@@ -39,8 +39,9 @@ export class TopupComponent implements OnInit {
   }
 
   async addPay() {
-    if (this.TopupForm.invalid || this.TopupForm.value['amt'] <= 0) {
-      window.alert('Please Enter amount')
+    console.log(this.TopupForm.value['amt'])
+    if (this.TopupForm.invalid  ) {
+      window.alert('Please Enter amount Greater than or equal to 2000')
       return;
     }
     this.loading = true;
@@ -56,7 +57,7 @@ export class TopupComponent implements OnInit {
     console.log('Response-----------', res);
     // console.log(res[0]);
     console.log(res['error_msg']);
-    if (res['error_msg'] == 0) {
+    if (res['error_msg'] == 0 && res['gwtype'] == 1) {
       // console.log(res['ldata']);
       // let ldata=res['ldata'];
       // let header = new HttpHeaders();
@@ -71,7 +72,11 @@ export class TopupComponent implements OnInit {
       if (res) {
         this.loading = false
       }
-    } else {
+    } if (res['error_msg'] == 0 && res['gwtype'] == 2) {
+      console.log(res['ldata']);
+      document.location.href = res['ldata'];
+      
+     }  else {
       this.loading = false;
       console.log('Error Msg.',res);
       const toast: Toast = {

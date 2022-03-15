@@ -187,6 +187,7 @@ export class CancelGSTInvoiceComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         srv_type: this.serv_type,
+        role: this.resel_type,
         // res_id:this.reseller_under,
       })
     this.data = result[0];
@@ -263,6 +264,7 @@ export class CancelGSTInvoiceComponent implements OnInit {
       start_date: this.start_date,
       end_date: this.end_date,
       srv_type: this.serv_type,
+      role:this.resel_type
     })
     if (res) {
       let tempdata = [], temp: any = res[0];

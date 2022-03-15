@@ -34,7 +34,7 @@
             placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
           </auto-completen>
         </div>
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <label>Order ID</label>
           <input type="text" [(ngModel)]="order_id" class="form-control" (change)="changeclear(4);"
             placeholder="Order ID">
@@ -42,6 +42,20 @@
         <div class="col-sm-2">
           <label>Transaction ID</label>
           <input type="number" [(ngModel)]="txnid" class="form-control" placeholder="Transaction ID">
+        </div> -->
+        <div class="col-sm-2">
+          <label>Order ID</label>
+          <!-- <input type="text" [(ngModel)]="order_id" (change)="changeclear(4);" class="form-control" placeholder="Order ID"> -->
+          <auto-completen [(ngModel)]="order_id" addclass="form-control" optValues="order_id" (changed)="changeclear(4);"
+          placeholder='Select OrderId' (keyUp)="showOrderId($event)" optId="opid" [item]="order">
+        </auto-completen>
+        </div>
+        <div class="col-sm-2">
+          <label>Transaction ID</label>
+          <!-- <input type="number" [(ngModel)]="txnid" class="form-control" placeholder="Transaction ID"> -->
+          <auto-completen [(ngModel)]="txnid" addclass="form-control" optValues="txnid" 
+          placeholder='Select Transaction ID' (keyUp)="showTransId($event)" optId="opid" [item]="trans">
+        </auto-completen>
         </div>
       </div>
       <div class="form-group row">

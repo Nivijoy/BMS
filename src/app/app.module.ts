@@ -55,9 +55,9 @@ const config:io.SocketIoConfig = { url:'https://bms.blss.in:3003', options:{} }
   ],
   bootstrap: [AppComponent],
   providers: [LogService,ToasterService,RoleService,AdminuserService,
-
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+// order we specify providers to use
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },  // order in which request intercepts (first goes to jwtinterceptors then errorinterceptors)
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },  
     { provide: APP_BASE_HREF, useValue: '/' },
   ],
 })

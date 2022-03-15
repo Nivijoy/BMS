@@ -37,8 +37,8 @@ export class RevenueShareReportsComponent implements OnInit {
     }
   }
 
-  async changebusiness(){
-    this.res_name='';this.srv_details=[];
+  async changebusiness() {
+    this.res_name = ''; this.srv_details = [];
   }
 
   async showBusiness($event = '') {
@@ -76,10 +76,10 @@ export class RevenueShareReportsComponent implements OnInit {
         param['RESELLER'] = temp[i]['company'];
         param['SERVICE NAME'] = temp[i]['srvname'];
         param['PLAN PRICE'] = temp[i]['amount'];
-        param['TIMEUNIT'] = temp[i]['type']==0? temp[i]['time_unit'] + "Days": temp[i]['time_unit'] + "Months";
-        param['TAX'] = temp[i]['tax_type'] == 0? 'Exclusive': 'Inclusive';
-        param['STATUS'] = temp[i]['status'] == 1? 'Active': 'InActive';
-        param['SHARING TYPE'] = temp[i]['sharing_type'] == 1? 'Common Sharing': 'Package-wise Sharing';
+        param['TIMEUNIT'] = temp[i]['type'] == 0 ? temp[i]['time_unit'] + "Days" : temp[i]['time_unit'] + "Months";
+        param['TAX'] = temp[i]['tax_type'] == 0 ? 'Exclusive' : 'Inclusive';
+        param['STATUS'] = temp[i]['status'] == 1 ? 'Active' : 'InActive';
+        param['SHARING TYPE'] = temp[i]['sharing_type'] == 1 ? 'Common Sharing' : 'Package-wise Sharing';
         param['ISP SHARE'] = temp[i]['isp_share'];
         param['SUBISP SHARE'] = temp[i]['sub_isp_share'];
         param['SUBDIST SHARE'] = temp[i]['sub_dist_share'];

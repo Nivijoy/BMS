@@ -69,10 +69,10 @@
                 <td><i class="fas fa-rupee-sign">&nbsp;{{plan.amount}}</i></td>
                 <td>{{plan.tax_type == 0 ? 'Exclusive': 'Inclusive'}}</td>
                 <td>{{plan.status == 1 ? 'Active': 'Inactive'}}</td>
-                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{item.mispshare}}&nbsp;<b>%</b></td>
-                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{item.msubispshare}}&nbsp;<b>%</b></td>
-                <td style="font-weight:bold;color:#181818"  *ngIf="share_type == 2">{{item.msubdistshare}}&nbsp;<b>%</b></td>
-                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{item.mreselshare}}&nbsp;<b>%</b></td>
+                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{plan.isp_share}}&nbsp;<b>%</b></td>
+                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{plan.sub_isp_share}}&nbsp;<b>%</b></td>
+                <td style="font-weight:bold;color:#181818"  *ngIf="share_type == 2">{{plan.sub_dist_share}}&nbsp;<b>%</b></td>
+                <td  style="font-weight:bold;color:#181818" *ngIf="share_type == 2">{{plan.reseller_share}}&nbsp;<b>%</b></td>
               </tr>
             </table>
           </td>

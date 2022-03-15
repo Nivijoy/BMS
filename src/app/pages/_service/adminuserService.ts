@@ -184,7 +184,8 @@ export class AdminuserService {
   async sendbulkemail(params) {
     return await this.http.post("/api/smsemail/sendbulkemail", params).toPromise();
   }
+  async listResellerOttMap(params) {
+    return await this.http.post("/api/adminuser/listResellerOttMap", params).toPromise();
+  }
   
-
-
 }

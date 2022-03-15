@@ -179,6 +179,12 @@ export class S_Service {
   async getottplanname(params) {
     return await this.http.post("/api/s_service/getottplanname", params).toPromise();
   }
+  async subscriberPlanMap(params){
+    return await this.http.post("/api/s_service/subscriberPlanMap", params).toPromise();
+  }
+  async showCustPlanMap(params){
+    return await this.http.post("/api/s_service/showCustPlanMap", params).toPromise();
+  }
 
 
 }

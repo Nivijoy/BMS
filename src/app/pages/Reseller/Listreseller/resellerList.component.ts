@@ -278,6 +278,7 @@ export class ResellerListComponent implements OnInit {
         temp[i]['c_date'] = temp[i]['c_date'] =='0000-00-00 00:00:00' ? '--' : this.datePipe.transform(temp[i]['c_date'], 'd MMM y');
         param['REGISTERED DATE'] = temp[i]['c_date'];
         param['STATE'] =temp[i]['stname'];
+        param['CITY']= temp[i]['diname'];
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

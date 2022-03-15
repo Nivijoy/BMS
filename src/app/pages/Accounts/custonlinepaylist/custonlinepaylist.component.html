@@ -23,25 +23,32 @@
         </div>
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() == 666 || role.getroleid() == 555)">
           <label>Reseller Type</label>
-          <auto-completen [(ngModel)]="resel_type" addclass="form-control" (changed)="showResellerName();changeclear(2);"
+          <auto-completen [(ngModel)]="resel_type" addclass="form-control" (changed)="showResellerName();changeclear(2);showUser();"
             optValues="menu_name" placeholder='Select Reseller Type' optId="role" [item]="profile">
           </auto-completen>
           <small style="color: blueviolet;">Select Profile</small>
         </div>
         <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() == 666 || role.getroleid() == 555)">
           <label>Reseller Name</label>
-          <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (changed)="changeclear(3);"
+          <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (changed)="showUser();changeclear(3);"
             placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
           </auto-completen>
         </div>
         <div class="col-sm-2">
-          <label>Order ID</label>
-          <input type="text" [(ngModel)]="order_id" (change)="changeclear(4);" class="form-control" placeholder="Order ID">
+          <label>Profile ID</label>
+          <auto-completen [(ngModel)]="cust_name" (keyUp)="showUser($event)" 
+            addclass="form-control" optValues="profileid" placeholder='Select Subs AccountID' optId="uid"
+            [item]="custname">
+          </auto-completen>
         </div>
         <div class="col-sm-2">
-          <label>Transaction ID</label>
-          <input type="number" [(ngModel)]="txnid" class="form-control" placeholder="Transaction ID">
+          <label>Order ID</label>
+          <!-- <input type="text" [(ngModel)]="order_id" (change)="changeclear(4);" class="form-control" placeholder="Order ID"> -->
+          <auto-completen [(ngModel)]="order_id" addclass="form-control" optValues="order_id" (changed)="changeclear(4);"
+          placeholder='Select OrderId' (keyUp)="showOrderId($event)" optId="opid" [item]="order">
+        </auto-completen>
         </div>
+        
         <!-- <div class="col-sm-2">
           <label>Date</label>
           <input type="text" [nbDatepicker]="from_date_layout" [(ngModel)]="cdate" class="form-control" placeholder="Select Date" />
@@ -61,6 +68,14 @@
             [(ngModel)]="end_date" placeholder="Select End Date">
           <owl-date-time [pickerType]="'calendar'" #renend_date></owl-date-time>
         </div> -->
+
+        <div class="col-sm-2">
+          <label>Transaction ID</label>
+          <!-- <input type="number" [(ngModel)]="txnid" class="form-control" placeholder="Transaction ID"> -->
+          <auto-completen [(ngModel)]="txnid" addclass="form-control" optValues="txnid" 
+          placeholder='Select Transaction ID' (keyUp)="showTransId($event)" optId="opid" [item]="trans">
+        </auto-completen>
+        </div>
 
         <div class="col-sm-2">
           <label>Start Date</label>

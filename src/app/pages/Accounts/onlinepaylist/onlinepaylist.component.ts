@@ -27,7 +27,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 export class OnlinePaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
   res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;totalOnlinePay;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;totalOnlinePay;order;trans;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -64,6 +64,8 @@ export class OnlinePaylistComponent implements OnInit {
     if (this.role.getroleid() < 775) {
       this.group_name = this.role.getgrupid();
     }
+    await this.showOrderId();
+    await this.showTransId();
   }
 
   async showBusName($event = '') {
@@ -84,6 +86,16 @@ export class OnlinePaylistComponent implements OnInit {
 
     // console.log("resellername",result)
   }
+
+  async showOrderId($event =''){
+    this.order = await this.ser.showOrdertransactionId({bus_id: this.bus_name,like: $event})
+  }
+
+  async showTransId($event =''){
+    this.trans = await this.ser.showOrdertransactionId({bus_id: this.bus_name,trn_like: $event})
+ 
+  }
+
 
   changeclear(item) {
     if (item == 1) {
@@ -123,6 +135,12 @@ export class OnlinePaylistComponent implements OnInit {
     this.profile = '';
     this.res1 = '';
     await this.initiallist();
+    await this.showBusName();
+    await this.showProfileReseller();
+    await this.showResellerName();
+
+    await this.showOrderId();
+    await this.showTransId();
   }
 
   async initiallist() {

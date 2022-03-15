@@ -111,5 +111,8 @@ export class AccountService {
   async updateEinvoice(params) {
     return await this.http.post("/api/account/updateEinvoiceDate", params).toPromise();
   }
+  async showOrdertransactionId(params){
+    return await this.http.post("/api/account/showOrdertransactionId",params).toPromise();
+  }
 
 }

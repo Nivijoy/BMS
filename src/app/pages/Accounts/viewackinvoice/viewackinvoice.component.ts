@@ -16,6 +16,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ViewAckInvoiceComponent implements OnInit {
    modalHeader: string; invdata; views; item; qrimage;
    submit: boolean; cuser: any = []; data; receiptdata; rcptvalue; paystatus; username; invperiod;
+   busAddress;
    constructor(
       private router: Router,
       private ser: AccountService,
@@ -64,6 +65,7 @@ export class ViewAckInvoiceComponent implements OnInit {
          // this.invperiod = result[1];
          let totamnt = Number(this.data['inv_amt']) + Number(this.data['inv_tax']);
          this.data['totamount'] = totamnt;
+         this.busAddress = this.data['bus_address'].replace(/<br>/g, '')
          // console.log('pay', this.data['pay_status'])
          // console.log('name', this.data['user_name'])
          // console.log("res", result)

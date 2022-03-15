@@ -70,6 +70,10 @@ export class SendemailComponent implements OnInit {
       await this.showGroupName();
       await this.showState();
     }
+    if (this.role.getroleid() < 775) {
+      await this.showUser();
+      await this.showResellerBranch();
+    }
   }
   async showBusName($event = '') {
     this.bus = await this.busser.showBusName({ like: $event })
@@ -98,6 +102,7 @@ export class SendemailComponent implements OnInit {
   }
   async showUser($event = '') {
     this.custname = await this.custser.showUser({ bus_id: this.bus_name, groupid: this.group_name, role: this.resel_type, role_flag: 1, resel_id: this.res_name, like: $event })
+
   }
 
   async showState() {
@@ -105,14 +110,30 @@ export class SendemailComponent implements OnInit {
   }
 
   async userDetails() {
-    let result = await this.custser.showSubscriber({
-      bus_id: this.bus_name, groupid: this.group_name, role: this.resel_type, resel_id: this.res_name, branch: this.s_branch, active: this.act_status,
-      uid: this.cust_name, state_id: this.state_id, expsdate: this.start_exp, expedate: this.end_exp
-    });
-    console.log('Result---', result)
-    if (result) {
-      this.data = result[0];
-      this.count = result[1]['count'];
+    if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid() == 555) {
+      if (this.res_name) {
+        let result = await this.custser.showSubscriber({
+          bus_id: this.bus_name, groupid: this.group_name, role: this.resel_type, resel_id: this.res_name, branch: this.s_branch, active: this.act_status,
+          uid: this.cust_name, state_id: this.state_id, expsdate: this.start_exp, expedate: this.end_exp
+        });
+        console.log('Result---', result)
+        if (result) {
+          this.data = result[0];
+          this.count = result[1]['count'];
+        }
+      } else {
+        window.alert('Please Select Reseller')
+      }
+    } else {
+      let result = await this.custser.showSubscriber({
+        branch: this.s_branch, active: this.act_status,
+        uid: this.cust_name, state_id: this.state_id, expsdate: this.start_exp, expedate: this.end_exp
+      });
+      console.log('Result---', result)
+      if (result) {
+        this.data = result[0];
+        this.count = result[1]['count'];
+      }
     }
   }
   checkAllCheckBox(ev) { // Angular 9
@@ -172,7 +193,7 @@ export class SendemailComponent implements OnInit {
       if (result[0].error_msg == 0) {
         this.selectUserData = []; this.msg = ''; this.subject = '';
         this.group_name = ''; this.resel_type = ''; this.res_name = ''; this.cust_name = ''; this.act_status = ''; this.s_branch = ''; this.state_id = '';
-        this.start_exp = ''; this.end_exp = '';this.data=[];
+        this.start_exp = ''; this.end_exp = ''; this.data = [];
       }
     } else this.loading = false;
 

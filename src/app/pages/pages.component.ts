@@ -403,7 +403,7 @@ export class PagesComponent {
     {
       title: 'OTT',
       icon: 'fa fa-film',
-      hidden: !(this.role.find(x => x == 1028) || this.role.find(x => x == 1028)),
+      hidden: !(this.role.find(x => x == 1028) || this.role.find(x => x == 1029 || this.role.find(x => x == 1059))),
       children: [
         {
           title: 'List',
@@ -449,6 +449,12 @@ export class PagesComponent {
 
           ],
         },
+        {
+          title: 'Reseller OTT Plan',
+          link: '/pages/administration/reseller-ott-plan',
+          // hidden: !this.role.find(x => x == 1028),
+        },
+
 
       ]
     },

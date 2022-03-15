@@ -187,6 +187,7 @@ export class CollectionReportComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         srv_type: this.serv_type,
+        role : this.resel_type
         // res_id:this.reseller_under,
       })
     this.data = result[0];
@@ -264,6 +265,7 @@ export class CollectionReportComponent implements OnInit {
       start_date: this.start_date,
       end_date: this.end_date,
       srv_type: this.serv_type,
+      role : this.resel_type
     })
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -290,25 +292,34 @@ export class CollectionReportComponent implements OnInit {
         param['PACK PRICE'] = temp[i]['invoice_amount'];
         param['TAX AMOUNT PRICE'] = temp[i]['tax_amount'];
         param['TOTAL PRICE'] = temp[i]['total_amount'];
+        // if (this.role.getroleid() >= 775) {
+        //   param['ISP SHARE'] = temp[i]['isp_per'] + " " + '%';
+        //   param['ISP AMOUNT'] = temp[i]['isp_amt'];
+        //   param['SUBSCRIBER ISP SHARE'] = temp[i]['sub_isp_per'] + " " + '%';
+        //   param['SUBSCRIBER ISP AMOUNT'] = temp[i]['sub_isp_amt'];
+        //   param['SUBSCRIBER DIST SHARE'] = temp[i]['sub_dist_per'] + " " + '%';
+        //   param['SUBSCRIBER DIST AMOUNT'] = temp[i]['sub_dist_amt'];
+        //   param['RESELLER SHARE'] = temp[i]['reseller_per'] + " " + '%';
+        //   param['RESELLER AMOUNT'] = temp[i]['resel_amt'];
+
+        // }
+        // temp[i]['cum_ispper'] = Number(temp[i]['cum_ispper']).toFixed(2)
+        // temp[i]['cum_subispper'] = Number(temp[i]['cum_subispper']).toFixed(2)
+        // temp[i]['cum_subdistper'] = Number(temp[i]['cum_subdistper']).toFixed(2)
+        // temp[i]['cum_resellerper'] = Number(temp[i]['cum_resellerper']).toFixed(2)
+        // param['CUMULATIVE ISPSHARE %'] = temp[i]['cum_ispper'] + " " + '%';
+        // param['CUMULATIVE SUBISP SHARE %'] = temp[i]['cum_subispper'] + " " + '%';
+        // param['CUMULATIVE SUBDIST SHARE %'] = temp[i]['cum_subdistper'] + " " + '%';
+        // param['CUMULATIVE RESELLER SHARE %'] = temp[i]['cum_resellerper'] + " " + '%';
         if (this.role.getroleid() >= 775) {
-          param['ISP SHARE'] = temp[i]['isp_per'] + " " + '%';
-          param['ISP AMOUNT'] = temp[i]['isp_amt'];
-          param['SUBSCRIBER ISP SHARE'] = temp[i]['sub_isp_per'] + " " + '%';
-          param['SUBSCRIBER ISP AMOUNT'] = temp[i]['sub_isp_amt'];
-          param['SUBSCRIBER DIST SHARE'] = temp[i]['sub_dist_per'] + " " + '%';
-          param['SUBSCRIBER DIST AMOUNT'] = temp[i]['sub_dist_amt'];
-          param['RESELLER SHARE'] = temp[i]['reseller_per'] + " " + '%';
-          param['RESELLER AMOUNT'] = temp[i]['resel_amt'];
+
+          param['ISP SHARE AMOUNT'] = temp[i]['all_ispamt'];
+          param['SUBISP SHARE AMOUNT'] = temp[i]['allsubispamt'];
+          param['SUBDIST SHARE AMOUNT'] = temp[i]['allsubdistamt'];
+          param['RESELLER SHARE AMOUNT'] = temp[i]['allreselleramt'];
 
         }
-        temp[i]['cum_ispper'] = Number(temp[i]['cum_ispper']).toFixed(2)
-        temp[i]['cum_subispper'] = Number(temp[i]['cum_subispper']).toFixed(2)
-        temp[i]['cum_subdistper'] = Number(temp[i]['cum_subdistper']).toFixed(2)
-        temp[i]['cum_resellerper'] = Number(temp[i]['cum_resellerper']).toFixed(2)
-        param['CUMULATIVE ISPSHARE %'] = temp[i]['cum_ispper'] + " " + '%';
-        param['CUMULATIVE SUBISP SHARE %'] = temp[i]['cum_subispper'] + " " + '%';
-        param['CUMULATIVE SUBDIST SHARE %'] = temp[i]['cum_subdistper'] + " " + '%';
-        param['CUMULATIVE RESELLER SHARE %'] = temp[i]['cum_resellerper'] + " " + '%';
+
         param['GST NUM'] = temp[i]['supplier_gst_number'];
         param['IGST'] = temp[i]['igst'] + " " + '%';
         param['CGST'] = temp[i]['cgst'] + " " + '%';
@@ -317,6 +328,44 @@ export class CollectionReportComponent implements OnInit {
         param['INVOICE STATUS'] = temp[i]['inv_status'] == 1 ? 'Active' : temp[i]['inv_status'] == 2 ? 'Proforma Invoice' : 'Cancelled';
         temp[i]['inv_date'] = this.datePipe.transform(temp[i]['inv_date'], 'd MMM y hh:mm:ss a')
         param['INVOICE DATE'] = temp[i]['inv_date'];
+        
+        param['INTERNET ISP %'] = Number(temp[i]['isp_per']).toFixed(2) + " " + '%';
+        param['INTERNET SUBISP %'] = Number(temp[i]['sub_isp_per']).toFixed(2) + " " + '%';
+        param['INTERNET SUBDIST %'] = Number(temp[i]['sub_dist_per']).toFixed(2) + " " + '%';
+        param['INTERNET RESELLER %'] = Number(temp[i]['reseller_per']).toFixed(2) + " " + '%';
+        param['INTERNET ISP ₹'] = temp[i]['isp_amt'];
+        param['INTERNET SUBISP ₹'] = temp[i]['sub_isp_amt'];
+        param['INTERNET SUBDIST ₹'] = temp[i]['sub_dist_amt'];
+        param['INTERNET RESELLER ₹'] = temp[i]['resel_amt'];
+
+
+        param['VOICE ISP %'] = Number(temp[i]['Visp_share']).toFixed(2) + " " + '%';
+        param['VOICE SUBISP %'] = Number(temp[i]['Vsub_isp_share']).toFixed(2) + " " + '%';
+        param['VOICE SUBDIST %'] = Number(temp[i]['Vsub_dist_share']).toFixed(2) + " " + '%';
+        param['VOICE RESELLER %'] = Number(temp[i]['Vreseller_share']).toFixed(2) + " " + '%';
+        param['VOICE ISP ₹'] = temp[i]['Visp_amt'];
+        param['VOICE SUBISP ₹'] = temp[i]['Vsub_isp_amt'];
+        param['VOICE SUBDIST ₹'] = temp[i]['Vsub_dist_amt'];
+        param['VOICE RESELLER ₹'] = temp[i]['Vreseller_amt'];
+
+        param['OTT ISP %'] = Number(temp[i]['Oisp_share']).toFixed(2) + " " + '%';
+        param['OTT SUBISP %'] = Number(temp[i]['Osub_isp_share']).toFixed(2) + " " + '%';
+        param['OTT SUBDIST %'] = Number(temp[i]['Osub_dist_share']).toFixed(2) + " " + '%';
+        param['OTT RESELLER %'] = Number(temp[i]['Oreseller_share']).toFixed(2) + " " + '%';
+        param['OTT ISP ₹'] = temp[i]['Oisp_amt'];
+        param['OTT SUBISP ₹'] = temp[i]['Osub_isp_amt'];
+        param['OTT SUBDIST ₹'] = temp[i]['Osub_dist_amt'];
+        param['OTT RESELLER ₹'] = temp[i]['Oreseller_amt'];
+
+        param['ADDON ISP %'] = Number(temp[i]['AONisp_share']).toFixed(2) + " " + '%';
+        param['ADDON SUBISP %'] = Number(temp[i]['AONsub_isp_share']).toFixed(2) + " " + '%';
+        param['ADDON SUBDIST %'] = Number(temp[i]['AONsub_dist_share']).toFixed(2) + " " + '%';
+        param['ADDON RESELLER %'] = Number(temp[i]['AONreseller_share']).toFixed(2) + " " + '%';
+        param['ADDON ISP ₹'] = temp[i]['AONisp_amt'];
+        param['ADDON SUBISP ₹'] = temp[i]['AONsub_isp_amt'];
+        param['ADDON SUBDIST ₹'] = temp[i]['AONsub_dist_amt'];
+        param['ADDON RESELLER ₹'] = temp[i]['AONreseller_amt'];
+
         param['PAY STATUS'] = temp[i]['pay_status'] == 2 ? 'Paid' : 'Unpaid';
         temp[i]['paydate'] = this.datePipe.transform(temp[i]['paydate'], 'd MMM y hh:mm:ss a')
         param['PAY DATE'] = temp[i]['pay_status'] == 2 ? temp[i]['paydate'] : '--';

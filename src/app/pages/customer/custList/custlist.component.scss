@@ -1,40 +1,77 @@
-.table-wrapper{
-    overflow-y: scroll;
-    height: 1050px;
-  }
+// .table-wrapper{
+//     overflow-y: scroll;
+//     height: 1050px;
+//   }
   
-  .table-wrapper th{
-      position: sticky;
-      top: -1px;
-  }
-  .table-wrapper{
-    background: white;
-  }
+//   .table-wrapper th{
+//       position: sticky;
+//       top: -1px;
+//   }
+//   .table-wrapper{
+//     background: white;
+//   }
   
-  table{
-    border-collapse: collapse;
-    width: 100%;
+//   table{
+//     border-collapse: collapse;
+//     width: 100%;
   
-  }
+//   }
   
-  th {
-      background:#01a7ee;
-      text-align: center;
+//   th {
+//       background:#01a7ee;
+//       text-align: center;
       
-  }
+//   }
   
-  td,th{
-    padding: 10px;
-  }
+//   td,th{
+//     padding: 10px;
+//   }
   
-  .table td {
-    white-space: nowrap;
-    text-align: left;
-  }
-  .table th {
-    white-space: nowrap;
-      z-index:998;
-  }
+//   .table td {
+//     white-space: nowrap;
+//     text-align: left;
+//   }
+//   .table th {
+//     white-space: break-spaces;
+//       z-index:998;
+//   }
+
+.table-wrapper{
+  overflow-y: scroll;
+  height: 990px;
+}
+
+.table-wrapper th{
+    position: sticky;
+    top: -1px;
+}
+.table-wrapper{
+  background: white;
+}
+
+table{
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+th{
+    background:#01a7ee;
+}
+
+td,th{
+  padding: 10px;
+  text-align: center;
+}
+
+.table td {
+  white-space: nowrap;
+}
+.table th {
+  white-space: break-spaces;
+    z-index:998;
+}
+
   .fa-address-book:before{
     font-size: 15px;
   }

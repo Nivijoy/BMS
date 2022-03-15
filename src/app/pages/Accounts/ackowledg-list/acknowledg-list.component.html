@@ -20,7 +20,7 @@
         <div class="col-sm-3" *ngIf="role.getroleid()>777">
           <label>Business Name</label>
           <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname"
-            (changed)="showGroupName();showGroupNas()" placeholder='Select Business' id="bus_name" [item]="bus">
+             placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
       </div>
@@ -80,7 +80,7 @@
         <td>{{item.recipient_gst_number}}</td>
         <td>{{item.billno}}</td>
         <td>{{item.ack_date == "0000-00-00 00:00:00" ? '--' : (item.ack_date | date: 'd MMM y') }}</td>
-        <td>{{item.tot_amt}}</td>
+        <td>{{item.total_amount}}</td>
         <td>{{item.hsn || '--'}}</td>
         <td>{{item.irn || '--'}}</td>
         <td>{{item.ack_date == "0000-00-00 00:00:00" ? '--' : (item.ack_date | date: 'd MMM y h:mm:ss a')}}</td>

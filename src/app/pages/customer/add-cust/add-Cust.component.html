@@ -445,7 +445,7 @@
                               <label>Document Updation</label>
                               <select
                                  [ngClass]="{'form-control':true,'form-control-danger':AddSubsForm.controls.docupload.invalid&&submit}"
-                                 formControlName="docupload">
+                                 formControlName="docupload" (change)="uploadProofValidation();">
                                  <option value="" selected>Select Updation</option>
                                  <option value="0">Upload</option>
                                  <option value="1">Take Picture</option>

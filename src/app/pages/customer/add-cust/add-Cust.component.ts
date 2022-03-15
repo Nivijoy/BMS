@@ -100,6 +100,7 @@ export class AddCustComponent implements OnInit {
   }
 
   public frontSnapshot(): void {
+    console.log('Front image', this.addressfront)
     this.fronttrigger.next();
   }
   public backSnapshot(): void {
@@ -218,19 +219,23 @@ export class AddCustComponent implements OnInit {
   }
 
   idconfirm1() {
-    this.idhide_cam1 = true;
+    if (!this.proofidfront) window.alert('Please Capture image before clicking confirm')
+    else this.idhide_cam1 = true;
   }
 
   idconfrim2() {
-    this.idhide_cam2 = true;
+    if (!this.proofidback) window.alert('Please Capture image before clicking confirm')
+    else this.idhide_cam2 = true;
   }
 
   confirm1() {
-    this.hide_cam1 = true;
+    if (!this.addressfront) window.alert('Please Capture image before clicking confirm')
+    else this.hide_cam1 = true;
   }
 
   confirm2() {
-    this.hide_cam2 = true;
+    if (!this.addressback) window.alert('Please Capture image before clicking confirm')
+    else this.hide_cam2 = true;
   }
 
   async business() {
@@ -520,6 +525,15 @@ export class AddCustComponent implements OnInit {
     }
   }
 
+  uploadProofValidation() {
+    if (this.AddSubsForm.value['docupload'] == '1') {
+      this.AddSubsForm.get('addr_up_proof').clearValidators();
+      this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
+      this.AddSubsForm.get('upproof').clearValidators();
+      this.AddSubsForm.get('upproof').updateValueAndValidity();
+    }
+  }
+
   async Service($event = '') {
     if (this.role.getroleid() >= 775) {
       this.pack = await this.serv.showServiceName({ edit_flag: 1, resel_id: this.AddSubsForm.value['reseller'], like: $event })
@@ -672,17 +686,17 @@ export class AddCustComponent implements OnInit {
     this.AddSubsForm.get('ippool').updateValueAndValidity();
     this.AddSubsForm.value["ipmode"] == "2" ? this.AddSubsForm.get('statip_type').setValidators([Validators.required]) : this.AddSubsForm.get('statip_type').clearValidators()
     this.AddSubsForm.get('statip_type').updateValueAndValidity();
-     
+
     await this.staticmode();
 
   }
 
   staticmode() {
 
-    (this.AddSubsForm.value['statip_type'] == 0 &&  this.AddSubsForm.value["ipmode"] == "2") ? this.AddSubsForm.get('staticip').setValidators([Validators.required]) : this.AddSubsForm.get('staticip').clearValidators();
+    (this.AddSubsForm.value['statip_type'] == 0 && this.AddSubsForm.value["ipmode"] == "2") ? this.AddSubsForm.get('staticip').setValidators([Validators.required]) : this.AddSubsForm.get('staticip').clearValidators();
     this.AddSubsForm.get('staticip').updateValueAndValidity();
 
-    (this.AddSubsForm.value['statip_type'] == 1 &&  this.AddSubsForm.value["ipmode"] == "2" )? this.AddSubsForm.get('public_ip').setValidators([Validators.required]) : this.AddSubsForm.get('public_ip').clearValidators();
+    (this.AddSubsForm.value['statip_type'] == 1 && this.AddSubsForm.value["ipmode"] == "2") ? this.AddSubsForm.get('public_ip').setValidators([Validators.required]) : this.AddSubsForm.get('public_ip').clearValidators();
     this.AddSubsForm.get('public_ip').updateValueAndValidity();
   }
 
