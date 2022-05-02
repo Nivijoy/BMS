@@ -20,13 +20,13 @@
             (changed)="profile();changeclear(1);" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
-        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid() >444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control" optValues="menu_name"
             (changed)="showResellerName();changeclear(2);" placeholder='Select Reseller Type' optId="role" [item]="pro">
           </auto-completen>
         </div>
-        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid() >444)">
           <label>Reseller</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (click)="alertmsg();"
             placeholder='Select Reseller'  (keyUp)="showResellerName($event)" id="mid" [item]="res1">

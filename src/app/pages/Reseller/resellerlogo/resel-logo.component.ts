@@ -58,6 +58,7 @@ export class ResellLogoUpdateComponent implements OnInit {
     const file = new FormData();
     let id = this.item.id, filename = 'logo',
       name = id + '-' + filename;
+    console.log('file---',file)
     file.append('file', this.selectedfile, name)
     file.append('id', id)
     let logoresult = await this.ser.uploadResellerLogo(file);

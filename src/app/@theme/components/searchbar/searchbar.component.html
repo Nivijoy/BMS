@@ -18,13 +18,14 @@
             <option value="5">MAC</option>
             <option value="6">CAF Number</option>
             <option value="7">Account No</option>
+            <option value="8">Email ID</option>
          </select>
       </div>
    </div>
    <div class="form-group row">
       <div class="col-sm-12">
          <label>SEARCH</label>
-         <auto-completen [(ngModel)]="search" (keyUp)="searchresult($event)" (changed)="searchclick()" addclass="form-control" optValues="uname" placeholder='Search here...'
+         <auto-completen [(ngModel)]="search"  autofocus="true" (keyUp)="searchresult($event)" (changed)="searchclick()" addclass="form-control" optValues="uname" placeholder='Search here...'
             optId="uid" [item]="datas" >
          </auto-completen>
       </div>

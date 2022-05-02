@@ -6,7 +6,9 @@
 export const environment = {
   production: true,
   // baseUrl:'https://klbms.blss.in:3004'
-  baseUrl:'https://bms.blss.in:3003'
+  // baseUrl:'https://bms.blss.in:3003'
+  baseUrl:'https://nbms.blss.in:3006'
+
 
   // baseUrl:'http://103.231.217.170:9091'
 

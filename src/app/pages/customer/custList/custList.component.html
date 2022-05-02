@@ -14,7 +14,7 @@
   </nb-card-header>
   <nb-card-body>
     <toaster-container></toaster-container>
-    <button *ngIf="!role.getmenurole(702)" [hidden]="role.getroleid()==666||role.getroleid()==555"
+    <button *ngIf="!role.getmenurole(702)" 
       class="btn btn-sm btn-success" [routerLink]="['/pages/cust/add-cust']">Add</button>
     <!-- <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i> -->
     <hr style="border: 0px;">
@@ -33,7 +33,7 @@
             addclass="form-control" optValues="groupname" placeholder='Select Circle' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control"
             (changed)="showResellerName();showUser();changeclear(3)" (keyUp)="showProfileReseller($event)"
@@ -41,7 +41,7 @@
           </auto-completen>
           <small style="color: blueviolet;">Select Profile</small>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)||(role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
             (keyUp)="showResellerName($event)"
@@ -212,8 +212,28 @@
           <label>End Date</label>
           <input type="date" placeholder="End Date" [(ngModel)]="end_exp" class="form-control">
         </div>
-
-
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <label>Ip Mode</label>
+          <select [(ngModel)]="ip_mode" class="form-control" (change)="showPublicIp();public_ip='';static_ip=''">
+            <option value="" selected>Select status</option>
+            <option value="0">Dynamic</option>
+            <option value="1">Ippool</option>
+            <option value="2">Static</option>
+            <option value="3">Public</option>
+          </select>
+        </div>
+        <div class="col-sm-2" *ngIf="ip_mode ==2">
+          <label>Static IP</label>
+          <input type="text" [(ngModel)]="static_ip" class="form-control">
+        </div>
+        <div class="col-sm-2" *ngIf="ip_mode ==3">
+          <label>Dynamic IP</label>
+          <auto-completen [(ngModel)]="public_ip" (keyUp)="showPublicIp($event)" addclass="form-control"
+            optValues="ipaddr" placeholder='Select PublicIp' optId="ipaddr" [item]="publicIp">
+          </auto-completen>
+        </div>
       </div>
       <!-- <div class="row">
         <div class="col-sm-2" *ngIf="on_status ==1 && role.getroleid()>=775">
@@ -347,19 +367,24 @@
           <th style="border: 3px solid #aeb8b9;color: white;" *ngIf="dashstatus==2||on_status==1" rowspan="2"><br>MAC
           </th>
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Service</th>
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Subplan</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">Subplan</th>
 
           <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Time</th>
-          <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Limit</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" colspan="3" *ngIf="dashstatus!=2 && on_status!=1">Limit</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" colspan="3" *ngIf="dashstatus==2||on_status==1">Data</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus==2||on_status==1"><br>Nas IP
           </th>
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Expiry Date</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Expiry Date</th>
           <!-- <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" [hidden]="dashstatus==2||on_status==1">
             <br>Mobile Number</th> -->
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Address</th>
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Branch</th>
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Locality</th>
-          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2"><br>Connection Type</th>
+            <!-- Except online cuatomer shown all -->
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Address</th>  
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Branch</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Locality</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Connection Type</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">IpMode</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">Ip</th>
+
         </tr>
         <tr style="background-color :  #01a7ee;color:white;position: sticky;top: 38px;">
           <th style="border: 3px solid #aeb8b9;">Account </th>
@@ -394,7 +419,7 @@
                   <i style="font-size: 20px;" class="fa fa-redo "></i>&nbsp;Renew
                 </li>
                 <li *ngIf="!role.getmenurole(703)" style="padding-top: 0px;padding-bottom: 2px;"
-                  [hidden]="role.getroleid()==666||role.getroleid()==555" class="dropdown-item" title="Edit"
+                   class="dropdown-item" title="Edit"
                   (click)="Edit_nas(item.uid)">
                   <i style="font-size: 20px;" class="nb-edit"></i>&nbsp;Edit
                 </li>
@@ -446,26 +471,37 @@
           <td>{{item.srvdatatype==1?'unlimited':'FUP'}}</td>
           <td>{{item.srvname || 'N/A'}}</td>
           <td>{{item.online_status==1?item.rsrvname:'--'}}</td>
-          <td>{{item.sub_plan || 'N/A'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.sub_plan || 'N/A'}}</td>
           <td>{{item.acctstarttime == null? '--': item.acctstarttime | date:'d MMM y h:mm:ss a '}}</td>
           <td>{{item.online_time== null ? '--':item.online_time}}</td>
           <td>{{item.lastlogoff == null ? '--': item.lastlogoff | date:'d MMM y h:mm:ss a'}}</td>
-          <td [ngStyle]="{ 'color' : item.lcdllimit==0 ? 'red' : 'black' }">{{item.srvdatatype==2?item.limitdl==0 ?'--':
+
+          <td *ngIf="dashstatus!=2 && on_status!=1" [ngStyle]="{ 'color' : item.lcdllimit==0 ? 'red' : 'black' }">{{item.srvdatatype==2?item.limitdl==0 ?'--':
             item.lcdllimit==0?'data limit over':item.lcdllimit:'--'}}
           </td>
-          <td [ngStyle]="{ 'color' : item.lcuplimit==0 ? 'red' : 'black' }">{{item.srvdatatype==2?item.limitul==0 ?'--':
+          <td *ngIf="dashstatus!=2 && on_status!=1" [ngStyle]="{ 'color' : item.lcuplimit==0 ? 'red' : 'black' }">{{item.srvdatatype==2?item.limitul==0 ?'--':
             item.lcuplimit==0?'data limit over':item.lcuplimit:'--'}}
           </td>
-          <td [ngStyle]="{ 'color' : (item.srvdatatype==2 && item.lclimitcomb==0) ? 'red' : 'black' }">
-            {{item.srvdatatype==2?item.limitcomb==0 ?'--': item.lclimitcomb==0?'data limit
-            over':item.lclimitcomb:'Unlimited'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1" [ngStyle]="{ 'color' : (item.srvdatatype==2 && item.lclimitcomb==0) ? 'red' : 'black' }">
+            {{item.srvdatatype==2?item.limitcomb==0 ?'--': item.lclimitcomb==0?'data limit over':item.lclimitcomb:'Unlimited'}}</td>
+
+          <td *ngIf="dashstatus==2||on_status==1" >{{item.download}}</td>
+          <td *ngIf="dashstatus==2||on_status==1" >{{item.upload}}</td>
+          <td *ngIf="dashstatus==2||on_status==1" >{{item.total}}</td>
+
+
           <td *ngIf="dashstatus==2||on_status==1">{{item.nasipaddress}}</td>
-          <td *ngIf="item.expiration != '0000-00-00 00:00:00'">{{item.expiration| date : 'd MMM y h:mm:ss a'}}</td>
-          <td *ngIf="item.expiration == '0000-00-00 00:00:00'">{{'--'}}</td>
-          <td style="white-space:break-spaces">{{item.address || '--'}}</td>
-          <td>{{item.branch}}</td>
-          <td>{{item.area==0 ? 'Rural':item.area==1 ? 'Urban':'--'}}</td>
-          <td>{{item.subs_type==0?'SME':item.subs_type==1?'BroadBand':item.subs_type==2?'corporate':'Edu/Inst' }}</td>
+          <td *ngIf="item.expiration != '0000-00-00 00:00:00' &&(dashstatus!=2 && on_status!=1)">{{item.expiration| date : 'd MMM y h:mm:ss a'}}</td>
+          <td *ngIf="item.expiration == '0000-00-00 00:00:00' && (dashstatus!=2 && on_status!=1)">{{'--'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1" style="white-space:break-spaces">{{item.address || '--'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.branch}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.area==0 ? 'Rural':item.area==1 ? 'Urban':'--'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.subs_type==0?'SME':item.subs_type==1?'BroadBand':item.subs_type==2?'corporate':'Edu/Inst' }}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.ipmodecpe ==0? 'Dynamic':item.ipmodecpe==1?'Ippool':(item.ipmodecpe==2 &&
+            item.staticip_flag==0)?'StaticIp':
+            (item.ipmodecpe==2 && item.staticip_flag==1)? 'PublicIp': '--'}}
+          </td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.staticipcpe || '--'}}</td>
         </tr>
         <tr>
           <td colspan="16" *ngIf="pagedItems==''">NO DATA FOUND</td>

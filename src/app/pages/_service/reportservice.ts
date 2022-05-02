@@ -30,5 +30,8 @@ export class ReportService {
    async checkSubscriberCount(params){
       return await this.http.post("/api/reports/checkSubscriberCount",params).toPromise();
    }
+   async resellerRevenueShare(params){
+      return await this.http.post("/api/reports/resellerRevenueShare",params).toPromise();
+   }
    
 }

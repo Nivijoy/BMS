@@ -31,7 +31,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 export class AddCustComponent implements OnInit {
   submit: boolean = false; AddSubsForm; resell; datas; pack; cusprefix; branches;
-  ip; busname; grup; mod; id_proof_file: any; selectfile: File = null; imageURL = []; typeid; imageurl = [];
+  ip; busname; grup; mod; id_proof_file: any; selectfile: File = null; imageURL: any = []; typeid; imageurl: any = [];
   subsid = false; bulk = []; arrayBuffer: any; failure: any[]; s = 0; f = 0; file: any[]; dist; states; config; servtype;
   simul = false; add_proof_file: any; statipdata; proid; subspro_image: any; ecaf; cafno;
   sizeOfOriginalImage: number; compressResult = [];
@@ -302,7 +302,7 @@ export class AddCustComponent implements OnInit {
   }
 
   async subprefix() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() >= 775 && this.role.getroleid()> 444) {
       let result = await this.custser.custprofileid({ resel_id: this.AddSubsForm.value['reseller'] })
       // console.log(result);
 
@@ -317,7 +317,7 @@ export class AddCustComponent implements OnInit {
         this.AddSubsForm.controls.ID.setValue('')
       }
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       let result;
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
         result = await this.custser.custprofileid({ resel_id: this.role.getmanagerid() })
@@ -361,8 +361,8 @@ export class AddCustComponent implements OnInit {
 
   bulkvalid() {
     if (this.AddSubsForm.value['create_type'] == '1') {
-      // this.AddSubsForm.get('serv_type').clearValidators();
-      // this.AddSubsForm.get('serv_type').updateValueAndValidity();
+      this.AddSubsForm.get('package').clearValidators();
+      this.AddSubsForm.get('package').updateValueAndValidity();
 
       this.AddSubsForm.get('propass').clearValidators();
       this.AddSubsForm.get('propass').updateValueAndValidity();
@@ -413,11 +413,11 @@ export class AddCustComponent implements OnInit {
       this.AddSubsForm.get('Billing').clearValidators();
       this.AddSubsForm.get('Billing').updateValueAndValidity();
 
-      this.AddSubsForm.get('addr_proof').clearValidators();
-      this.AddSubsForm.get('addr_proof').updateValueAndValidity();
+      // this.AddSubsForm.get('addr_proof').clearValidators();
+      // this.AddSubsForm.get('addr_proof').updateValueAndValidity();
 
-      this.AddSubsForm.get('addr_up_proof').clearValidators();
-      this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
+      // this.AddSubsForm.get('addr_up_proof').clearValidators();
+      // this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
 
       this.AddSubsForm.get('subs_type').clearValidators();
       this.AddSubsForm.get('subs_type').updateValueAndValidity();
@@ -444,11 +444,11 @@ export class AddCustComponent implements OnInit {
       this.AddSubsForm.get('mat_from').clearValidators();
       this.AddSubsForm.get('mat_from').updateValueAndValidity();
 
-      this.AddSubsForm.get('upproof').clearValidators();
-      this.AddSubsForm.get('upproof').updateValueAndValidity();
+      // this.AddSubsForm.get('upproof').clearValidators();
+      // this.AddSubsForm.get('upproof').updateValueAndValidity();
 
-      this.AddSubsForm.get('docupload').clearValidators();
-      this.AddSubsForm.get('docupload').updateValueAndValidity();
+      // this.AddSubsForm.get('docupload').clearValidators();
+      // this.AddSubsForm.get('docupload').updateValueAndValidity();
 
       this.AddSubsForm.get('sim_use').clearValidators();
       this.AddSubsForm.get('sim_use').updateValueAndValidity();
@@ -462,20 +462,20 @@ export class AddCustComponent implements OnInit {
       this.AddSubsForm.get('CAF').clearValidators();
       this.AddSubsForm.get('CAF').updateValueAndValidity();
 
-      this.AddSubsForm.get('docupload').clearValidators();
-      this.AddSubsForm.get('docupload').updateValueAndValidity();
+      // this.AddSubsForm.get('docupload').clearValidators();
+      // this.AddSubsForm.get('docupload').updateValueAndValidity();
 
-      this.AddSubsForm.get('addr_proof').clearValidators();
-      this.AddSubsForm.get('addr_proof').updateValueAndValidity();
+      // this.AddSubsForm.get('addr_proof').clearValidators();
+      // this.AddSubsForm.get('addr_proof').updateValueAndValidity();
 
-      this.AddSubsForm.get('addr_up_proof').clearValidators();
-      this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
+      // this.AddSubsForm.get('addr_up_proof').clearValidators();
+      // this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
 
       this.AddSubsForm.get('Proof').clearValidators();
       this.AddSubsForm.get('Proof').updateValueAndValidity();
 
-      this.AddSubsForm.get('upproof').clearValidators();
-      this.AddSubsForm.get('upproof').updateValueAndValidity();
+      // this.AddSubsForm.get('upproof').clearValidators();
+      // this.AddSubsForm.get('upproof').updateValueAndValidity();
 
       this.AddSubsForm.get('ProofID').clearValidators();
       this.AddSubsForm.get('ProofID').updateValueAndValidity();
@@ -517,7 +517,8 @@ export class AddCustComponent implements OnInit {
       this.AddSubsForm.get('cont_to_date').updateValueAndValidity();
     }
   }
-
+  // Documents comment
+/*
   proofvalid() {
     if (this.AddSubsForm.value['proofsame'] == true) {
       this.AddSubsForm.get('upproof').clearValidators();
@@ -534,11 +535,25 @@ export class AddCustComponent implements OnInit {
     }
   }
 
+  proof() {
+    this.AddSubsForm.value["Proof"] != "" ? this.AddSubsForm.get('ProofID').setValidators([Validators.required]) : this.AddSubsForm.get('ProofID').clearValidators()
+    this.AddSubsForm.get('ProofID').updateValueAndValidity();
+
+    this.AddSubsForm.value['Proof'] == 0 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$")]) : this.AddSubsForm.get('ProofID').clearValidators();
+    this.AddSubsForm.get('ProofID').updateValueAndValidity();
+
+    this.AddSubsForm.value['Proof'] == 2 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("[A-Z]{5}[0-9]{4}[A-Z]{1}")]) : this.AddSubsForm.get('ProofID').clearValidators();
+    this.AddSubsForm.get('ProofID').updateValueAndValidity();
+
+  }
+  */
+
   async Service($event = '') {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
+      console.log('show service data',this.AddSubsForm.value['reseller'])
       this.pack = await this.serv.showServiceName({ edit_flag: 1, resel_id: this.AddSubsForm.value['reseller'], like: $event })
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
         this.pack = await this.serv.showServiceName({ edit_flag: 1, resel_id: this.role.getmanagerid(), like: $event })
       } else if (this.role.getroleid() == 444 || this.role.getroleid() == 333 || this.role.getroleid() == 222) {
@@ -554,10 +569,10 @@ export class AddCustComponent implements OnInit {
   }
 
   async PoolName() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
       this.ip = await this.ipser.showPoolName({ groupid: this.AddSubsForm.value['groupid'], bus_id: this.AddSubsForm.value['bus_id'], resel_id: this.AddSubsForm.value['reseller'] })
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
         this.ip = await this.ipser.showPoolName({ resel_id: this.role.getmanagerid() })
       } else if (this.role.getroleid() == 444 || this.role.getroleid() == 333 || this.role.getroleid() == 222) {
@@ -569,10 +584,10 @@ export class AddCustComponent implements OnInit {
   }
 
   async reselbranch() {
-    if (this.role.getroleid() >= 775) {
+     if (this.role.getroleid() >= 775 || this.role.getroleid()> 444) {
       this.branches = await this.resser.showResellerBranch({ resel_id: this.AddSubsForm.value['reseller'] })
-    }
-    if (this.role.getroleid() < 775) {
+     }
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
         this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getmanagerid() })
       } else if (this.role.getroleid() == 444 || this.role.getroleid() == 333 || this.role.getroleid() == 222) {
@@ -580,14 +595,14 @@ export class AddCustComponent implements OnInit {
       } else {
         this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getresellerid() })
       }
-    }
+     }
   }
 
   upload1(event: any) {
     this.add_proof_file = event.target.files;
     let filelength = event.target.files.length;
     // console.log("File", this.add_proof_file)
-    if (filelength) {
+    if (filelength == 2) {
       for (let i = 0; i < filelength; i++) {
         var reader = new FileReader();
         reader.onload = (event: any) => {
@@ -598,6 +613,8 @@ export class AddCustComponent implements OnInit {
         }
         reader.readAsDataURL(event.target.files[i]);
       }
+    }else{
+      window.alert('Please upload front and back in separate files');
     }
   }
 
@@ -605,7 +622,7 @@ export class AddCustComponent implements OnInit {
     this.id_proof_file = event.target.files;
     let filelength = event.target.files.length;
     // console.log("File", this.id_proof_file)
-    if (filelength) {
+    if (filelength == 2) {
       for (let i = 0; i < filelength; i++) {
         var reader = new FileReader();
         reader.onload = (event: any) => {
@@ -616,6 +633,8 @@ export class AddCustComponent implements OnInit {
         }
         reader.readAsDataURL(event.target.files[i]);
       }
+    }else{
+      window.alert('Please upload front and back in separate (2)files');
     }
   }
 
@@ -664,17 +683,7 @@ export class AddCustComponent implements OnInit {
     }
   }
 
-  proof() {
-    this.AddSubsForm.value["Proof"] != "" ? this.AddSubsForm.get('ProofID').setValidators([Validators.required]) : this.AddSubsForm.get('ProofID').clearValidators()
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-    this.AddSubsForm.value['Proof'] == 0 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$")]) : this.AddSubsForm.get('ProofID').clearValidators();
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-    this.AddSubsForm.value['Proof'] == 2 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("[A-Z]{5}[0-9]{4}[A-Z]{1}")]) : this.AddSubsForm.get('ProofID').clearValidators();
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-  }
+ 
 
   async mode() {
     this.AddSubsForm.get('ippool').setValue('');
@@ -928,8 +937,14 @@ export class AddCustComponent implements OnInit {
       let subsdata = [this.AddSubsForm.value];
       this.loading = true;
       let result = await this.custser.addSubscriber({ bulkSubscriber: subsdata });
-      // console.log(result)
+      console.log('Add result', result)
+      if (result) {
+        this.loading = false;
+        this.result_pop(result, true);
+      }
       // this.datas=result;
+      // Documents upload ----
+      /*
       if (result[0]['error_msg'] == 0 && this.AddSubsForm.value['demo_accnt'] != 3) {
         const file = new FormData();
         let username = this.AddSubsForm.value['ID'];
@@ -984,23 +999,30 @@ export class AddCustComponent implements OnInit {
         if (this.AddSubsForm.value['proofsame'] == true) {
           file.append('id_status', String(1))
         }
-        // console.log("upload")
-        file.append('username', username)
+         file.append('username', username)
         file.append('sameproof', String(this.AddSubsForm.value['proofsame']))
+        setTimeout(() => {
+          this.loading = false;
+          this.result_pop(result, true);
+        }, 1000)
         let res = await this.custser.uploadDoc(file)
         // console.log("Address proof result", res)
-        if (res[0]['error_msg'] == 0) {
-          this.loading = false;
-          this.result_pop(result, true);
 
-        } else {
-          this.loading = false;
-          this.result_pop(result, true);
-        }
+        // if (res[0]['error_msg'] == 0) {
+        //   this.loading = false;
+        //   this.result_pop(result, true);
+
+        // } else {
+        //   this.loading = false;
+        //   this.result_pop(result, true);
+        // }
+
+
       } else {
         this.loading = false;
         this.result_pop(result, true);
       }
+      */
     }
     if (this.AddSubsForm.value['create_type'] == '1') {
       console.log("in", this.bulk);
@@ -1096,7 +1118,7 @@ export class AddCustComponent implements OnInit {
       await this.subprefix();
       await this.reselbranch();
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       this.AddSubsForm.get('bus_id').setValue(this.role.getispid())
       this.AddSubsForm.get('groupid').setValue(this.role.getgrupid());
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
@@ -1107,7 +1129,6 @@ export class AddCustComponent implements OnInit {
         this.AddSubsForm.get('reseller').setValue(this.role.getresellerid());
       }
       this.AddSubsForm.get('create_type').setValue('0')
-
       this.AddSubsForm.get('groupid').clearValidators();
       this.AddSubsForm.get('groupid').updateValueAndValidity();
 
@@ -1117,8 +1138,15 @@ export class AddCustComponent implements OnInit {
       // this.AddSubsForm.get('serv_type').clearValidators();
       // this.AddSubsForm.get('serv_type').updateValueAndValidity();
       await this.cafnum();
-
     }
+    if (this.role.getroleid() > 444) {
+      this.AddSubsForm.get('bus_id').setValue(this.role.getispid())
+      this.AddSubsForm.get('groupid').setValue(this.role.getgrupid());
+      this.AddSubsForm.get('create_type').setValue('0')
+      this.AddSubsForm.get('groupid').clearValidators();
+      this.AddSubsForm.get('groupid').updateValueAndValidity();
+
+     }
     if (this.role.getroleid() >= 775) {
       this.AddSubsForm.get('sim_use').clearValidators();
       this.AddSubsForm.get('sim_use').updateValueAndValidity();
@@ -1168,6 +1196,7 @@ export class AddCustComponent implements OnInit {
       checkpasswrd: new FormControl(''),
       password: new FormControl('', Validators.required),
       conpass: new FormControl(''),
+      // ID: new FormControl('', [Validators.required,Validators.minLength(6),Validators.pattern("[0-9 A-Z a-z ._-]")]),
       ID: new FormControl('', Validators.required),
       First: new FormControl('', Validators.required),
       // Last: new FormControl('', Validators.required),
@@ -1181,8 +1210,10 @@ export class AddCustComponent implements OnInit {
       locality: new FormControl('', Validators.required),
       Installation: new FormControl('', Validators.required),
       Billing: new FormControl('', Validators.required),
-      addr_proof: new FormControl('', Validators.required),
-      addr_up_proof: new FormControl('', Validators.required),
+      // addr_proof: new FormControl('', Validators.required),
+      addr_proof: new FormControl(''),
+      // addr_up_proof: new FormControl('', Validators.required),
+      addr_up_proof: new FormControl(''),
       proofsame: new FormControl(false),
       checkaddr: new FormControl(''),
       subs_type: new FormControl(''),
@@ -1200,9 +1231,10 @@ export class AddCustComponent implements OnInit {
       cont_to_date: new FormControl(''),
       demo_accnt: new FormControl('1'),
       status: new FormControl('1', Validators.required),
-      docupload: new FormControl('0', Validators.required),
+      // docupload: new FormControl('0', Validators.required),
+      docupload: new FormControl('0'),
       pack_mode: new FormControl('1'),
-      package: new FormControl(''),
+      package: new FormControl('', Validators.required),
       Expiry: new FormControl('', Validators.required),
       sim_use: new FormControl('1', Validators.required),
       onu_mac: new FormControl(''),
@@ -1215,7 +1247,8 @@ export class AddCustComponent implements OnInit {
       ippool: new FormControl(''),
       resel_renewal: new FormControl(''),
       cust_renewal: new FormControl(''),
-      upproof: new FormControl('', Validators.required),
+      // upproof: new FormControl('', Validators.required),
+      upproof: new FormControl(''),
       attributes: new FormControl(''),
       acctype: new FormControl('', Validators.required),
       pan_no: new FormControl(''),

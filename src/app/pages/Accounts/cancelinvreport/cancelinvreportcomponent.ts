@@ -276,9 +276,9 @@ export class CancelInvoiceComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP Name'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775) {
-          param['INVOICE ID'] = temp[i]['invid'];
-          param['RESELLER TYPE'] = temp[i]['role'] == 444 ? 'Bulk Resellre' : temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 666 ? 'Sub ISP Bulk' :
+        if(this.role.getroleid()>=775)  param['INVOICE ID'] = temp[i]['invid'];
+        if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
+          param['RESELLER TYPE'] = temp[i]['role'] == 444 ? 'Bulk Reseller' : temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 666 ? 'Sub ISP Bulk' :
             temp[i]['role'] == 555 ? 'Sub ISP Deposit' : temp[i]['role'] == 551 ? 'Sub Distributor Deposit' : temp[i]['role'] == 661 ? 'Sun Distributor Bulk' : 'Hotel';
           param['RESELLER NAME'] = temp[i]['company'];
         }

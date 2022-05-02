@@ -37,7 +37,9 @@ import { SendemailresellerComponent } from './sendemailreseller/sendemailreselle
 import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
 import { OttLogComponent } from './ott-log/ott-log.component';
 import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.component';
-
+import { InvoiceMailLogComponent } from './invoice-mail-log/invoice-mail-log.component';
+import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mail-log.component';
+ 
  
   
 @NgModule({
@@ -75,7 +77,9 @@ import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.
     SendsmsothersComponent,
     OttLogComponent,
     ResellerOttPlanComponent,
-    // OttcountComponent,
+    InvoiceMailLogComponent,
+    GstinvoiceMailLogComponent,
+     // OttcountComponent,
     //  ReadonlyDirective,
 
   ],

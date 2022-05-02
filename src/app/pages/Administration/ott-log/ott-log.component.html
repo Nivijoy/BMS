@@ -119,7 +119,7 @@
           <th style="border: 3px solid #aeb8b9;">Platform </th>
 
         </tr>
-        <tr *ngFor="let item of ottdata">
+        <tr *ngFor="let item of pagedItems">
           <td *ngIf="role.getroleid()>=775">{{item.invid}}</td>
           <td *ngIf="role.getroleid()>=775">{{item.iolid}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
@@ -141,7 +141,7 @@
             </a></td> -->
         </tr>
         <tr>
-          <td colspan="10" *ngIf="ottdata==''">NO DATA FOUND</td>
+          <td colspan="10" *ngIf="pagedItems==''">NO DATA FOUND</td>
         </tr>
       </table>
     </div>

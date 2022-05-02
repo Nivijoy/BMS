@@ -23,9 +23,11 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import * as io from 'ngx-socket-io';
 import { AutofocusModule } from 'angular-autofocus-fix';
+import { environment as env } from '../environments/environment';
 // import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
-const config:io.SocketIoConfig = { url:'https://bms.blss.in:3003', options:{} }  
+const config:io.SocketIoConfig = { url:env.baseUrl, options:{} }  
+ 
 @NgModule({
   declarations: [
     AppComponent,

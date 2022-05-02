@@ -18,8 +18,8 @@
                      <br>
                      <b>
                         <span style="white-space: break-spaces;">
-                           &nbsp;Company :{{data?data.busname:'--'}}<br>
-                           &nbsp;Address :{{data?data.bus_address:'--'}}<br>
+                           &nbsp;Company :{{data? data.busname:'--'}}<br>
+                           &nbsp;Address :{{busAddress? busAddress:'--'}}<br>
                            &nbsp;GST No :{{data ? data.supplier_gst_number:'--'}}<br>
                         </span>
                      </b>
@@ -31,7 +31,9 @@
                <table>
                   <tbody>
                      <tr>
-                        <td style=" font-weight: normal;white-space: break-spaces;"><b>IRN</b>:<span style="white-space: break-spaces;line-break: anywhere;">{{data?data.irn:'--'}} </span></td>
+                        <td style=" font-weight: normal;white-space: break-spaces;"><b>IRN</b>:<span
+                              style="white-space: break-spaces;line-break: anywhere;">{{data?data.irn:'--'}} </span>
+                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -164,7 +166,7 @@
                </table>
             </div>
             <br>
-            <div style="border: 1px solid black;border-collapse: collapse; width:98%;margin: 5px;"> <b>4.Goods
+            <div style="border: 1px solid black;border-collapse: collapse; width:98%;margin: 5px;"> <b>4.Service
                   Details</b>
                <table
                   style="border: 1px solid black;border-collapse: collapse; width:98%;margin: 5px;line-break: anywhere;white-space: break-spaces;">

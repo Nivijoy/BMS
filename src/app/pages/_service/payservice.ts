@@ -19,8 +19,16 @@ export class PaymentService {
     return await this.http.post("/api/pay/meTrnStaus",params).toPromise();
   }
 
+  async pumstatus(params){
+    return await this.http.post("/api/pay/pumTrnStaus",params).toPromise();
+  }
+
   async paystatusCust(params){
     return await this.http.post("/api/pay/meTrnStausSub",params).toPromise();
+  }
+
+  async pumstatusCust(params){
+    return await this.http.post("/api/pay/pumTrnStausSub",params).toPromise();
   }
   
 }

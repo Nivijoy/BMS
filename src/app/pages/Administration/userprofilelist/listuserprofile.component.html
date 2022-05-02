@@ -54,7 +54,7 @@
           (click)="page=pager.totalPages;getlist();">Last</a>
       </ul>
       <select [(ngModel)]="limit" (change)="initiallist()" class="form-control"
-        style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
+        style="height: calc(2rem + 12px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
         <option value="25">25</option>
         <option value="50">50</option>
         <option value="75">75</option>
@@ -67,7 +67,7 @@
           <th *ngIf="!role.getmenurole(73)">Action</th>
           <th *ngIf="role.getroleid()>777">ID</th>
           <th>ISP Name</th>
-          <th *ngIf="role.getroleid()>777">Profile ID</th>
+          <th *ngIf="role.getroleid()>444">Profile ID</th>
           <th>Reseller Name</th>
           <th>Profile Name</th>
           <th>Department Name</th>
@@ -77,7 +77,7 @@
             border-radius: 10px;font-size:11px;" (click)='edit(item);'><i class="nb-edit"></i>Edit</a></td>
           <td *ngIf="role.getroleid()>777">{{item.id}}</td>
           <td>{{item.busname}}</td>
-          <td style="text-transform: none !important;" *ngIf="role.getroleid()>777">{{item.managername}}</td>
+          <td style="text-transform: none !important;" *ngIf="role.getroleid()>444">{{item.managername}}</td>
           <td>{{item.username}}</td>
           <td>{{item.menu_name}}</td>
           <td>{{item.department_name==null ? '--' : item.department_name}}</td>

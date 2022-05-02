@@ -32,13 +32,13 @@
               <small *ngIf="EditSubsForm.hasError('required','groupid')&&submit" class="form-text error">Circle is
                 required! </small>
             </div>
-            <div class="col-sm-4" *ngIf="role.getroleid()>=775">
+            <div class="col-sm-4" *ngIf="role.getroleid()>=775 || role.getroleid()> 444">
               <label>Reseller Name <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control':true,'form-control-danger':EditSubsForm.controls.reseller.invalid&&submit}"
                 optValues="company" formControlName="reseller"
-                (changed)="Service();modelshow();PoolName();reselbranch()" placeholder='Select Reseller'
-                id="mid" [item]="resell">
+                (changed)="Service();modelshow();PoolName();reselbranch()" placeholder='Select Reseller' id="mid"
+                [item]="resell">
               </auto-completen>
               <small *ngIf="EditSubsForm.hasError('required','reseller')&&submit" class="form-text error">Reseller
                 is required! </small>
@@ -62,7 +62,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <nb-card>
-                      <nb-card-header style="background-color :  #01a7ee">CUSTOMER CREATION</nb-card-header>
+                      <nb-card-header style="background-color :  #01a7ee">SUBSCRIBER IDENTIFICATION</nb-card-header>
                       <nb-card-body>
                         <div class="form-group row">
                           <div class="col-sm-6">
@@ -145,7 +145,7 @@
                   </div>
                   <div class="col-md-6">
                     <nb-card>
-                      <nb-card-header style="background-color :  #01a7ee">CUSTOMER ADDRESS</nb-card-header>
+                      <nb-card-header style="background-color :  #01a7ee">SUBSCRIBER ADDRESS</nb-card-header>
                       <nb-card-body>
                         <div class="form-group row">
                           <div class="col-sm-6">
@@ -225,9 +225,9 @@
                   </div>
                 </div>
                 <nb-card>
-                  <nb-card-header style="background-color :  #01a7ee">DOCUMENTS</nb-card-header>
+                  <nb-card-header style="background-color :  #01a7ee">SUBSCRIBER CATEGORY</nb-card-header>
                   <nb-card-body>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                       <div class="col-sm-4" *ngIf='EditSubsForm.value["addr_proof"]'>
                         <label>Upload Address Proof</label>
                         <input type="file" formControlName="addr_up_proof" placeholder="Upload Proof"
@@ -241,7 +241,7 @@
                         <label>Proof Preview</label>
                         <img [src]="imageurl" style="width: 100%;height: 150px">
                       </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                       <div class="col-sm-4">
                         <label>Subscriber Type <span style="color:red;">*</span></label>
@@ -311,21 +311,21 @@
                         <small *ngIf="EditSubsForm.controls.cont_to_date.invalid&&submit"
                           class="form-text error">Contract To Date is Required!</small>
                       </div>
-                      <div class="col-sm-4" *ngIf='EditSubsForm.value["Proof"]'>
+                      <!-- <div class="col-sm-4" *ngIf='EditSubsForm.value["Proof"]'>
                         <label>Upload Proof</label>
                         <input type="file" formControlName="upproof" placeholder="Upload Proof"
                           [ngClass]="{'form-control':true,'form-control-danger':EditSubsForm.controls.upproof.invalid&&submit}"
                           (change)="upload($event.target.files)" />
                         <small *ngIf="EditSubsForm.hasError('required','upproof')&&submit" class="form-text error">Proof
                           should be uploaded</small>
-                      </div>
+                      </div> -->
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                       <div class="col-sm-4" *ngIf="imageURL">
                         <label>Proof Preview</label>
                         <img [src]="imageURL" style="width: 100%;height: 150px">
                       </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                       <div class="col-sm-4" *ngIf=" editdatas? editdatas['status'] <= 1:''">
                         <label>Status <span style="color:red;">*</span></label>
@@ -552,7 +552,7 @@
                     </div> -->
               </ng-template>
             </ngb-tab>
-             <ngb-tab title="Advanced" >
+            <ngb-tab title="Advanced">
               <ng-template ngbTabContent><br>
                 <div class="form-group">
                   <div class="col-sm-4">
@@ -566,7 +566,7 @@
                 <button type="submit" class="btn btn-md btn-danger " (click)='cancel()'>Back </button>
               </div>
             </ngb-tab>
-             <ngb-tab title="Material Details">
+            <ngb-tab title="Material Details">
               <ng-template ngbTabContent><br>
                 <div class="form-group row">
                   <div class="col-sm-4">

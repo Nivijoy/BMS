@@ -40,7 +40,7 @@ export class TopupComponent implements OnInit {
 
   async addPay() {
     console.log(this.TopupForm.value['amt'])
-    if (this.TopupForm.invalid  ) {
+    if (this.TopupForm.invalid) {
       window.alert('Please Enter amount Greater than or equal to 2000')
       return;
     }
@@ -51,13 +51,15 @@ export class TopupComponent implements OnInit {
     if (this.item['subs_flag'] == 2) {
       this.TopupForm.value['pay_type'] = 3;
     }
-    console.log('Value', this.TopupForm.value)
+    // console.log('Value', this.TopupForm.value)
     let res = await this.payser.payment(this.TopupForm.value);
+    console.log('Response--',res);
+    
     res = JSON.parse(res);
     console.log('Response-----------', res);
     // console.log(res[0]);
-    console.log(res['error_msg']);
-    if (res['error_msg'] == 0 && res['gwtype'] == 1) {
+    // console.log(res['error_msg']);
+    if (res['error_msg'] == 0) {
       // console.log(res['ldata']);
       // let ldata=res['ldata'];
       // let header = new HttpHeaders();
@@ -68,17 +70,13 @@ export class TopupComponent implements OnInit {
         document.body.appendChild(div.children[0])
       }
       const form: any = document.getElementById("f1");
-      form.submit();
+       form.submit();
       if (res) {
         this.loading = false
       }
-    } if (res['error_msg'] == 0 && res['gwtype'] == 2) {
-      console.log(res['ldata']);
-      document.location.href = res['ldata'];
-      
-     }  else {
+    } else {
       this.loading = false;
-      console.log('Error Msg.',res);
+      console.log('Error Msg.', res);
       const toast: Toast = {
         type: res['error_msg'] == 0 ? 'success' : 'warning',
         title: res['error_msg'] == 0 ? 'Success' : 'Failure',
@@ -95,7 +93,13 @@ export class TopupComponent implements OnInit {
     //    this.paysucess()
     // }, 65000);
 
-  }
+    // if (res['error_msg'] == 0 && res['gwtype'] == 2) {
+    //   console.log(res['ldata']);
+    //   document.location.href = res['ldata'];
+
+    //  } 
+
+  }p
 
   async paysucess() {
     let sucres = await this.payser.paysuccess({});

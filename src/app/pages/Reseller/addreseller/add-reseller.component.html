@@ -99,20 +99,21 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-sm-4"
-              *ngIf="AddReselForm.value['Role']=='333'||AddReselForm.value['Role']=='444'||AddReselForm.value['Role']=='551'">
+            <div class="col-sm-4"  
+              *ngIf="AddReselForm.value['Role']=='333'||AddReselForm.value['Role']=='444'||((role.getroleid()!= 666 && role.getroleid()!=665) && AddReselForm.value['Role']=='551')">
               <label>Reseller Under</label>
               <select formControlName="reseller_under" (change)="showResellerUnder();reselunderempty();sharedefault()"
                 [ngClass]="{'form-control':true,'form-control-danger':AddReselForm.controls.reseller_under.invalid&&submit}">
                 <option value="" selected>Select Reseller Under</option>
-                <option [hidden]="AddReselForm.value['Role']=='551'" value="0">None</option>
-                <option [hidden]="role.getroleid()=='666'||role.getroleid()=='555'"
+                <option [hidden]="AddReselForm.value['Role']=='551' || role.getroleid() > '444'"
+                  value="0">None</option>
+                <option [hidden]="role.getroleid()=='555' || role.getroleid()=='554' "
                   *ngIf="AddReselForm.value['Role']=='551'||AddReselForm.value['Role']=='333'||AddReselForm.value['Role']=='444'"
                   value="1">Sub ISP Bulk</option>
-                <option [hidden]="role.getroleid()=='666'||role.getroleid()=='555'"
+                <option [hidden]="role.getroleid()=='666' || role.getroleid()=='665' "
                   *ngIf="AddReselForm.value['Role']!='444'||AddReselForm.value['Role']=='551'" value="2">Sub ISP Deposit
                 </option>
-                <option [hidden]="role.getroleid()=='555'||AddReselForm.value['Role']=='551'" value="3">Sub Distributor
+                <option [hidden]="role.getroleid()=='555'|| role.getroleid()=='554'||AddReselForm.value['Role']=='551'" value="3">Sub Distributor
                   Bulk</option>
                 <option [hidden]="AddReselForm.value['Role']=='551'" *ngIf="AddReselForm.value['Role']!='444'"
                   value="4">Sub
@@ -123,8 +124,10 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-sm-4"
-              *ngIf="AddReselForm.value['Role']=='661'||(AddReselForm.value['Role']=='444'&&AddReselForm.value['reseller_under']=='1')||(AddReselForm.value['Role']=='333'&&AddReselForm.value['reseller_under']=='1')||(AddReselForm.value['Role']=='551'&& AddReselForm.value['reseller_under']=='1')">
+            <div class="col-sm-4" [hidden]="role.getroleid() == '666'|| role.getroleid() == '555' || role.getroleid()=='665' "
+              *ngIf="AddReselForm.value['Role']=='661'||(AddReselForm.value['Role']=='444'&&AddReselForm.value['reseller_under']=='1')||(AddReselForm.value['Role']=='333'&&
+              AddReselForm.value['reseller_under']=='1')||(AddReselForm.value['Role']=='551'&& AddReselForm.value['reseller_under']=='1')
+               || (role.getroleid()=='666' && AddReselForm.value['Role']=='551')">
               <label>Sub ISP Bulk <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':AddReselForm.controls.subisp_bulk.invalid&&submit}"
@@ -134,7 +137,7 @@
               <small *ngIf="AddReselForm.controls.subisp_bulk.invalid&&submit" class="form-text error">Sub ISP BUlk is
                 Required!</small>
             </div>
-            <div class="col-sm-4"
+            <div class="col-sm-4" [hidden]="role.getroleid() == '666'|| role.getroleid() == '555' || role.getroleid()=='554'"
               *ngIf="AddReselForm.value['reseller_under']=='2'||(AddReselForm.value['Role']=='551'&& AddReselForm.value['reseller_under']=='2')">
               <label>Sub Isp Deposit <span style="color:red;">*</span></label>
               <auto-completen
@@ -1178,7 +1181,7 @@
                       [ngClass]="{'form-control':true,'form-control-danger':AddReselForm.controls.nas_type.invalid&&submit}"
                       (change)="nasvalidation();this.AddReselForm.controls.typ.setValue('')">
                       <option value="" selected>Select Nas type</option>
-                      <option value="1">New Nas</option>
+                      <option *ngIf="role.getroleid()>= 775" value="1">New Nas</option>
                       <option value="2">Existing Nas</option>
                     </select>
                     <small *ngIf="AddReselForm.controls.nas_type.invalid&&submit" class="form-text error">Nas Type Is
@@ -1417,7 +1420,7 @@
                       (change)="poolvalidation();">
                       <option value="" selected>Select Ip type</option>
                       <option value="0">NO IP</option>
-                      <option value="1">New Ip</option>
+                      <option value="1" *ngIf="role.getroleid() >= 775">New Ip</option>
                       <option value="2">Existing ip</option>
                     </select>
                     <small *ngIf="AddReselForm.controls.ip_type.invalid&&submit" class="form-text error">IP Type is
@@ -1732,9 +1735,10 @@
                   </div>
                   <div class="col-sm-4" *ngIf="AddReselForm.value['exp_mode']==2">
                     <label>Custom Time <span style="color: red;">*</span></label>
-                    <input type="time" formControlName="exp_time" 
+                    <input type="time" formControlName="exp_time"
                       [ngClass]="{'form-control':true,'form-control-danger':AddReselForm.controls.exp_time.invalid&&submit}">
-                    <small *ngIf="AddReselForm.controls.exp_time.invalid&&submit" class="form-text error">Custom Time is Required!</small>
+                    <small *ngIf="AddReselForm.controls.exp_time.invalid&&submit" class="form-text error">Custom Time is
+                      Required!</small>
                   </div>
                 </div>
                 <hr>

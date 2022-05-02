@@ -18,7 +18,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 
 export class CafFormComponent implements OnInit {
-  modalHeader; data; id; pro_pic; custproid; caftc; isp_id;
+  modalHeader; data; id; pro_pic; custproid; caftc; isp_id;bus_address;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -61,6 +61,7 @@ export class CafFormComponent implements OnInit {
     // console.log("view",result)
     if (result) {
       this.data = result;
+      this.bus_address = this.data['bus_address'].replace(/<br>/g, '');
       this.loading = false
     }
   }

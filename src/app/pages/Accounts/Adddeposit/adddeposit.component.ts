@@ -46,7 +46,6 @@ export class AddDepositComponent implements OnInit {
 
   async showreason() {
     this.reasondata = await this.ser.showDepReason()
-
   }
 
   depmodevalid() {

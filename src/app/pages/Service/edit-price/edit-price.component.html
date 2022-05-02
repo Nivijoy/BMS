@@ -25,7 +25,7 @@
                         <option *ngFor="let item of grup" [ngValue]=item.groupid>{{item.groupname}}</option>
                      </select>
                   </div>
-                  <div class="col-sm-4" *ngIf="role.getroleid()>=775">
+                  <div class="col-sm-4" *ngIf="role.getroleid()>444">
                      <label>Reseller <span style="color:red;">*</span> </label>
                      <auto-completen
                         [addclass]="{'form-control':true,'form-control-danger':EditPriceForm.controls.reseller.invalid&&submit}"

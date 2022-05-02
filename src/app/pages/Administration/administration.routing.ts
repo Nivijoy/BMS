@@ -42,6 +42,8 @@ import { SendemailresellerComponent } from './sendemailreseller/sendemailreselle
 import { SendsmsothersComponent } from './sendsmsothers/sendsmsothers.component';
 import { OttLogComponent } from './ott-log/ott-log.component';
 import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.component';
+import { InvoiceMailLogComponent } from './invoice-mail-log/invoice-mail-log.component';
+import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mail-log.component';
 
 const routes: Routes = [{
   path: '',
@@ -90,6 +92,8 @@ const routes: Routes = [{
     { path: 'send-sms-other', component: SendsmsothersComponent },
     { path: 'ott-log', component: OttLogComponent },
     { path: 'reseller-ott-plan', component: ResellerOttPlanComponent },
+    { path: 'invoice-mail-log', component: InvoiceMailLogComponent },
+    { path: 'gst-mail-log', component: GstinvoiceMailLogComponent },
   ],
 }];
 
@@ -136,4 +140,7 @@ export const routedComponents = [
   SendsmsothersComponent,
   OttLogComponent,
   ResellerOttPlanComponent,
+  InvoiceMailLogComponent,
+  GstinvoiceMailLogComponent,
+  
 ];

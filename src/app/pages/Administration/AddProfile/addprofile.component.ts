@@ -271,6 +271,8 @@ export class AddprofileComponent implements OnInit {
       name: 'Accounts',
       children: [
         { id: 1046, name: 'Invoice Share Show' },
+        { id: 1060, name: 'Invoice Share Amount Details'},
+
         {
           name: 'Deposit',
           children: [
@@ -352,6 +354,7 @@ export class AddprofileComponent implements OnInit {
     {
       name: 'Reports',
       children: [
+        { id: 1062, name: 'Renewal Report'},
         { id: 1006, name: 'Dues' },
         { id: 1035, name: 'view Dues' },
         { id: 1007, name: 'Collection' },
@@ -367,7 +370,8 @@ export class AddprofileComponent implements OnInit {
         { id: 1011, name: 'Deposit' },
         { id: 1012, name: 'Reseller Nas' },
         { id: 1013, name: 'Nas Status' },
-        { id: 1041, name: 'Subscriber Traffic' }
+        { id: 1041, name: 'Subscriber Traffic' },
+        { id: 1061, name: 'Reseller Revenue Sharing'}
       ]
     },
     {

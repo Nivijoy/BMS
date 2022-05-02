@@ -1,7 +1,6 @@
 <div class="col-md-12">
    <nb-card>
-      <nb-card-header style="background-color :  #01a7ee">Capture {{picflag==1 ? 'Subsciber Pic':picflag==2 ? 'ID
-         Proof': 'Address Proof'}}</nb-card-header>
+      <nb-card-header style="background-color :  #01a7ee">Capture {{picflag==1 ? 'Subsciber Pic':picflag==2 ? 'ID Proof': 'Address Proof'}}</nb-card-header>
       <nb-card-body>
          <toaster-container [toasterconfig]="config"></toaster-container>
          <form [formGroup]="AddPicForm" class="form-horizontal" >
@@ -58,7 +57,12 @@
                         <option value="1">Aadhaar Card</option>
                         <option value="2">Ration Card</option>
                         <option value="3">Voter ID</option>
+                        <option value="4">Passport</option>
+                        <option value="5">Gas Bill </option>
+                        <option value="6">EB Bill </option>
+                        <option value="7">Water Bill </option>
                      </select>
+                     <small  style="color: blueviolet;"><b>(Water Bill ,EB bill & Gas Bill shouldn't be older than 3 Months)</b></small>
                      <small *ngIf="AddPicForm.controls.addr_proof.invalid&&submit" class="form-text error">Address Proof
                         is
                         Required!</small>

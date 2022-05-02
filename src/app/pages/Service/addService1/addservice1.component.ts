@@ -168,7 +168,7 @@ export class addService1Component implements OnInit {
       this.AddServiceForm.get('create_type').clearValidators();
       this.AddServiceForm.get('create_type').updateValueAndValidity();
     }
-    if (this.role.getroleid() >=775 || this.role.getroleid() == 666 || this.role.getroleid() == 661) {
+    if (this.role.getroleid() >=775 || this.role.getroleid() == 666 || this.role.getroleid() == 665) {
      this.AddServiceForm.get('ser_validity').setValidators([Validators.required]);
     }
     if(this.role.getroleid()<661){

@@ -13,14 +13,14 @@
                 <table style="width:100%;">
                     <tbody>
                         <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
-                            <img style="width:180px" src="/assets/images/eronet_logo.png">
+                            <img style="width:180px" src="/assets/images/Bluelotus_logo_bold4.png">
                             <img style="width:100px;float:right;" [src]='pro_pic ? pro_pic.profile_photo:" "'>
                             <br>
                             <span
                                 style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}<br>
                             </span>
                             <span
-                                style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.bus_address:'--'}}<br>
+                                style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address ? bus_address:'--'}}}<br>
                             </span>
                         </p>
                     </tbody>

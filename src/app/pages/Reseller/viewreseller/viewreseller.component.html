@@ -3,6 +3,7 @@
       <ngx-loading [show]="loading"
          [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
       </ngx-loading>
+      <toaster-container [toasterconfig]="config"> </toaster-container>
       <nb-card-header *ngIf="role.getroleid()>=775">View Reseller
          <a type="button" class="btn btn-primary btn-sm btn-floating "
             style="float: right;background-color: #01a7ee;padding-top: 5px;padding-bottom: 5px;padding-left: 3px;cursor: pointer; ;padding-right: 3px;color:white;"
@@ -19,7 +20,7 @@
             <div style="padding: 2px;" *ngIf="role.getroleid()>=775">
                <button class="btn btn-tn btn-outline-primary" (click)="Add_username(datas)">Change Username</button>
             </div>
-            <div style="padding: 2px;" *ngIf="role.getroleid()>=775">
+            <div style="padding: 2px;" *ngIf="role.getroleid()> 444">
                <button class="btn btn-tn btn-outline-primary" (click)="Add_password(datas)">Change Password</button>
             </div>
             <div style="padding: 2px;" *ngIf="role.getroleid()>=775">

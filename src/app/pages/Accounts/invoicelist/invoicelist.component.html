@@ -26,7 +26,7 @@
                   [item]="group1">
                </auto-completen>
             </div>
-            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid()==666 || role.getroleid()==555)">
+            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() >444)">
                <label>Reseller Type</label>
                <auto-completen [(ngModel)]="resel_type" addclass="form-control"
                   (changed)="showResellerName();changeclear(3);" optValues="menu_name"
@@ -120,7 +120,7 @@
          <thead class="success">
             <th style="text-align: left;color: white;" colspan="7" class="black-muted-bg"><b> Total Invoice :
                </b>{{count?count:0}}
-               <span *ngIf="role.getroleid()>=775" style="cursor: pointer;float: right;color: white;"
+               <span *ngIf="(role.getroleid() != 444 && role.getroleid() != 443 && !role.getmenurole(1060))" style="cursor: pointer;float: right;color: white;"
                   (click)='share=!share'><b><u>Click here to Show
                         Details</u></b></span>
             </th>
@@ -144,11 +144,11 @@
                </td>
             </tr>
             <tr>
-               <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{invamnt || 0 }}</i></td>
-               <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{taxamount || 0}}</i></td>
-               <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{totinvamnt || 0}}</i></td>
-               <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{invpaid || 0 }}</i></td>
-               <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{invunpaid || 0 }}</i></td>
+               <td style="text-align: center;font-weight: 800;font-size: medium;">&nbsp;{{invamnt || 0 | currency: 'INR' :'symbol' }}</td>
+               <td style="text-align: center;font-weight: 800;font-size: medium;">&nbsp;{{taxamount || 0 | currency: 'INR' :'symbol'}}</td>
+               <td style="text-align: center;font-weight: 800;font-size: medium;">&nbsp;{{totinvamnt || 0 | currency: 'INR' :'symbol'}}</td>
+               <td style="text-align: center;font-weight: 800;font-size: medium;">&nbsp;{{invpaid || 0 | currency: 'INR' :'symbol' }}</td>
+               <td style="text-align: center;font-weight: 800;font-size: medium;">&nbsp;{{invunpaid || 0 | currency: 'INR' :'symbol' }}</td>
             </tr>
          </tbody>
       </table>
@@ -240,7 +240,7 @@
                (click)="page=pager.totalPages;getlist();">Last</a>
          </ul>
          <select *ngIf="pager.pages && pager.pages.length" [(ngModel)]="limit" (change)="initiallist()"
-            class="form-control" style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
+            class="form-control" style="height: calc(2rem + 12px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="75">75</option>
@@ -256,7 +256,8 @@
                </th>
                <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>=775">ID</th>
                <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Invoice NO</th>
-               <th style="border: 3px solid #aeb8b9;color: white;" colspan="2" *ngIf="role.getroleid()>=775">Reseller
+               <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Renewal Type</th>
+               <th style="border: 3px solid #aeb8b9;color: white;" colspan="2" *ngIf="role.getroleid()>444">Reseller
                </th>
                <!-- <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>=775">Reseller Type</th>
                <th  style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="role.getroleid()>=775">Reseller Business Name</th> -->
@@ -307,12 +308,12 @@
                <th style="border: 3px solid #aeb8b9;color: white;" colspan="3">Payment</th>
                <!-- <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Pay Status</th>
                <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Pay Date</th> -->
-               <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Renewal Type</th>
+               <!-- <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Renewal Type</th> -->
                <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2">Renewal BY</th>
             </tr>
             <tr style="background-color :  #01a7ee;color:white;position: sticky;top: 38px;">
-               <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">Type</th>
-               <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>=775">Business Name</th>
+               <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>444">Type</th>
+               <th style="border: 3px solid #aeb8b9;" *ngIf="role.getroleid()>444">Business Name</th>
                <th style="border: 3px solid #aeb8b9;">Name</th>
                <th style="border: 3px solid #aeb8b9;">ProfileID</th>
                <th style="border: 3px solid #aeb8b9;">Type</th>
@@ -398,13 +399,12 @@
                      {{item.invid}}
                   </a></td>
                <td style="text-align: center;">{{item.rollid}}</td>
-               <td *ngIf="role.getroleid()>=775">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit
-                  Reseller':item.role==666?'Sub
-                  ISP Bulk'
+               <td>{{item.pay_through ==1? 'Manual' : item.pay_through==2? 'Scheduled' : item.pay_through == 3? 'Through Gateway By Subscriber' : 'Scheduled By Subscriber' }}</td>
+               <td *ngIf="role.getroleid()>444">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit
+                  Reseller':item.role==666?'Sub ISP Bulk'
                   :item.role==555 ? 'Sub ISP Deposit':item.role==551 ? 'Sub Distributor Deposit':item.role==661
-                  ? 'Sub
-                  Distributor Bulk':'Hotel'}}</td>
-               <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+                  ? 'SubDistributor Bulk':'Hotel'}}</td>
+               <td *ngIf="role.getroleid()>444">{{item.company}}</td>
                <td>{{item.user_name}}</td>
                <td (click)="view_user(item.uid)" style="cursor: pointer;text-transform: none!important;">
                   <b>{{item.userid}}</b>
@@ -425,7 +425,7 @@
                <td style="text-align: center;">{{item.supplier_gst_number}}</td>
                <td style="text-align: center;">{{item.recipient_gst_number || '--'}}</td>
                <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
-               <td>{{item.inv_status==1 ? 'Active':inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
+               <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
                <td>{{item.inv_date | date:'d MMM y h:mm:ss a'}}</td>
                <!-- <td style="font-weight:bold;color:#181818">{{item.cum_ispper | number : '1.0-2' }}&nbsp;<b>%</b></td>
                <td style="font-weight:bold;color:#181818">{{item.cum_subispper | number : '1.0-2' }}&nbsp;<b>%</b></td>
@@ -509,8 +509,7 @@
                <td><i class="fas fa-rupee-sign">&nbsp;{{item.sub_payed_amt}}</i></td>
                <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
                <td>{{item.pay_status==2 ? (item.paydate | date:'d MMM y h:mm:ss a'):'--'}}</td>
-               <td>{{item.pay_through ==1? 'Manual' : item.pay_through==2? 'Scheduled' : item.pay_through == 3? 'Through
-                  Gateway By Subscriber' : 'Scheduled By Subscriber' }}</td>
+              
                <td *ngIf="item.c_role != 111">{{item.renewalby_name}}</td>
                <td *ngIf="item.c_role == 111">{{item.userid}}</td>
             </tr>

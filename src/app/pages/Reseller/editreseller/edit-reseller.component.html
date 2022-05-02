@@ -63,17 +63,17 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-4"
-              *ngIf="EditReselForm.value['Role']=='333'||EditReselForm.value['Role']=='444'||EditReselForm.value['Role']=='551'">
+              *ngIf="EditReselForm.value['Role']=='333'||EditReselForm.value['Role']=='444'||((role.getroleid()!= 666 || role.getroleid()!= 665) && EditReselForm.value['Role']=='551')">
               <label>Reseller Under</label>
               <select formControlName="reseller_under"
                 (change)="provalid();showResellerUnder();sharedefault();reselunderempty()"
                 [ngClass]="{'form-control':true,'form-control-danger':EditReselForm.controls.reseller_under.invalid&&submit}">
                 <option value="" selected>Select Reseller Under</option>
-                <option [hidden]="EditReselForm.value['Role']=='551'" value="0">None</option>
-                <option [hidden]="role.getroleid()=='666'||role.getroleid()=='555'"
+                <option [hidden]="EditReselForm.value['Role']=='551'|| role.getroleid()=='666'||role.getroleid()=='555' || role.getroleid()=='665'" value="0">None</option>
+                <option [hidden]="role.getroleid()=='555' || role.getroleid()=='554'"
                   *ngIf="EditReselForm.value['Role']=='551'||EditReselForm.value['Role']=='333'||EditReselForm.value['Role']=='444'"
                   value="1">Sub ISP Bulk</option>
-                <option [hidden]="role.getroleid()=='666'||role.getroleid()=='555'"
+                <option [hidden]="role.getroleid()=='666' || role.getroleid()=='665' || role.getroleid()=='554' "
                   *ngIf="EditReselForm.value['Role']!='444'||EditReselForm.value['Role']=='551'" value="2">Sub ISP
                   Deposit
                 </option>
@@ -89,8 +89,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-sm-4"
-              *ngIf="EditReselForm.value['Role']=='661'||EditReselForm.value['Role']=='444'&&(EditReselForm.value['reseller_under']=='1')||EditReselForm.value['Role']=='333'&&(EditReselForm.value['reseller_under']=='1')||(EditReselForm.value['Role']=='551'&& EditReselForm.value['reseller_under']=='1')">
+            <div class="col-sm-4" [hidden]="role.getroleid() == '666'|| role.getroleid() == '555' || role.getroleid()=='665' "
+              *ngIf="EditReselForm.value['Role']=='661'||EditReselForm.value['Role']=='444'&&(EditReselForm.value['reseller_under']=='1')||EditReselForm.value['Role']=='333'&&(EditReselForm.value['reseller_under']=='1')
+              ||(EditReselForm.value['Role']=='551'&& EditReselForm.value['reseller_under']=='1') || (role.getroleid()=='666' && EditReselForm.value['Role']=='551')">
               <label>Sub ISP Bulk <span style="color:red;">*</span></label>
               <auto-completen
                 [addclass]="{'form-control' : true,'form-control-danger':EditReselForm.controls.subisp_bulk.invalid&&submit}"
@@ -100,7 +101,7 @@
               <small *ngIf="EditReselForm.controls.subisp_bulk.invalid&&submit" class="form-text error">Sub ISP Bulk is
                 Required!</small>
             </div>
-            <div class="col-sm-4"
+            <div class="col-sm-4" [hidden]="role.getroleid() == '666'|| role.getroleid() == '555' || role.getroleid()=='554'"
               *ngIf="EditReselForm.value['reseller_under']=='2'||(EditReselForm.value['Role']=='551'&& EditReselForm.value['reseller_under']=='2')">
               <label>Sub Isp Deposit <span style="color:red;">*</span></label>
               <auto-completen
@@ -1246,7 +1247,7 @@
                 <div class="form-group row">
                   <div class="col-sm-2">
                     <label>Reseller Payment Gateway</label><br>
-                    <nb-checkbox formControlName="pay_gateway">Enable</nb-checkbox>
+                    <nb-checkbox formControlName="pay_gateway" (change)="paymentType()">Enable</nb-checkbox>
                   </div>
                   <div class="col-md-2" *ngIf="EditReselForm.value['pay_gateway']">
                     <label>Select Gateway</label>
@@ -1261,7 +1262,7 @@
                 <div class="form-group row">
                   <div class="col-sm-2">
                     <label>Subscriber Payment Gateway</label><br>
-                    <nb-checkbox formControlName="subpay_gateway">Enable</nb-checkbox>
+                    <nb-checkbox formControlName="subpay_gateway" (change)="paymentType()">Enable</nb-checkbox>
                   </div>
                   <div class="col-sm-2" *ngIf="EditReselForm.value['subpay_gateway']">
                     <label>Select Gateway</label>
@@ -1353,7 +1354,7 @@
                 <div class="form-group row">
                   <div class="col-sm-2">
                     <label>Prefix</label><br>
-                    <nb-checkbox formControlName="prefix_enable" >Enable</nb-checkbox>
+                    <nb-checkbox formControlName="prefix_enable" (change)="prefixChange()" >Enable</nb-checkbox>
                   </div>
                   <div class="col-sm-2" *ngIf="EditReselForm.value['prefix_enable']">
                     <label>Prefix</label>

@@ -1,7 +1,7 @@
 <button style="text-align: left;" *ngIf="MultiSelect" (focus)="onTouched();hidden=false;" (click)="onTouched();hidden=false;"
     [ngClass]=addclass>{{multiselectLabel}}</button>
 <div id='infinite-list' *ngIf="MultiSelect" #dropDown [hidden]="hidden" class="dropdown-content">
-    <input [(ngModel)]="textbox" [disabled]=disabled (keyup)='onOutput($event);'
+    <input   [(ngModel)]="textbox" [disabled]=disabled (keyup)='onOutput($event);'
     autocomplete="off" class="form-control sticky" type="text">
     <a (mouseover)="index=i;" [ngStyle]="{'background-color': i==index ? '#20a8d875':'','color':i==index ? '#fff':''}"
         *ngFor="let item of itemsFilter;let i=index;">
@@ -12,7 +12,7 @@
     </a>
     <a [hidden]='itemsFilter.length!=0'>No Data Found</a>
 </div>
-<input *ngIf="!MultiSelect" [(ngModel)]="textbox" [disabled]=disabled (keydown.tab)="onClick()" (keyup)='onOutput($event);' #input
+<input  #autocomplet *ngIf="!MultiSelect" [(ngModel)]="textbox" [disabled]=disabled (keydown.tab)="onClick()" (keyup)='onOutput($event);' #input
     autocomplete="off" (focus)="onTouched();hidden=false" [ngClass]=addclass
     placeholder='{{placeholder}}' [id]='_ID' [name]='_Name' type="text">
 <div id='infinite-list' *ngIf="!MultiSelect" #dropDown [hidden]="hidden" class="dropdown-content">

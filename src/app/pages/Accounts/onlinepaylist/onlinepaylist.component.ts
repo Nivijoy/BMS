@@ -26,9 +26,9 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 export class OnlinePaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
-  res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;totalOnlinePay;order;trans;
-
+  res1; res_name; count; order_id; txnid; cdate : any; paydata; end_date : any; 
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;totalOnlinePay;order;trans;opstatus;
+  dd:any;mm:any;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
@@ -49,8 +49,18 @@ export class OnlinePaylistComponent implements OnInit {
 
 
   ) {
-    let nowdate = new Date();
-    this.cdate = this.end_date = nowdate.toISOString().slice(0,10);
+    let nowdate = new Date().toJSON().slice(0,10);
+    //  this.dd = nowdate.getDate();
+    //  this.mm = nowdate.getMonth();
+    // let yyyy = nowdate.getFullYear();
+    // if(this.dd <10){this.dd ='0'+this.dd } if(this.mm<10) {this.mm='0'+this.mm}
+    // let today = yyyy+'-'+this.mm+'-'+this.dd;
+    // console.log('Today',today)
+    
+    // console.log('Nowdate', nowdate,'ISo string',nowdate.toISOString());
+    
+    // this.cdate = this.end_date = nowdate.toISOString().slice(0, 10);
+    this.cdate = this.end_date = nowdate;
    }
   async ngOnInit() {
     localStorage.removeItem('array');
@@ -87,13 +97,13 @@ export class OnlinePaylistComponent implements OnInit {
     // console.log("resellername",result)
   }
 
-  async showOrderId($event =''){
-    this.order = await this.ser.showOrdertransactionId({bus_id: this.bus_name,like: $event})
+  async showOrderId($event = '') {
+    this.order = await this.ser.showOrdertransactionId({ bus_id: this.bus_name, like: $event })
   }
 
-  async showTransId($event =''){
-    this.trans = await this.ser.showOrdertransactionId({bus_id: this.bus_name,trn_like: $event})
- 
+  async showTransId($event = '') {
+    this.trans = await this.ser.showOrdertransactionId({ bus_id: this.bus_name, trn_like: $event })
+
   }
 
 
@@ -105,6 +115,7 @@ export class OnlinePaylistComponent implements OnInit {
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+      this.opstatus='';
     }
     if (item == 2) {
       this.res_name = '';
@@ -112,12 +123,14 @@ export class OnlinePaylistComponent implements OnInit {
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+      this.opstatus='';
     }
     if (item == 3) {
       this.order_id = '';
       this.txnid = '';
       this.cdate = '';
       this.end_date = '';
+      this.opstatus='';
     }
     if (item == 4) {
       this.txnid = '';
@@ -134,10 +147,11 @@ export class OnlinePaylistComponent implements OnInit {
     this.end_date = '';
     this.profile = '';
     this.res1 = '';
+    this.opstatus='';
     await this.initiallist();
     await this.showBusName();
     await this.showProfileReseller();
-    await this.showResellerName();
+    // await this.showResellerName();
 
     await this.showOrderId();
     await this.showTransId();
@@ -155,7 +169,9 @@ export class OnlinePaylistComponent implements OnInit {
         order_id: this.order_id,
         txnid: this.txnid,
         cdate: this.cdate,
-        end_date: this.end_date
+        end_date: this.end_date,
+        opstatus:this.opstatus
+
         // res_id:this.reseller_under,
       })
     // console.log(result)
@@ -190,7 +206,8 @@ export class OnlinePaylistComponent implements OnInit {
       order_id: this.order_id,
       txnid: this.txnid,
       cdate: this.cdate,
-      end_date: this.end_date
+      end_date: this.end_date,
+      opstatus:this.opstatus
     })
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -199,7 +216,7 @@ export class OnlinePaylistComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid()==555) {
+        if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
           param['RESELLER TYPE'] = temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 555 ? 'Sub ISP Deposit' : 'Sub Distributor Deposit';
           param['RESELLER BUSINESS NAME'] = temp[i]['company']
         }
@@ -228,9 +245,13 @@ export class OnlinePaylistComponent implements OnInit {
   }
 
 
-  async statuscheck(item) {
+  async statuscheck(item, gwid) {
     this.loading = true;
-    let result = await this.payser.paystatus({ opid: item });
+    let result;
+    if (gwid == 1) result = await this.payser.paystatus({ opid: item })   // Federal
+    else if (gwid == 2) {
+      result = await this.payser.pumstatus({ opid: item })  // payUMoney
+    }
     if (result) {
       this.paydata = result[0];
       this.loading = false
@@ -240,6 +261,8 @@ export class OnlinePaylistComponent implements OnInit {
       activeModal.result.then((data) => {
         this.initiallist();
       });
+    }else{
+      this.loading = false
     }
     // setTimeout(() => {
 

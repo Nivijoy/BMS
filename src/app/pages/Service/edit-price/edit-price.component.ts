@@ -17,7 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class EditPriceComponent implements OnInit {
   submit: boolean = false; EditPriceForm; groups; id; editdatas; resell; plan;
   busname; grup; pack; sharetyp; reselrole; edititems; config; servtype; ottdata; resott; ottflag; ott_ids;
-
+  deletePricefield;
 
   constructor(
     private router: Router,
@@ -45,18 +45,18 @@ export class EditPriceComponent implements OnInit {
   }
 
   async packshow($event = '') {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.pack = await this.ser.showServiceName({ edit_flag: 1, resel_id: this.EditPriceForm.value['reseller'], like: $event });
       // console.log(res);
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.pack = await this.ser.showServiceName({ edit_flag: 1, like: $event });
       // console.log(res);
     }
   }
 
   async showReseller() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.resell = await this.resser.showResellerName({
         edit_flag: 1,
         bus_id: this.EditPriceForm.value['bus_id'], groupid: this.EditPriceForm.value['groupid'], except: 1
@@ -64,7 +64,7 @@ export class EditPriceComponent implements OnInit {
       // console.log(res)
       await this.share();
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.resell = await this.resser.showResellerName({ edit_flag: 1, except: 1 });
       // console.log(res)
       await this.share();
@@ -96,14 +96,14 @@ export class EditPriceComponent implements OnInit {
   }
 
   share() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       let reselid = this.EditPriceForm.value['reseller']
       this.sharetyp = this.resell.filter(item => item.id == reselid).map(item => item.sharing_type)
       this.reselrole = this.resell.filter(item => item.id == reselid).map(item => item.role)
       // console.log("share",this.sharetyp,"role",this.reselrole)
 
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       let reselid = this.role.getresellerid();
       this.sharetyp = this.resell.filter(item => item.id == reselid).map(item => item.sharing_type)
       this.reselrole = this.role.getroleid();
@@ -112,11 +112,11 @@ export class EditPriceComponent implements OnInit {
   }
 
   async servicetype() {
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.servtype = await this.busser.showServiceType({ sertype: 1 });
       // console.log(result);
     }
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.servtype = await this.busser.showServiceType({ sertype: 1, price_flag: 1, resel_id: this.EditPriceForm.value['reseller'] });
       // console.log(result);
     }

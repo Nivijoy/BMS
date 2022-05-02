@@ -28,13 +28,13 @@
             optValues="groupname" (kryUp)="showGroupName($event)" placeholder='Select Group' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid()==666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" (changed)="showReseller();changeclear(3)" addclass="form-control"
             optValues="menu_name" placeholder='Select Profile' optId="role" [item]="profile">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid()==666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (changed)="showUser();cust_name=''"
             placeholder='Select Reseller' (keyUp)="showReseller($event)" id="res_name" [item]="resell">

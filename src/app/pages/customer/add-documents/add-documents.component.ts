@@ -17,12 +17,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class DocpopComponent implements OnInit {
   modalHeader; data; item; AddDocForm; add;
-  add_proof_file: any; imageURL:any=[]; imageurl :any=[];imagecafurl:any; addrflag; idflag; id_proof_file: any;cafflag;
-  caf_proof:any;subs_pic:any;subpicurl:any;custpicflag;
+  add_proof_file: any; imageURL: any = []; imageurl: any = []; imagecafurl: any; addrflag; idflag; id_proof_file: any; cafflag;
+  caf_proof: any; subs_pic: any; subpicurl: any; custpicflag;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
+  submit = false;
 
   constructor(
     private router: Router,
@@ -49,21 +50,26 @@ export class DocpopComponent implements OnInit {
 
   async adddoc() {
     // console.log(this.AddDocForm.value['same_proof'])
-    this.loading = true;
+    this.loading = true; this.submit = true;
     const file = new FormData();
     let username = this.item.proid
     file.append('username', username)
 
-    if(this.addrflag==2||this.idflag==2){
+    if (this.addrflag == 2 || this.idflag == 2) {
       file.append('sameproof', String(this.AddDocForm.value['same_proof']))
     }
     //Address Proof ALone
     if (this.addrflag == 2 && this.AddDocForm.value['same_proof'] == false) {
-      let filename = this.AddDocForm.value['addr_proof'] == 1 ? 'Aadhar' : this.AddDocForm.value['addr_proof'] == 2 ? 'Ration Card' : 'Voter ID'
+      let filename = this.AddDocForm.value['addr_proof'] == 1 ? 'Aadhar' : this.AddDocForm.value['addr_proof'] == 2 ? 'Ration Card' :
+        this.AddDocForm.value['addr_proof'] == 3 ? 'Voter ID' : this.AddDocForm.value['addr_proof'] == 4 ? 'Passport' : this.AddDocForm.value['addr_proof'] == 5 ? 'Gas Bill' :
+          this.AddDocForm.value['addr_proof'] == 6 ? 'EB Bill' : this.AddDocForm.value['addr_proof'] == 7 ? 'Water Bill' : '--'
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
       file.append('addr_proof', this.AddDocForm.value['addr_proof'])
       file.append('file', this.add_proof_file[0], first);
-      file.append('file', this.add_proof_file[1], second);
+      if (this.add_proof_file.length == 2) {
+        file.append('file', this.add_proof_file[1], second);
+        file.append('proofType', String(2));
+      } else file.append('proofType', String(1))
       // file.append('addr_proof', filename)
       file.append('addr_status', String(1));
     }
@@ -73,46 +79,57 @@ export class DocpopComponent implements OnInit {
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
       file.append('Proof', this.AddDocForm.value['Proof'])
       file.append('file', this.id_proof_file[0], first);
-      file.append('file', this.id_proof_file[1], second);
+      if (this.id_proof_file.length == 2) {
+        file.append('file', this.id_proof_file[1], second);
+        file.append('idproofType', String(2));
+      } else file.append('idproofType', String(1))
       // file.append('id_proof', filename)
       file.append('id_status', String(1));
     }
     //Address & ID proofs are same
     //uploading address proof
     if (this.addrflag == 2 && this.AddDocForm.value['same_proof'] == true) {
-      let filename = this.AddDocForm.value['addr_proof'] == 1 ? 'Aadhar' : this.AddDocForm.value['addr_proof'] == 2 ? 'Ration' : 'VoterID'
+      let filename = this.AddDocForm.value['addr_proof'] == 1 ? 'Aadhar' : this.AddDocForm.value['addr_proof'] == 2 ? 'Ration' :
+        this.AddDocForm.value['addr_proof'] == 3 ? 'Voter ID' : this.AddDocForm.value['addr_proof'] == 4 ? 'Passport' : this.AddDocForm.value['addr_proof'] == 5 ? 'Gas Bill' :
+          this.AddDocForm.value['addr_proof'] == 6 ? 'EB Bill' : this.AddDocForm.value['addr_proof'] == 7 ? 'Water Bill' : '--'
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
       file.append('addr_proof', this.AddDocForm.value['addr_proof'])
       file.append('file', this.add_proof_file[0], first);
-      file.append('file', this.add_proof_file[1], second);
+      if (this.add_proof_file.length == 2) {
+        file.append('file', this.add_proof_file[1], second);
+        file.append('proofType', String(2));
+      } else file.append('proofType', String(1))
       // file.append('addr_proof', filename)
       file.append('addr_status', String(1));
       file.append('id_status', String(1));
     }
     //Id proof & Address Proof are same
     //uploading id Proof
-    if(this.idflag == 2 && this.AddDocForm.value['same_proof'] == true){
+    if (this.idflag == 2 && this.AddDocForm.value['same_proof'] == true) {
       let filename = this.AddDocForm.value['Proof'] == 0 ? 'Aadhar' : this.AddDocForm.value['Proof'] == 1 ? 'Ration' : 'Pan'
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
       file.append('addr_proof', this.AddDocForm.value['Proof'])
       file.append('file', this.id_proof_file[0], first);
-      file.append('file', this.id_proof_file[1], second);
+      if (this.id_proof_file.length == 2) {
+        file.append('file', this.id_proof_file[1], second);
+        file.append('proofType', String(2));
+      } else file.append('proofType', String(1))
       // file.append('id_proof', filename)
       file.append('id_status', String(1));
       file.append('addr_status', String(1));
 
     }
     //caf form upload
-    if (this.cafflag==3){
-      let filename = username+ '-' + 'CAF';
+    if (this.cafflag == 3) {
+      let filename = username + '-' + 'CAF';
       file.append('caf_status', String(1));
-      file.append('file',this.caf_proof,filename);
-      
+      file.append('file', this.caf_proof, filename);
+
     }
     //cust profilepic upload
-    if(this.custpicflag == 4){
-      let filename = username+ '-' + 'Profile';
-      file.append('file',this.subs_pic,filename);
+    if (this.custpicflag == 4) {
+      let filename = username + '-' + 'Profile';
+      file.append('file', this.subs_pic, filename);
       file.append('user_photo_status', String(1));
     }
     let result = await this.custser.updateDocument(file)
@@ -163,7 +180,7 @@ export class DocpopComponent implements OnInit {
     }
   }
 
-  upload2(files:FileList) {
+  upload2(files: FileList) {
     this.caf_proof = files.item(0);
     if (this.caf_proof) {
       var reader = new FileReader();
@@ -177,7 +194,7 @@ export class DocpopComponent implements OnInit {
     }
   }
 
-  uploadpic(files:FileList) {
+  uploadpic(files: FileList) {
     this.subs_pic = files.item(0);
     if (this.subs_pic) {
       var reader = new FileReader();
@@ -198,8 +215,8 @@ export class DocpopComponent implements OnInit {
       upproof: new FormControl(''),
       addr_up_proof: new FormControl(''),
       same_proof: new FormControl(false),
-      cafupproof:new FormControl(''),
-      cust_pic : new FormControl(''),
+      cafupproof: new FormControl(''),
+      cust_pic: new FormControl(''),
     })
   }
 }

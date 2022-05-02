@@ -49,11 +49,11 @@ export class AddPriceComponent implements OnInit {
   }
 
   async packshow($event = '') {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.pack = await this.ser.showServiceName({ resel_id: this.AddPriceForm.value['reseller'], like: $event });
       // console.log(res);
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.pack = await this.ser.showServiceName({ like: $event });
       // console.log(res);
     }
@@ -61,14 +61,14 @@ export class AddPriceComponent implements OnInit {
   }
 
   async showReseller($event = '') {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.resell = await this.resser.showResellerName({
         bus_id: this.AddPriceForm.value['bus_id'], groupid: this.AddPriceForm.value['groupid'], except: 1, like: $event
       });
       // console.log(this.resell)
       await this.share();
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.resell = await this.resser.showResellerName({ except: 1, like: $event });
       // console.log(res)
       await this.share();
@@ -101,14 +101,14 @@ export class AddPriceComponent implements OnInit {
   // }
 
   share() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       let reselid = this.AddPriceForm.value['reseller']
       this.sharetyp = this.resell.filter(item => item.id == reselid).map(item => item.sharing_type)
       this.reselrole = this.resell.filter(item => item.id == reselid).map(item => item.role)
       // console.log("share",this.sharetyp,"role",this.reselrole)
 
     }
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       let reselid = this.role.getresellerid();
       this.sharetyp = this.resell.filter(item => item.id == reselid).map(item => item.sharing_type)
       this.reselrole = this.role.getroleid();
@@ -117,11 +117,11 @@ export class AddPriceComponent implements OnInit {
   }
 
   async servicetype() {
-    if (this.role.getroleid() < 775) {
+    if (this.role.getroleid() <= 444) {
       this.servtype = await this.busser.showServiceType({ sertype: 1 });
       // console.log(result);
     }
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() > 444) {
       this.servtype = await this.busser.showServiceType({ sertype: 1, price_flag: 1, resel_id: this.AddPriceForm.value['reseller'] });
       // console.log(result);
     }
@@ -336,7 +336,16 @@ export class AddPriceComponent implements OnInit {
       this.s = 0; this.f = 0;
       let s = 0;
       this.failure = [];
+      const invalid=[];
+      const controls = this.AddPriceForm['controls'];
+      for (const name in controls) {
+        if (controls[name].invalid) {
+          invalid.push(name)
+        }
+      };
       if (this.AddPriceForm.invalid) {
+        console.log('Invalid',invalid)
+        window.alert('Please fill all mandatory fields')
         this.submit = true;
         return;
       }
@@ -494,6 +503,9 @@ export class AddPriceComponent implements OnInit {
       this.AddPriceForm.get('groupid').setValue(this.role.getgrupid());
       this.AddPriceForm.get('create_type').setValue('0');
     }
+    if(this.role.getroleid() ==444) this.AddPriceForm.get('reseller').setValue(this.role.getresellerid());
+    if(this.role.getroleid() ==443) this.AddPriceForm.get('reseller').setValue(this.role.getmanagerid());
+
   }
 
   createForm() {

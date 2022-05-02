@@ -60,6 +60,7 @@ export class ListVoiceNumComponent implements OnInit {
     this.res_name = '';
     this.voice_num = '';
     this.status = '';
+    this.cust_name='';
     await this.initiallist();
   }
 
@@ -71,6 +72,7 @@ export class ListVoiceNumComponent implements OnInit {
       resel_id: this.res_name,
       voice_num: this.voice_num,
       status: this.status,
+      uid:this.cust_name
     })
     // console.log(result)
     if (result) {
@@ -88,6 +90,7 @@ export class ListVoiceNumComponent implements OnInit {
       resel_id: this.res_name,
       voice_num: this.voice_num,
       status: this.status,
+      uid:this.cust_name
     });
     if (res) {
       let tempdata = [], temp: any = res[0];

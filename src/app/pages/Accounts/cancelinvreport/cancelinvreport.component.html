@@ -26,13 +26,13 @@
                   [item]="group1">
                </auto-completen>
             </div>
-            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() ==666 || role.getroleid() ==555)">
+            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
                <label>Reseller Type</label>
                <auto-completen [(ngModel)]="resel_type" addclass="form-control" (changed)="showResellerName();changeclear(3);"
                   optValues="menu_name" placeholder='Select Reseller Type' optId="role" [item]="profile">
                </auto-completen>
             </div>
-            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() ==666 || role.getroleid() ==555)">
+            <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
                <label>Reseller Name</label>
                <auto-completen [(ngModel)]="res_name" (keyUp)="showResellerName($event)" addclass="form-control"  
                   optValues="company" (changed)="showUser();showService();changeclear(4);" placeholder='Select Reseller' id="mid"
@@ -241,8 +241,8 @@
                   <th *ngIf="role.getroleid()>777">ISP Name</th>
                   <th *ngIf="role.getroleid()>=775">ID</th>
                   <th>Invoice NO</th>
-                  <th *ngIf="role.getroleid()>=775">Reseller Type</th>
-                  <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
+                  <th *ngIf="role.getroleid()>444">Reseller Type</th>
+                  <th *ngIf="role.getroleid()>444">Reseller Business Name</th>
                   <th>Subscriber Name</th>
                   <th>Profile ID</th>
                   <th>Service Type</th>
@@ -289,13 +289,13 @@
                         {{item.invid}}
                      </a></td>
                   <td style="text-align: center;">{{item.rollid}}</td>
-                  <td *ngIf="role.getroleid()>=775">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit
+                  <td *ngIf="role.getroleid()>444">{{item.role==444 ? 'Bulk Reseller':item.role==333 ? 'Deposit
                      Reseller':item.role==666?'Sub
                      ISP Bulk'
                      :item.role==555 ? 'Sub ISP Deposit':item.role==551 ? 'Sub Distributor Deposit':item.role==661
                      ? 'Sub
                      Distributor Bulk':'Hotel'}}</td>
-                  <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+                  <td *ngIf="role.getroleid()>444">{{item.company}}</td>
                   <td>{{item.user_name}}</td>
                   <td style="text-transform: none !important;">{{item.userid}}</td>
                   <td *ngIf="!role.getmenurole(1046)" (click)="shareshow(item.invid,item.service_type)" style="cursor: pointer;"><b>{{item.service_name}}</b>
@@ -309,7 +309,7 @@
                   <td style="text-align: center;">{{item.supplier_gst_number}}</td>
                   <td style="text-align: center;">{{item.recipient_gst_number}}</td>
                   <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
-                  <td>{{item.inv_status==1 ? 'Active':inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
+                  <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
                   <td>{{item.inv_date | date:'d MMM y h:mm:ss a'}}</td>
                   <td>{{item.cancel_date | date:'d MMM y h:mm:ss a'}}</td>
                   <td>{{item.cancel_reason}}</td>

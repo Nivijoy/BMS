@@ -3,7 +3,7 @@ import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
 import { Router } from '@angular/router';
 import 'style-loader!angular2-toaster/toaster.css';
 import { FormControl, FormGroup, Validators, FormArray, FormBuilder, } from '@angular/forms';
-import { AccountService } from '../../_service/indexService';
+import { AccountService, ResellerService } from '../../_service/indexService';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import pdfmake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -20,9 +20,9 @@ import html2pdf from 'html2pdf.js';
 })
 
 export class ViewInvoiceComponent implements OnInit {
-  modalHeader: string; invdata; views;bus_address;
+  modalHeader: string; invdata; views; bus_address;
   submit: boolean; cuser: any = []; data; receiptdata; rcptvalue; paystatus; username; invperiod;
-  show_inv = 1;
+  show_inv = 1; logo;
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
   @ViewChild('content') content: ElementRef;
@@ -101,7 +101,7 @@ export class ViewInvoiceComponent implements OnInit {
     private router: Router,
     private ser: AccountService,
     public activeModal: NgbActiveModal,
-
+    private reser: ResellerService
   ) { }
 
   async ngOnInit() {
@@ -132,11 +132,17 @@ export class ViewInvoiceComponent implements OnInit {
       <html>
         <head>
           <title>Tax Invoice</title>
-          
+          <link rel="stylesheet" type="text/css" href="viewinvoice.component.css" />
           <style>
           @media print {
             @page { margin: 0; }
             body { margin: 1cm; }
+ 
+            
+           #hidedesktop {
+            display: none !important;
+        }
+      }
           }
           </style>
         </head>
@@ -147,15 +153,15 @@ export class ViewInvoiceComponent implements OnInit {
   }
 
   async view() {
-    if (this.views == 2 || this.views == 4) {      // GST
+     if (this.views == 2 || this.views == 4) {      // GST
       let result = await this.ser.showGSTInvoiceReceipt({ invid: this.invdata, ref_flag: 1 })
       // console.log("gstinv",result);
       if (result) {
         this.data = result[0][0];
         this.receiptdata = result[1];
         this.paystatus = this.data['pay_status'];
-        this.bus_address = this.data['bus_address'].replace(/<br>/g,'');
-        console.log('Bus address',this.bus_address)
+        this.bus_address = this.data['bus_address'].replace(/<br>/g, '');
+        // console.log('Bus address', this.bus_address)
       }
     }
     if (this.views == 1 || this.views == 3) {   // Non-GST
@@ -163,11 +169,30 @@ export class ViewInvoiceComponent implements OnInit {
       // console.log("invres",result);
       if (result) {
         this.data = result[0][0];
+        // console.log('Logo data', this.data['resel_logo'])
+        if (this.data['resel_logo']) {
+          await this.getresellerlogo(this.data['reseller_id'])
+        }
         this.receiptdata = result[1];
         this.paystatus = this.data['pay_status']
-        this.bus_address = this.data['bus_address'].replace(/<br>/g,'');
-        console.log('Bus address',this.bus_address)
+        this.bus_address = this.data['bus_address'].replace(/<br>/g, '');
+        // console.log('Bus address', this.bus_address)
       }
     }
   }
+
+  async getresellerlogo(id) {
+    let result = await this.reser.getResellerLogo({ id: id });
+    console.log('Result', result);
+    this.logo = result;
+    if (this.logo) {
+      for (const key in result) {
+        if (Object.prototype.hasOwnProperty.call(result, key)) {
+          const element = result[key];
+          this.logo[key] = 'data:image/png;base64,' + element
+        };
+      }
+    }
+  };
+
 }

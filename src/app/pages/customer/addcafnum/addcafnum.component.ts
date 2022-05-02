@@ -111,8 +111,8 @@ export class AddCafNumComponent implements OnInit {
     this.AddCafForm = new FormGroup({
       bus_id: new FormControl(this.item ? this.item.isp_id : '', Validators.required),
       groupid: new FormControl(''),
-      Role: new FormControl(this.item ? this.item.role : ''),
-      reseller: new FormControl(this.item ? this.item.reseller_id : ''),
+      Role: new FormControl(this.item ? this.item.role : '', Validators.required),
+      reseller: new FormControl(this.item ? this.item.reseller_id : '',Validators.required),
       initial: new FormControl('2022/',Validators.required),
       st_num: new FormControl(this.item ? this.item.s_num : '', Validators.required),
       end_num: new FormControl(this.item ? this.item.e_num : '', Validators.required),

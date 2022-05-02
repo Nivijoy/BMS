@@ -179,7 +179,7 @@ export class SubsRenewalComponent implements OnInit {
     // let result = await this.opser.subscriber_renewal({ renewal: renewaldata })
     let result = await this.payser.payment(this.SubsRenewForm.value);
     this.loading = false;
-    console.log("result", JSON.parse(result));
+    // console.log("result", JSON.parse(result));
     result = JSON.parse(result);
     // console.log("result",JSON.parse(result));
     if (result['error_msg'] == 0) {
@@ -192,7 +192,8 @@ export class SubsRenewalComponent implements OnInit {
       // console.log('form',form)
       form.submit();
     }else{
-      this.toastalert(result['msg'],result['error_msg']);
+      // this.toastalert(result['msg'],result['error_msg']);
+      window.alert(result['msg'])
     }
 
     // console.log(result);

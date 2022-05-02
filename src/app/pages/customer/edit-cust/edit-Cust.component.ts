@@ -20,7 +20,8 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 export class EditCustComponent implements OnInit {
   submit: boolean = false; EditSubsForm; id: any = []; resell; datas; pack; subsid; branches;
   editdatas; ip; busname; grup; mod; mak; typ; edititems; cusprefix; dist; states; config;
-  simul = false; servtype; account_type; acnt_type; statipdata; view_flag;destroyOnHide:boolean=true;sip_address;pip_address
+  simul = false; servtype; account_type; acnt_type; statipdata; view_flag;destroyOnHide:boolean=true;sip_address;pip_address;
+  editable = false;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -93,13 +94,21 @@ export class EditCustComponent implements OnInit {
   }
 
   async PoolName() {
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
       this.ip = await this.ipser.showPoolName({ groupid: this.EditSubsForm.value['groupid'], isp_id: this.EditSubsForm.value['bus_id'], resel_id: this.EditSubsForm.value['reseller'] })
-      // console.log(result)
-    }
-    if (this.role.getroleid() < 775) {
-      this.ip = await this.ipser.showPoolName({ resel_id: this.role.getresellerid() })
-      // console.log(result)
+     }
+    // if (this.role.getroleid() < 775) {
+    //   this.ip = await this.ipser.showPoolName({ resel_id: this.role.getresellerid() })
+    //  }
+     
+    if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
+      if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
+        this.ip = await this.ipser.showPoolName({ resel_id: this.role.getmanagerid() })
+      } else if (this.role.getroleid() == 444 || this.role.getroleid() == 333 || this.role.getroleid() == 222) {
+        this.ip = await this.ipser.showPoolName({ resel_id: this.role.getresellerid() })
+      } else {
+        this.ip = await this.ipser.showPoolName({ resel_id: this.role.getresellerid() })
+      }
     }
   }
 
@@ -118,13 +127,18 @@ export class EditCustComponent implements OnInit {
   }
 
   async reselbranch() {
-    if (this.role.getroleid() >= 775) {
-      console.log('Branch',this.EditSubsForm.value['reseller'] )
+    if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
       this.branches = await this.resser.showResellerBranch({ resel_id: this.EditSubsForm.value['reseller'] })
-    }
-    if (this.role.getroleid() < 775) {
-      this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getresellerid() })
-    }
+     }
+    if (this.role.getroleid() < 775 && (this.role.getroleid()<= 444)) {
+      if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
+        this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getmanagerid() })
+      } else if (this.role.getroleid() == 444 || this.role.getroleid() == 333 || this.role.getroleid() == 222) {
+        this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getresellerid() })
+      } else {
+        this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getresellerid() })
+      }
+     }
   }
 
 
@@ -462,7 +476,7 @@ export class EditCustComponent implements OnInit {
       status: new FormControl(this.editdatas ? this.editdatas['status'] : ''),
       pack_mode: new FormControl(this.editdatas ? JSON.stringify(this.editdatas['srvmode']) : ''),
       package: new FormControl(this.editdatas ? this.editdatas['srvid'] : ''),
-      Expiry: new FormControl(this.editdatas ? this.editdatas['expiration'] : ''),
+      Expiry: new FormControl(this.editdatas ? this.editdatas['expiration']=='0000-00-00 00:00:00'? '':this.editdatas['expiration']: ''),
       sim_use: new FormControl(this.editdatas ? this.editdatas['simultaneous_use'] : ''),
       onu_mac: new FormControl(''),
       mac_addr: new FormControl(this.editdatas ? this.editdatas['usemacauth'] : ''),

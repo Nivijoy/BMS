@@ -20,7 +20,7 @@
             <td>{{status_descp}}</td>
             <td>{{orderid}}</td>
             <td>{{trascn_num}}</td>
-            <td>{{resp_code}}</td>
+            <td>{{resp_code == 0 ? 'Success' : resp_code == 4 ? 'Failure' : resp_code == 5 ? 'Pending' : 'Initiate'}}</td>
           </tr>
           <tr>
             <td style="text-align: center;" colspan="4" *ngIf="(item.error_msg != 0 || item.error_msg!=4 || item.error_msg!=5)">{{msg}}</td>

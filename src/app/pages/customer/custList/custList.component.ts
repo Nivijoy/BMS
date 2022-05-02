@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
 import { Router } from '@angular/router';
 import { RenewCustComponent } from '../RenewCustomer/renewCust.component';
 import { ProfilePasswordComponent } from '../ProfilePassword/profilepass.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RoleService, CustService, BusinessService, GroupService, S_Service, ResellerService, NasService, PagerService, SelectService } from '../../_service/indexService';
+import {
+  RoleService, CustService, BusinessService, GroupService, S_Service, ResellerService, NasService,
+  PagerService, SelectService, IppoolService
+} from '../../_service/indexService';
 import { unescapeIdentifier } from '@angular/compiler';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 import { JsonPipe, DatePipe } from '@angular/common';
@@ -20,20 +23,21 @@ import { LogOffComponent } from '../Logoff/logoff.component';
   styleUrls: ['./custlist.component.scss']
 })
 
-export class CustListComponent implements OnInit {
+export class CustListComponent implements OnInit, OnDestroy {
   data; totalpage = 10; pages = [1, 2, 3, 4, 5]; details: any[]; id; tot; dashstatus;
   bus; group1; serdata; resdata; branchdata; profile; name; nam1; count; serv_type; uid; cust_name = '';
   resel_type = ''; nas_name; res_name; resel_branch; subs_id; nas1; search; showreseller; res1; ser_name; bus_name; group_name;
   regular_user; mac_user; expiry_status; online_status; active_status; ofline_status; limit = 25;
   subs_type = ''; subs_status = ''; conn_type = ''; subs_gst = ''; subs_profileid = ''; subs_accno = ''; act_status: any;
   date_type = ''; st_date = ''; en_date = ''; cstart_date = ''; cend_date = ''; start_date = ''; end_date = ''; acc_type = ''; on_status: any;
-  servtype; custname; gst; suspend; hold; exp_track = ''; acnt_type = ''; on_expiry: any; logoff_flag = false; state_id; state;
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; on_exp;disconnected;
+  servtype; custname; gst; suspend; hold; exp_track = ''; acnt_type = ''; on_expiry: any; logoff_flag = false; state_id; state; ip_mode;
+  public_ip; publicIp; static_ip;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; on_exp; disconnected;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
   pager: any = {}; page: number = 1; pagedItems: any = []; start_exp = ''; end_exp = ''; sbranch; s_branch;
-  today_date;yes_date;tom_date;dft_date;exp_status;
+  today_date; yes_date; tom_date; dft_date; exp_status;
   constructor(
     private alert: ToasterService,
     private router: Router,
@@ -47,28 +51,28 @@ export class CustListComponent implements OnInit {
     public pageservice: PagerService,
     private datePipe: DatePipe,
     private select: SelectService,
-
-  ) { 
+    public ipservice: IppoolService
+  ) {
     this.dashstatus = JSON.parse(localStorage.getItem('dash_status'));
     this.exp_status = JSON.parse(localStorage.getItem('expstatus'));
     // console.log('Exp status',this.exp_status)
-    let today=new Date();
-    let yesterday=new Date();
-    let tom=new Date();
+    let today = new Date();
+    let yesterday = new Date();
+    let tom = new Date();
     let dft = new Date();
-    yesterday.setDate(today.getDate()-1);
-    tom.setDate(today.getDate()+1);
-    dft.setDate(today.getDate()+2);
-    this.today_date =today.toISOString().slice(0,10);this.yes_date = yesterday.toISOString().slice(0,10);this.tom_date=tom.toISOString().slice(0,10);
-    this.dft_date=dft.toISOString().slice(0,10);
+    yesterday.setDate(today.getDate() - 1);
+    tom.setDate(today.getDate() + 1);
+    dft.setDate(today.getDate() + 2);
+    this.today_date = today.toISOString().slice(0, 10); this.yes_date = yesterday.toISOString().slice(0, 10); this.tom_date = tom.toISOString().slice(0, 10);
+    this.dft_date = dft.toISOString().slice(0, 10);
 
     // console.log('Date',this.today_date)
     // console.log('yes Date',this.yes_date)
 
     // console.log('tom Date',this.tom_date)
     // console.log('dft date',this.dft_date)
-   this.start_exp = this.end_exp = this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
-        this.exp_status==4?this.dft_date: ''
+    this.start_exp = this.end_exp = this.exp_status == 1 ? this.yes_date : this.exp_status == 2 ? this.today_date : this.exp_status == 3 ? this.tom_date :
+      this.exp_status == 4 ? this.dft_date : ''
 
   }
 
@@ -110,7 +114,7 @@ export class CustListComponent implements OnInit {
 
 
   async showgst($event = '') {
-    this.gst = await this.custser.showUser({ bus_id: this.bus_name, groupid: this.group_name, uid: this.cust_name, like: $event })
+    this.gst = await this.custser.showUser({ bus_id: this.bus_name, groupid: this.group_name, uid: this.cust_name, gst_like: $event, gst_flag: 1 })
     // console.log("gst",result)
   }
 
@@ -124,6 +128,14 @@ export class CustListComponent implements OnInit {
   }
   async showState($event = '') {
     this.state = await this.select.showState({ like: $event })
+  }
+
+  async showPublicIp($event = '') {
+    if (this.ip_mode == 3) {
+      this.publicIp = await this.ipservice.showPublicIp({ bus_id: this.bus_name, resel_id: this.res_name, uid: this.cust_name, like: $event })
+      console.log('Public Ip', this.publicIp);
+
+    }
   }
 
   async ngOnInit() {
@@ -226,7 +238,7 @@ export class CustListComponent implements OnInit {
     this.dashstatus = '';
     this.exp_track = '';
     this.group1 = ''; this.profile = ''; this.res1 = ''; this.servtype = ''; this.nam1 = ''; this.custname = ''; this.gst = '';
-    this.start_exp = ''; this.end_exp = ''; this.s_branch = ''; this.state_id = '';
+    this.start_exp = ''; this.end_exp = ''; this.s_branch = ''; this.state_id = ''; this.ip_mode = ''; this.static_ip = ''; this.public_ip = '';
 
     await this.initiallist();
     if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
@@ -267,11 +279,14 @@ export class CustListComponent implements OnInit {
       //   this.exp_status==4?this.dft_date: this.start_exp,
       //   expedate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
       //   this.exp_status==4?this.dft_date: this.end_exp,
-      expsdate:this.start_exp,
+      expsdate: this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
       sort_exp: (this.start_exp && this.end_exp) || this.dashstatus == 4 ? 1 : 0,
       state_id: this.state_id,
+      ip_mode: this.ip_mode,
+      static_ip: this.static_ip,
+      public_ip: this.public_ip
     })
     // console.log("cuslist------------", result);
     if (result) {
@@ -301,6 +316,10 @@ export class CustListComponent implements OnInit {
         this.data[l].lcdllimit = this.data[l].lcdllimit == 0 ? 0 : this.bytefunc(this.data[l].lcdllimit);
         this.data[l].lcuplimit = this.data[l].lcuplimit == 0 ? 0 : this.bytefunc(this.data[l].lcuplimit);
         this.data[l].lclimitcomb = this.data[l].lclimitcomb == 0 ? 0 : this.bytefunc(this.data[l].lclimitcomb);
+
+        this.data[l]['upload'] = this.data[l]['acctinputoctets'] == 0 ? '0 Bytes' : this.bytefunc(this.data[l]['acctinputoctets']);
+        this.data[l]['download'] = this.data[l]['acctoutputoctets'] == 0 ? '0 Bytes' : this.bytefunc(this.data[l]['acctoutputoctets']);
+        this.data[l]['total'] = this.data[l]['totoctets'] == 0 ? '0 Bytes' : this.bytefunc(this.data[l]['totoctets']);
       }
       this.setPage();
     }
@@ -337,11 +356,14 @@ export class CustListComponent implements OnInit {
       //   this.exp_status==4?this.dft_date: this.start_exp,
       //   expedate: this.exp_status == 1? this.yes_date:this.exp_status ==2? this.today_date:this.exp_status ==3?this.tom_date:
       //   this.exp_status==4?this.dft_date: this.end_exp,
-      expsdate:this.start_exp,
+      expsdate: this.start_exp,
       expedate: this.end_exp,
       branch: this.s_branch,
       state_id: this.state_id,
       sort_exp: (this.start_exp && this.end_exp) || this.dashstatus == 4 ? 1 : 0,
+      ip_mode: this.ip_mode,
+      static_ip: this.static_ip,
+      public_ip: this.public_ip
     })
     if (res) {
       this.loading = false;
@@ -366,7 +388,10 @@ export class CustListComponent implements OnInit {
         param['USER ID'] = temp[i]['cust_profile_id'];
         param['SUBSCRIBER NAME'] = temp[i]['cust_name'];
         param['SERVICE TYPE'] = temp[i]['srvdatatype'] == 1 ? 'Unlimited' : 'FUP';
-        param['SERVICE NAME'] = temp[i]['srvname'] || 'N/A';
+        param['USER SERVICE'] = temp[i]['srvname'] || 'N/A';
+        param['RUNNING SERVICE'] = temp[i]['online_status'] == 1 ? temp[i]['rsrvname'] : '--';
+
+       if(this.dashstatus!=2 && this.on_status!=1){
         param['SUBPLAN'] = temp[i]['sub_plan'] || 'N/A';
         param['DL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitdl'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
         param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcuplimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcuplimit']) : '--';
@@ -375,21 +400,36 @@ export class CustListComponent implements OnInit {
         param['REGISTERED DATE'] = temp[i]['registered'];
         temp[i]['createdon'] = this.datePipe.transform(temp[i]['createdon'], 'dd-MM-yyyy');
         param['CREATION DATE'] = temp[i]['createdon'];
-        temp[i]['expiration'] = this.datePipe.transform(temp[i]['expiration'], 'dd-MM-yyyy hh:mm:ss a','es-ES');
+        temp[i]['expiration'] = temp[i]['expiration'] == '0000-00-00 00:00:00' ? '' : this.datePipe.transform(temp[i]['expiration'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
         param['EXPIRY DATE'] = temp[i]['expiration'];
         param['MOBILE NUMBER'] = temp[i]['mobile'];
         param['ADDRESS'] = temp[i]['address'];
         param['BRANCH'] = temp[i]['branch'];
         param['LOCALITY'] = temp[i]['area'] == 0 ? 'Rural' : temp[i]['area'] == 1 ? 'Urban' : '--';
         param['CONNECTION TYPE'] = temp[i]['subs_type'] == 0 ? 'SME' : temp[i]['subs_type'] == 1 ? 'Home User' : temp[i]['subs_type'] == 2 ? 'Corporate' : 'EDU/INST';
-        param['RUNNING SERVICE'] = temp[i]['online_status'] == 1 ? temp[i]['rsrvname'] : '--';
+        param['IP MODE'] = temp[i]['ipmodecpe'] == 0 ? 'Dynamic' : temp[i]['ipmodecpe'] == 1 ? 'Ippool' : (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 0) ? 'Static IP' :
+          (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 1) ? 'PublicIP' : '';
+        param['IP'] = temp[i]['staticipcpe'] || '--';
+       }else{
+         param['MAC'] = temp[i]['callingstationid'];
+         param['IP ADDRESS'] =temp[i]['framedipaddress'];
+         temp[i]['acctstarttime'] = this.datePipe.transform(temp[i]['acctstarttime'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
+         param['START TIME'] = temp[i]['acctstarttime'];
+         param['ONLINE TIME'] = temp[i]['online_time'];
+         param['DOWNLOAD'] = temp[i]['acctoutputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctoutputoctets']);
+         param['UPLOAD'] =  temp[i]['acctinputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctinputoctets']);
+         param['TOTAL'] =  temp[i]['totoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['totoctets']);
+         param['NAS IP'] = temp[i]['nasipaddress'];
+         
+       }
+
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
       const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
       JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
       JSXLSX.writeFile(wb, 'Subscribers List' + EXCEL_EXTENSION);
-    }else this.loading = false;
+    } else this.loading = false;
   }
 
   getlist(page) {
@@ -501,6 +541,11 @@ export class CustListComponent implements OnInit {
       this.initiallist();
     })
   };
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('dash_status');
+    localStorage.removeItem('expstatus');
+  }
 
 
 }

@@ -20,8 +20,46 @@
         <div class="col-sm-3" *ngIf="role.getroleid()>777">
           <label>Business Name</label>
           <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname"
-             placeholder='Select Business' id="bus_name" [item]="bus">
+            (keyUp)="showBusName($event)" (changed)="showUser();showgst();changeclear(1);showinvoicenum();"
+            placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
+        </div>
+        <div class="col-sm-3">
+          <label>Profile ID</label>
+          <auto-completen [(ngModel)]="cust_name" (keyUp)="showUser($event)"
+            (changed)="showgst();showinvoicenum();subs_gst=''" addclass="form-control" optValues="profileid"
+            placeholder='Select Subs AccountID' optId="uid" [item]="custname">
+          </auto-completen>
+        </div>
+        <div class="col-sm-3">
+          <label>Subscriber GST</label>
+          <auto-completen [(ngModel)]="subs_gst" addclass="form-control" optValues="gst" placeholder='Select GST Number'
+            optId="gst" (keyUp)="showgst($event)" [item]="gst">
+          </auto-completen>
+        </div>
+        <div class="col-sm-3">
+          <label>Invoice NO</label>
+          <auto-completen [(ngModel)]="invoice_num" addclass="form-control" optValues="rollid"
+            placeholder='Select Invoice-NO' (keyUp)="showinvoicenum($event)" optId="invid" [item]="invnum">
+          </auto-completen>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-3">
+          <label>Acknowledge Status</label>
+          <select name="ackStatus" [(ngModel)]="ackStatus" class="form-control">
+            <option value="" selected>Select Status</option>
+            <option value=1>Not Acknowledge</option>
+            <option value=2>Acknowledged</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label>Start Date</label>
+          <input type="date" class="form-control" [(ngModel)]="start_date" />
+        </div>
+        <div class="col-sm-3">
+          <label>End Date</label>
+          <input type="date" class="form-control" [(ngModel)]="end_date" />
         </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='page=1;initiallist();'
@@ -55,6 +93,7 @@
         <th>HSN Code</th>
         <th>IRN</th>
         <th>IRN Date</th>
+        <th>Status</th>
       </tr>
       <tr *ngFor="let item of pagedItems">
         <td *ngIf="!role.getmenurole(1023) || !role.getmenurole(1024)" style=" padding: 1px;" class=" last"
@@ -65,11 +104,12 @@
             </button>
             <ul style="width: 106px;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
               <li *ngIf="!role.getmenurole(1023)" class="dropdown-item" title="View" (click)="view_inv(item.gstinvid)">
-                <i style="font-size: 20px;" class="far fa-eye "></i>&nbsp;View</li>
+                <i style="font-size: 20px;" class="far fa-eye "></i>&nbsp;View
+              </li>
               <li *ngIf="!role.getmenurole(1024)" class="dropdown-item" title="Code" (click)="view_code(item.gstinvid)">
-                <i style="font-size: 20px;" class="fa fa-qrcode "></i>&nbsp;Code</li>
-              <li  class="dropdown-item"
-                title="Update Einvoice Date" (click)="change_einvoice(item.gstinvid)"><i
+                <i style="font-size: 20px;" class="fa fa-qrcode "></i>&nbsp;Code
+              </li>
+              <li class="dropdown-item" title="Update Einvoice Date" (click)="change_einvoice(item.gstinvid)"><i
                   class="fa fa-exchange-alt"></i>&nbsp;UpdateDate</li>
             </ul>
           </div>
@@ -84,6 +124,9 @@
         <td>{{item.hsn || '--'}}</td>
         <td>{{item.irn || '--'}}</td>
         <td>{{item.ack_date == "0000-00-00 00:00:00" ? '--' : (item.ack_date | date: 'd MMM y h:mm:ss a')}}</td>
+        <td><a [ngStyle]="{'color': item.gstAck==1? 'red':'green'}"
+            [ngClass]="{'ion-close-round':item.gstAck !=2? true:false,'ion-checkmark-round':item.gstAck==2?true:false}"></a>
+        </td>
       </tr>
       <!-- <tr>
           <td colspan="8" *ngIf="pagedItems==''">NO DATA FOUND</td>

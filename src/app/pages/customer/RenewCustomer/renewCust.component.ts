@@ -60,7 +60,10 @@ export class RenewCustComponent implements OnInit {
     this.cu_date = new Date();
     this.cu_date.setTime(Math.floor((this.cu_date.getTime()) + (5 * 3600 * 1000 + 1800000)))
     this.curentdate = ((this.cu_date).toISOString()).slice(0, 16);
+    this.RenewSubsForm.get('pay_date').setValue(this.curentdate);
+
     // console.log('cdate',curentdate);
+    
     if (this.expirydate <= this.curentdate) {
       this.RenewSubsForm.get('schedule_date').setValue(this.curentdate);
       this.RenewSubsForm.get('renew_type').setValue(1);
@@ -260,7 +263,7 @@ export class RenewCustComponent implements OnInit {
     activemodal.result.then((data) => {
     });
   }
-
+ 
   createForm() {
     this.RenewSubsForm = new FormGroup({
       last_pack: new FormControl(''),

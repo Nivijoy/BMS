@@ -23,20 +23,60 @@
    <div id="main_cont" style="background-color: #FFFFFF;">
       <div id="pdfTable" #pdfTable style="background-color: #FFFFFF;">
          <div class="page">
-            <table style="width: 100%;">
-               <tbody>
-                  <div style="font-weight: 700;text-align: center;">INVOICE</div>
-                  <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
-                     <img style="width:180px" src="/assets/images/Bluelotus_logo_bold4.png"><br>
-                     <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
-                     </span>
-                     <br> -->
-                     <span
-                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
-                     </span>
-                  </p>
-               </tbody>
-            </table>
+            <div id="hidemobile">
+               <table style="width: 100%;">
+                  <tbody>
+                     <div style="font-weight: 700;text-align: center;">INVOICE</div>
+                     <div class="row">
+                        <div class="col-sm-6 col-xs-6" style="float:left">
+                           <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
+                              <img style="width:180px;" src="/assets/images/Bluelotus_logo_bold4.png"><br>
+                              <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
+                        </span>
+                        <br> -->
+                              <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address ?
+                                 bus_address:'--'}}<br>
+                              </span>
+                           </p>
+                        </div>
+                        <div class="col-sm-6 col-xs-6" style="float:right" *ngIf="logo">
+                           <div class="imgstyle">
+                              <img style="width:180px;height:120px;margin-top:12px;"
+                                 [src]="logo?logo['reseller_logo']:''" /><br>
+                           </div>
+                        </div>
+                     </div>
+
+                  </tbody>
+               </table>
+            </div>
+            <div id="hidedesktop">
+               <table style="width: 100%;">
+                  <tbody>
+                     <div style="font-weight: 700;text-align: center;">INVOICE</div>
+                     <div class="row">
+                        <div class="col-sm-6 col-xs-6" style="float:left">
+                           <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
+                              <img style="width:90px;" src="/assets/images/Bluelotus_logo_bold4.png"><br>
+                              <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
+                           </span>
+                           <br> -->
+                              <span
+                                 style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
+                              </span>
+                           </p>
+                        </div>
+                        <div class="col-sm-6 col-xs-6" style="float:right">
+                           <div class="imgstylemobile">
+                              <img style="width:90px;height:75px;margin-top:1px;margin-left: 245px;float:right"
+                                 [src]="logo?logo['reseller_logo']:''" /><br>
+                           </div>
+                        </div>
+                     </div>
+
+                  </tbody>
+               </table>
+            </div>
             <table style="border: 1px solid black;border-collapse: collapse; width:100%;">
                <div class="row">
                   <div class="col-sm-6">
@@ -71,12 +111,13 @@
                               </tr>
                               <tr>
                                  <td>Paid Status</td>
-                                 <td>
+                                 <!-- <td>
                                     <span *ngIf="paystatus==1"
                                        style="background-color:red;font-weight:bold;border-radius: 3px;padding-right: 6px;padding-left: 6px;color:black;">Unpaid</span>
                                     <span *ngIf="paystatus==2 "
                                        style="background-color:green;font-weight:bold;border-radius: 3px;padding-right: 6px;padding-left: 6px;color:black;">Paid</span>
-                                 </td>
+                                 </td> -->
+                                 <td>{{paystatus ==1? 'Unpaid': 'Paid'}}</td>
                               </tr>
                            </tbody>
                         </table>
@@ -106,7 +147,8 @@
                               </tr>
                               <tr>
                                  <td>Paid Date</td>
-                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y h:mm:ss
+                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y
+                                    h:mm:ss
                                     a'):'N/A'}}</td>
                                  <!-- <td>:{{data?data.paydate | date : 'd MMM y h:mm:ss a':''}}</td> -->
                               </tr>
@@ -183,7 +225,8 @@
                            <tbody>
                               <tr>
                                  PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.pan_no : '--'}}
-                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno : '--'}}
+                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno :
+                                 '--'}}
                                  <br>HSN/SAC No:{{data ? data.hsn : '--'}}
                               </tr>
                            </tbody>
@@ -207,7 +250,7 @@
                </div>
             </table>
             <div style="text-align: center;">
-               This is Computer Generated Invoice no Signature required 
+               This is Computer Generated Invoice no Signature required
             </div>
             <!-- <div style="text-align: center;">Thankyou for being Our Business Partner</div> -->
 
@@ -216,15 +259,63 @@
             <div style="border: none; border-top:dotted;"></div>
             <table *ngIf="show_inv ==2" style="width: 100%;">
                <tbody>
-                  <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
-                     <img style="width:180px" src="/assets/images/Bluelotus_logo_bold4.png"><br>
 
-                     <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
-                     </span><br> -->
-                     <span
-                        style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
-                     </span>
-                  </p>
+
+                  <div id="hidemobile">
+                     <table style="width: 100%;">
+                        <tbody>
+                           <div style="font-weight: 700;text-align: center;">INVOICE</div>
+                           <div class="row">
+                              <div class="col-sm-6 col-xs-6" style="float:left">
+                                 <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
+                                    <img style="width:180px;" src="/assets/images/Bluelotus_logo_bold4.png"><br>
+                                    <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
+                                 </span>
+                                 <br> -->
+                                    <span
+                                       style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
+                                    </span>
+                                 </p>
+                              </div>
+                              <div class="col-sm-6 col-xs-6" style="float:right" *ngIf="logo">
+                                 <div class="imgstyle">
+                                    <img style="width:180px;height:120px;margin-top:12px;"
+                                       [src]="logo?logo['reseller_logo']:''" /><br>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </tbody>
+                     </table>
+                  </div>
+                  <div id="hidedesktop">
+                     <table style="width: 100%;">
+                        <tbody>
+                           <div style="font-weight: 700;text-align: center;">INVOICE</div>
+                           <div class="row">
+                              <div class="col-sm-6 col-xs-6" style="float:left">
+                                 <p style="color: darkblue;margin-bottom: 2px;font-weight: 400;">
+                                    <img style="width:90px;" src="/assets/images/Bluelotus_logo_bold4.png"><br>
+                                    <!-- <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}
+                                    </span>
+                                    <br> -->
+                                    <span
+                                       style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address?bus_address:'--'}}<br>
+                                    </span>
+                                 </p>
+                              </div>
+                              <div class="col-sm-6 col-xs-6" style="float:right">
+                                 <div class="imgstylemobile">
+                                    <img style="width:90px;height:75px;margin-top:1px;margin-left: 245px;float:right"
+                                       [src]="logo?logo['reseller_logo']:''" /><br>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </tbody>
+                     </table>
+                  </div>
+
                </tbody>
             </table>
             <table *ngIf="show_inv ==2" style="border: 1px solid black;border-collapse: collapse; width:100%;">
@@ -295,7 +386,8 @@
                               </tr>
                               <tr>
                                  <td>Paid Date</td>
-                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y h:mm:ss
+                                 <td>{{data ? data.paydate=='0000-00-00 00:00:00'?'--':(data.paydate | date : 'd MMM y
+                                    h:mm:ss
                                     a'):'N/A'}}</td>
 
                               </tr>
@@ -374,7 +466,8 @@
                            <tbody>
                               <tr>
                                  PAN NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.pan_no : '--'}}
-                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno : '--'}}
+                                 <br>GST NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{{data ? data.bgstno :
+                                 '--'}}
                                  <br>HSN/SAC No:{{data ? data.hsn : '--'}}
                               </tr>
                            </tbody>

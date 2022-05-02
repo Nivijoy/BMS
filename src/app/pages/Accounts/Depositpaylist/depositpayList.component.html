@@ -1,3 +1,4 @@
+
 <nb-card>
   <nb-card-header> List Deposit<a type="button" class="btn btn-primary btn-sm btn-floating "
       style="float: right; margin: 5px;
@@ -26,14 +27,14 @@
             (changed)="changeclear(2);" placeholder='Select Group' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() == 666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control"
             (changed)="showResellerName();changeclear(3);" optValues="menu_name" placeholder='Select Reseller Type'
             optId="role" [item]="profile">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() == 666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
             placeholder='Select Reseller' id="res_name" [item]="res1">
@@ -51,6 +52,14 @@
         </div>
       </div>
       <div class="form-group row">
+        <div class="col-sm-2">
+          <label>Reason</label>
+          <select [(ngModel)]="depReason" name="depReason" id="depReason"
+            class="form-control no-range-feature-val video-codec-list">
+            <option value=0 selected="selected">ALL</option>
+            <option *ngFor="let item of reasondata" [ngValue]="item.id">{{ item.reason }}</option>
+          </select>
+        </div>
         <div class="col-sm-2">
           <label>Start Date</label>
           <input type="date" pattern="Start Date" [(ngModel)]="start_date" class="form-control">
@@ -77,11 +86,12 @@
         <th style="text-align:left;color:white"><b>Total records : {{count}}</b></th>
       </thead>
       <tbody>
-         <tr>
-          <td style="text-align:left;font-weight:800;"> TOTAL DEPOSIT AMOUNT :</td>
-         </tr>
         <tr>
-           <td style="text-align: left;font-size: x-large;"><i class="fas fa-rupee-sign">&nbsp;{{ totalDepositAmount }}</i></td>
+          <td style="text-align:left;font-weight:800;"> TOTAL DEPOSIT AMOUNT :</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;font-size: x-large;font-weight:600;">&nbsp;{{ totalDepositAmount || 0 | currency :
+            'INR': 'symbol' }}</td>
         </tr>
       </tbody>
     </table>
@@ -104,7 +114,7 @@
           <th *ngIf="role.getroleid()>777">ISP Name</th>
           <th *ngIf="role.getroleid()>=775">Group Name</th>
           <th *ngIf="role.getroleid()>=775">Reseller Type</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
+          <th *ngIf="role.getroleid()>444">Reseller Business Name</th>
           <th>Deposit Mode</th>
           <th>Deposit Type</th>
           <th>OrderID</th>
@@ -112,9 +122,9 @@
           <th>Deposit Amount</th>
           <th>Received Amount</th>
           <th>Status</th>
-          <th>Cancel Reason</th>
-          <th>Remarks</th>
+          <th>Reason</th>
           <th>Notes</th>
+          <th>Cancel Reason</th>
           <th>Deposited By</th>
           <th>Deposit Date</th>
         </tr>
@@ -140,7 +150,7 @@
           <td *ngIf="role.getroleid()>=775">{{item.groupname}}</td>
           <td *ngIf="role.getroleid()>=775">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
             Deposit':'Sub Distributor Deposit'}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.company}}</td>
           <td>{{item.dflag==1 ?'Deposit':item.dflag==2 ? 'Received':item.dflag==3?'Deposit against
             Payment':item.dflag==4?'Commission':item.dflag==5 ? 'Debit':item.dflag==6 ? 'Credit':'--'}}
           <td style="text-align: center;">{{item.deposit_type==1 ? 'Cash':item.deposit_type==2 ? 'Bank
@@ -150,14 +160,13 @@
           <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{item.deposit_amount}}</i></td>
           <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{item.received_amount}}</i></td>
           <td>{{item.status==1 ? 'Cancel': item.status==0 ? 'Active':'Revert'}}</td>
-          <td>{{item.cancel_reason==null ? '--': item.cancel_reason}}</td>
-          <td>{{item.dep_reason}}</td>
+          <td>{{item.dep_reason || '--'}}</td>
           <td>
             <i class="fa fa-envelope" placement="right" popoverClass="style:background: aliceblue;
-            font-size: 150%;"
-              ngbPopover="{{item.note?item.note:'--'}}">
+            font-size: 150%;" ngbPopover="{{item.note?item.note:'--'}}">
             </i>
           </td>
+          <td>{{item.cancel_reason==null ? '--': item.cancel_reason}}</td>
           <td>{{item.deposited_by}}</td>
           <td>{{item.c_date | date:'d MMM y h:mm:ss a'}}</td>
         </tr>

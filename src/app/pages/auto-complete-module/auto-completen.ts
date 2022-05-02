@@ -1,4 +1,4 @@
-import { Component, forwardRef, ElementRef, Input, ViewChild, OnInit, EventEmitter, Output, Renderer2 } from '@angular/core';
+import { Component, forwardRef, ElementRef, Input, ViewChild, OnInit, EventEmitter, Output, Renderer2,AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -17,11 +17,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 
-export class AutoCompleteNComponent implements ControlValueAccessor, OnInit {
+export class AutoCompleteNComponent implements ControlValueAccessor, OnInit,AfterViewInit {
   hidden = true; index = -1; oldValue = null;
   @ViewChild('dropDown') dropDown: ElementRef;
+  @ViewChild('autocomplet') autocomplet: ElementRef;
   incr = 0;
   // Initial Purose Only
+  @Input() autofocus = false;
   @Input() disabled = false;
   @Input() optValues = 'name';
   @Input() optId = 'id';
@@ -33,12 +35,11 @@ export class AutoCompleteNComponent implements ControlValueAccessor, OnInit {
   @Input() set name(value: string) {
     this._Name = value;
   }
-  @Input() MultiSelect: boolean = false;
+   @Input() MultiSelect: boolean = false;
   @Output() changed = new EventEmitter();
   @Output() keyUp = new EventEmitter();
   @Output() enter = new EventEmitter();
-
-
+ 
   private textbox = '';
   private _ID = ''; private _Name = '';
   private items = []; private itemsFilter = [];
@@ -53,6 +54,9 @@ export class AutoCompleteNComponent implements ControlValueAccessor, OnInit {
   constructor(
     private _eref: ElementRef
   ) { }
+  ngAfterViewInit(): void {
+    if(this.autofocus) this.autocomplet.nativeElement.focus();
+  }
   ngOnInit() {
    
   }

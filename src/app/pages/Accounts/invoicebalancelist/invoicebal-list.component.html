@@ -66,8 +66,8 @@
          <table class="table table-hover table-striped">
             <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
                <th *ngIf="role.getroleid()>777">ISP Name</th>
-               <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
-               <th  *ngIf="role.getroleid()>=775">Reseller Name</th>
+               <th *ngIf="role.getroleid()>444">Reseller Business Name</th>
+               <th  *ngIf="role.getroleid()>444">Reseller Name</th>
                <th>Invoice ID</th>
                <th>Date</th>
                <th>Transaction</th>
@@ -76,8 +76,8 @@
             </tr>
             <tr *ngFor="let item of pagedItems">
                <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
-               <td  *ngIf="role.getroleid()>=775">{{item.company}}</td>
-               <td  *ngIf="role.getroleid()>=775">{{item.resellername}}</td>
+               <td  *ngIf="role.getroleid()>444">{{item.company}}</td>
+               <td  *ngIf="role.getroleid()>444">{{item.resellername}}</td>
                <td>{{item.invid}}</td>
                <td>{{item.c_date | date:'d MMM y h:mm:ss a'}}</td>
                <td>{{item.rflag==1 ? 'Deduction':'Deposit'}}</td>

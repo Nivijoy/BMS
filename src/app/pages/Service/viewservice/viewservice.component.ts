@@ -55,7 +55,7 @@ export class ViewServiceComponent implements OnInit {
     let result = await this.ser.getService({ srvid: this.datas });
     this.data = result[0][0] || [];
     this.item = result[1];
-    // console.log(result)
+    console.log('Get service',result)
   }
 
 }

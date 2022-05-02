@@ -16,7 +16,7 @@ import { EditNasComponent } from '../editnas/editnas.component';
 
 export class ViewResellerComponent implements OnInit {
   data: any = []; page: any = 1; totalpage = 10; pages = [1, 2, 3, 4, 5]; datas;srvdata;subplandata;
-  listflag;
+  listflag;config;
   businessinfodata: boolean = false; agrmntdata: boolean = false; settingdata: boolean = false;
   business; settings; agreement; branchdata; branches: boolean = false;
 

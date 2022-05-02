@@ -139,7 +139,7 @@ export class ListScheduledCustComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid()==555) {
+        if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
           param['RESELLER BUSINESS NAME'] = temp[i]['company']
         }
         param['SUBSCRIBER NAME'] = temp[i]['cust_name'];

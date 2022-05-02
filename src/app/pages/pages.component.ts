@@ -459,6 +459,18 @@ export class PagesComponent {
       ]
     },
     {
+      title: 'Hotel',
+      icon: 'fa fa-user-secret',
+      hidden: this.roleid < 999,
+      children:[
+        {
+          title:'List',
+          link: '/pages/hotel/list-hotel'
+        }
+      ]
+
+    },
+    {
       title: 'Reseller',
       icon: 'fa fa-user-secret',
       hidden: !(this.role.find(x => x == 401) || this.role.find(x => x == 402) ||
@@ -657,6 +669,11 @@ export class PagesComponent {
         || this.role.find(x => x == 1012) || this.role.find(x => x == 1013) || this.role.find(x => x == 1041)),
       children: [
         {
+          title:'Renewal Report',
+          link: '/pages/reports/renewalReport',
+          hidden: (!this.role.find(x => x == 1062))
+        },
+        {
           title: 'Dues',
           link: '/pages/reports/duesreport',
           hidden: (!this.role.find(x => x == 1006))
@@ -689,9 +706,14 @@ export class PagesComponent {
           hidden: (!this.role.find(x => x == 1040))
         },
         {
-          title: 'RenewalShare',
+          title: 'Renewal Share',
           link: '/pages/Accounts/invoicebal-list',
           hidden: (!this.role.find(x => x == 1010))
+        },
+        {
+          title: 'Reseller Revenue Share',
+          link: '/pages/reports/reseller-revenue-share',
+          hidden: (!this.role.find(x => x == 1061))
         },
         {
           title: 'Deposit',
@@ -853,6 +875,14 @@ export class PagesComponent {
           title: 'OTTMonitorLog',
           link: '/pages/administration/ott-log',
           hidden: this.roleid < 775
+        },
+        {
+          title: 'InvoiceMaillog',
+          link: '/pages/administration/invoice-mail-log'
+        },
+        {
+          title: 'GSTMaillog',
+          link: '/pages/administration/gst-mail-log'
         }
 
       ],

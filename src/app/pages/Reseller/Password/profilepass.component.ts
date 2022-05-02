@@ -37,7 +37,7 @@ export class PasswordComponent implements OnInit {
       this.submit = true;
       return;
     }
-    if (this.role.getroleid() >= 775) {
+    if (this.role.getroleid() >= 775 || (this.role.getroleid() > 444 && (this.item['resid'] || this.item['id']) )) {
       console.log('item', this.item)
       if (this.id) {
         this.AddNasForm.value['id'] = this.id;
@@ -46,8 +46,9 @@ export class PasswordComponent implements OnInit {
       } else if (this.item['id']) {
         this.AddNasForm.value['id'] = this.item['id']
       }
-    }
-    if (this.role.getroleid() < 775) {
+    }else if (this.role.getroleid() <= 444) {
+      this.AddNasForm.value['id'] = this.role.getresellerid();
+    }else{
       this.AddNasForm.value['id'] = this.role.getresellerid();
     }
 

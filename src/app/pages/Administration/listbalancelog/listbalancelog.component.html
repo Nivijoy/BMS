@@ -1,7 +1,7 @@
 <nb-card>
   <ngx-loading [show]="loading"
-      [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
-   </ngx-loading>
+    [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
+  </ngx-loading>
   <nb-card-header>
     Deposit Report
     <a type="button" class="btn btn-primary btn-sm btn-floating "
@@ -17,23 +17,31 @@
     <hr style="border: 0px;">
     <div class="modal-body" autocomplete="off" [hidden]='!search'>
       <div class="form-group row">
-        <div class="col-sm-3" *ngIf="role.getroleid()>777">
+        <div class="col-sm-2" *ngIf="role.getroleid()>777">
           <label>ISP Name</label>
           <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname"
             (changed)="profile();changeclear(1);" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
-        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control" optValues="menu_name"
             (changed)="showResellerName();changeclear(2);" placeholder='Select Reseller Type' optId="role" [item]="pro">
           </auto-completen>
         </div>
-        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
             placeholder='Select Reseller' id="mid" [item]="res1">
           </auto-completen>
+        </div>
+        <div class="col-sm-2">
+          <label> Start Date</label>
+          <input type="date" class="form-control" [(ngModel)]="start_date" placeholder="Select start date" />
+        </div>
+        <div class="col-sm-2">
+          <label> End Date</label>
+          <input type="date" class="form-control" [(ngModel)]="end_date" placeholder="Select End date" />
         </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();'
@@ -61,7 +69,7 @@
               (click)="page=pager.totalPages;getlist();">Last</a>
           </ul>
           <select [(ngModel)]="limit" (change)="initiallist()" class="form-control"
-            style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
+            style="height: calc(2rem + 13px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="75">75</option>
@@ -74,8 +82,8 @@
       <table class="table table-hover table-striped">
         <tr style="background-color :  #01a7ee;color:white;font-size: medium;">
           <th *ngIf="role.getroleid()>777">ISP Name</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Type</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Business</th>
+          <th *ngIf="role.getroleid()>444">Reseller Type</th>
+          <th *ngIf="role.getroleid()>444">Reseller Business</th>
           <th>Before Amount</th>
           <th>Amount</th>
           <th>Notes</th>
@@ -84,8 +92,11 @@
         </tr>
         <tr *ngFor="let item of pagedItems">
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.menu_name}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.role ==333? 'Deposit Reseller': item.role ==332? 'Deposit
+            Employee':item.role==555? 'Sub ISP Deposit':
+            item.role==554?'Sub ISP Deposit Employee': item.role==551? 'Sub Distributor Deposit': item.role ==550? 'Sub
+            Distributor Deposit Employee': '--'}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.company}}</td>
           <td>{{item.before_balance_amt}}</td>
           <td>{{item.amt}}</td>
           <td>{{item.rnote==null ? '--':item.rnote}}</td>

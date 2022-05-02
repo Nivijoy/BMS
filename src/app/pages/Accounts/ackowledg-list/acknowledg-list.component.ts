@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SelectService, NasService, BusinessService, GroupService, RoleService, PagerService, AccountService } from '../../_service/indexService';
+import { SelectService, NasService, BusinessService, GroupService, RoleService, PagerService, AccountService, CustService } from '../../_service/indexService';
 import { InvoiceAcknowlodgeComponent } from '../inv-acknowledge/inv-acknowledge.component';
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -20,6 +20,7 @@ export class ListInvoiceAckComponent implements OnInit {
   data; totalpage = 10; pages = [1, 2, 3, 4, 5]; count; bus; bus_name; group1;
   group_name; nas1; nas_name; search;
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25;
+  cust_name; subs_gst; custname; gst; invnum; invoice_num; start_date; end_date;ackStatus;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -34,13 +35,19 @@ export class ListInvoiceAckComponent implements OnInit {
     private groupser: GroupService,
     public role: RoleService,
     public pageservice: PagerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private custser: CustService
 
   ) { }
 
   ngOnInit() {
     this.initiallist();
     this.showBusName();
+    if (this.role.getroleid() <= 777) {
+      this.showUser();
+      this.showgst();
+      this.showinvoicenum();
+    }
 
   }
 
@@ -48,11 +55,20 @@ export class ListInvoiceAckComponent implements OnInit {
     this.bus = await this.busser.showBusName({ like: $event });
   }
 
+  async showUser($event = '') {
+    this.custname = await this.custser.showUser({ bus_id: this.bus_name, like: $event })
+  }
 
+  async showgst($event = '') {
+    this.gst = await this.custser.showUser({ bus_id: this.bus_name, uid: this.cust_name, gst_like: $event, gst_flag: 1 })
+  }
+
+  async showinvoicenum($event = '') {
+    this.invnum = await this.ser.showInvoiceNo({ bus_id: this.bus_name, uid: this.cust_name, like: $event, gst: 1 });
+  }
 
   async refresh() {
-    this.bus_name = '';
-
+    this.bus_name = ''; this.cust_name = ''; this.subs_gst = ''; this.invoice_num = ''; this.start_date = ''; this.end_date = '';this.ackStatus='';
     await this.initiallist()
   }
 
@@ -62,6 +78,11 @@ export class ListInvoiceAckComponent implements OnInit {
       index: (this.page - 1) * this.limit,
       limit: this.limit,
       bus_id: this.bus_name,
+      uid: this.cust_name,
+      gst: this.subs_gst,
+      inv_no: this.invoice_num,
+      start_date: this.start_date, end_date: this.end_date,
+      ackStatus:this.ackStatus
     })
     this.data = result[0];
     this.count = result[1]['count'];
@@ -91,9 +112,16 @@ export class ListInvoiceAckComponent implements OnInit {
   }
 
   async download() {
+    this.loading = true;
     let res = await this.ser.listEInvoicing({
       bus_id: this.bus_name,
+      uid: this.cust_name,
+      gst: this.subs_gst,
+      inv_no: this.invoice_num,
+      start_date: this.start_date, end_date: this.end_date,
+      ackStatus:this.ackStatus
     });
+    this.loading = false;
     if (res) {
       let tempdata = [], temp: any = res[0];
       for (var i = 0; i < temp.length; i++) {
@@ -105,13 +133,12 @@ export class ListInvoiceAckComponent implements OnInit {
         param['SUPPLIER GSTIN'] = temp[i]['supplier_gst_number'];
         param['RECIPIENT GSTIN'] = temp[i]['recipient_gst_number'];
         param['DOCUMENT NO'] = temp[i]['rollid'];
-        temp[i]['ack_date'] = this.datePipe.transform(temp[i]['ack_date'], 'd MMM y')
-        param['DOCUMENT DATE'] = temp[i]['ack_date'];
+        param['DOCUMENT DATE'] = temp[i]['ack_date'] == '0000-00-00 00:00:00' ? '' : this.datePipe.transform(temp[i]['ack_date'], 'd MMM y');
         param['TOTAL AMOUNT'] = temp[i]['total_amount'];
         param['HSN CODE'] = temp[i]['hsn'];
         param['IRN'] = temp[i]['irn'];
-        temp[i]['ack_date'] = this.datePipe.transform(temp[i]['ack_date'], 'd MMM y h:mm:ss a')
-        param['IRN DATE'] = temp[i]['ack_date'];
+        param['IRN DATE'] = temp[i]['ack_date'] == '0000-00-00 00:00:00' ? '' : this.datePipe.transform(temp[i]['ack_date'], 'd MMM y h:mm:ss a');
+        param['Acknowledge Status'] = temp[i]['gstAck'] == 1 ? 'Not-Acknowledge' : 'Acknowledged'
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
@@ -157,5 +184,13 @@ export class ListInvoiceAckComponent implements OnInit {
       this.initiallist();
     });
   }
+
+  
+  changeclear(item) {
+    if (item == 1) {
+      this.cust_name = ''; this.subs_gst = ''; this.invoice_num = '';
+    }
+  }
+
 
 }

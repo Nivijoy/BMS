@@ -15,7 +15,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 export class ShowAuthpassComponent implements OnInit {
   submit: boolean = false; AuthPassform; datas; id; modalHeader; config;
-  item; data;
+  item; data;isReadOnly=true;
   constructor(
     private activeModal: NgbActiveModal,
     private alert: ToasterService,
@@ -33,8 +33,14 @@ export class ShowAuthpassComponent implements OnInit {
   }
 
   async showpassword() {
-    let res = await this.ser.getuserpassword({ uid: this.item })
-    this.data = res;
+    if (this.item['password'] == 1) {
+      let res = await this.ser.getuserpassword({ uid: this.item['id'], password: this.item['password'] })
+      this.data = res;
+    } else {
+      let res = await this.ser.getuserpassword({ uid: this.item })
+      this.data = res;
+    }
+
     // console.log(res)
     this.createForm();
   }

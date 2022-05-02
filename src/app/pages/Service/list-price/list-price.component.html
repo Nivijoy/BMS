@@ -27,7 +27,7 @@
             optValues="groupname" placeholder='Select Group' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
-        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-3" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen (changed)="showService();changeclear(3)" [(ngModel)]="res_name" addclass="form-control" optValues="company"
             placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
@@ -84,7 +84,7 @@
           <th *ngIf="role.getroleid()>=775">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
           <th *ngIf="role.getroleid()>=775">Circle Name</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Name</th>
+          <th *ngIf="role.getroleid()>444">Reseller Name</th>
           <th>Service Name</th>
           <th>Service Type</th>
           <th>Sub Plan Name</th>
@@ -99,7 +99,7 @@
           <td *ngIf="role.getroleid()>=775">{{item.id}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
           <td *ngIf="role.getroleid()>=775">{{item.groupname}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.managername}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.managername}}</td>
           <td>{{item.srvname}}</td>
           <td>{{item.service_name}}</td>
           <td style="text-align: center;">{{item.sub_plan}}</td>

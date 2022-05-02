@@ -21,14 +21,14 @@
             (changed)="showProfileReseller();changeclear(1);" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() == 666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control" (changed)="showResellerName();changeclear(2);showUser();"
             optValues="menu_name" placeholder='Select Reseller Type' optId="role" [item]="profile">
           </auto-completen>
           <small style="color: blueviolet;">Select Profile</small>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() == 666 || role.getroleid() == 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775)|| (role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (changed)="showUser();changeclear(3);"
             placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
@@ -85,6 +85,16 @@
           <label>End Date</label>
           <input type="date" placeholder="End Date" [(ngModel)]="end_date" class="form-control">
         </div>
+        <div class="col-sm-2">
+          <label>status</label>
+          <select  class="form-control"  [(ngModel)]="opstatus">
+          <option value="" selected>Select Renewal type</option>
+          <option value="0">Success</option>
+          <option value="1">Initialized</option>
+          <option value="4">Canceled(Failure)</option>
+          <option value="5">Pending</option>
+          </select>
+        </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();'
         style="margin: auto; display: block;">Search</button>
@@ -115,7 +125,7 @@
           <th *ngIf="role.getroleid()>=775">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
           <!-- <th *ngIf="role.getroleid()>=775">Reseller Type</th> -->
-          <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
+          <th *ngIf="role.getroleid()>444">Reseller Business Name</th>
           <th>Subscriber ProfileID</th>
           <th>Pay Mode</th>
           <th>OrderID</th>
@@ -129,16 +139,30 @@
           <th>Modified Date</th>
         </tr>
         <tr *ngFor="let item of pagedItems">
-          <td *ngIf="!role.getmenurole(1027)" style="padding: 1px;" class=" last" data-title="'Action'">
+          <td *ngIf="(!role.getmenurole(1027) && role.getroleid()>111)" style="padding: 1px;" class=" last" data-title="'Action'">
             <div class="dropdown ghost-dropdown" ngbDropdown>
               <button style="width: 70px;font-size: 10px;border: 2px solid #73a1ff;margin: 3px;" class="btn btn-primary btn-icon" type="button"
                 ngbDropdownToggle>Action&nbsp;
               </button>
               <ul *ngIf="!role.getmenurole(1027)" style="width: 75;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
-                <li class="dropdown-item" title="Check" (click)="statuscheck(item.opid)"><i style="font-size: 20px;"
+                <li class="dropdown-item" title="Check" (click)="statuscheck(item.opid,item.gw_id)"><i style="font-size: 20px;"
                     class="fa fa-sync"></i>&nbsp;Check</li>
               </ul>
             </div>
+          </td>
+          <td *ngIf="(!role.getmenurole(1027) && role.getroleid()==111 && item.timeminute <= 15)" style="padding: 1px;" class=" last" data-title="'Action'">
+            <div class="dropdown ghost-dropdown" ngbDropdown>
+              <button style="width: 70px;font-size: 10px;border: 2px solid #73a1ff;margin: 3px;" class="btn btn-primary btn-icon" type="button"
+                ngbDropdownToggle>Action&nbsp;
+              </button>
+              <ul *ngIf="!role.getmenurole(1027)" style="width: 75;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
+                <li class="dropdown-item" title="Check" (click)="statuscheck(item.opid,item.gw_id)"><i style="font-size: 20px;"
+                    class="fa fa-sync"></i>&nbsp;Check</li>
+              </ul>
+            </div>
+          </td>
+          <td *ngIf="(!role.getmenurole(1027) && role.getroleid()==111 && item.timeminute > 15)">
+            {{'N/A'}}
           </td>
           <!-- <td *ngIf="item.opstatus==0">
             <a [ngStyle]="{'color' :item.opstatus==0 ? 'green' : 'red' }"
@@ -148,7 +172,7 @@
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
           <!-- <td *ngIf="role.getroleid()>=775">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
             Deposit':item.role==551 ? 'Sub Distributor Deposit':'Subscriber'}}</td> -->
-          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.company}}</td>
           <td>{{item.profile_id}}</td>
           <td style="text-align: center;">{{item.pay_mode}}</td>
           <td>{{item.order_id}}</td>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RoleService, AdminuserService, BusinessService, SelectService, PagerService, UserLogService, ReportService, ResellerService } from '../../_service/indexService';
+import { RoleService, BusinessService, PagerService, ReportService, ResellerService } from '../../_service/indexService';
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -17,7 +17,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 
 export class ListBalanceLogComponent implements OnInit {
   tot; proid; custlog; search; bus_name = ''; resel_type = ''; res_name = '';
-  bus; pro; res1;
+  bus; pro; res1;start_date;end_date;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -27,8 +27,6 @@ export class ListBalanceLogComponent implements OnInit {
   pager: any = {}; page: number = 1; pagedItems: any = []; limit = 25;
   constructor(
     private router: Router,
-    private select: SelectService,
-    private logser: UserLogService,
     private repser: ReportService,
     private busser: BusinessService,
     private resser: ResellerService,
@@ -61,7 +59,7 @@ export class ListBalanceLogComponent implements OnInit {
   async refresh() {
     this.bus_name = '';
     this.resel_type = '';
-    this.res_name = ''; this.pro = ''; this.res1 = '';
+    this.res_name = ''; this.pro = ''; this.res1 = '';this.start_date='';this.end_date='';
     await this.initiallist();
     if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
       await this.profile();
@@ -88,7 +86,9 @@ export class ListBalanceLogComponent implements OnInit {
         limit: this.limit,
         bus_id: this.bus_name,
         role: this.resel_type,
-        resel_id: this.res_name
+        resel_id: this.res_name,
+        start_date: this.start_date,
+        end_date:this.end_date
       });
     // console.log("balancelog",result)
     if (result) {
@@ -129,8 +129,9 @@ export class ListBalanceLogComponent implements OnInit {
           param['ISP NAME'] = temp[i]['busname'];
 
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() ==666 || this.role.getroleid() ==555) {
-          param['RESELLER TYPE'] = temp[i]['menu_name'];
+        if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
+          param['RESELLER TYPE'] = temp[i]['role'] ==333? 'Deposit Reseller': temp[i]['role'] ==332? 'Deposit Employee':temp[i]['role']==555? 'Sub ISP Deposit':
+          temp[i]['role']==554?'Sub ISP Deposit Employee': temp[i]['role']==551? 'Sub Distributor Deposit': temp[i]['role'] ==550? 'Sub  Distributor Deposit Employee': '--';
           param['RESELLER BUSINESS NAME'] = temp[i]['company'];
         }
         param['BEFORE AMOUNT'] = temp[i]['before_balance_amt'];
@@ -146,9 +147,5 @@ export class ListBalanceLogComponent implements OnInit {
       JSXLSX.writeFile(wb, 'Deposit Report' + EXCEL_EXTENSION);
     }
   }
-
-  // Edit_User(item) {
-  //   localStorage.setItem('array', JSON.stringify(item));
-  //   this.router.navigate(['/pages/business/edit-business']);
-  // }
+ 
 }

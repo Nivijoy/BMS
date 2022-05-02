@@ -56,7 +56,7 @@
         <div class="form-group row">
           <div class="col-sm-12">
             <label>Payment status</label>
-            <select formControlName="pay_status" (change)="RenewSubsForm.controls.pay_amt.setValue('');paidamount()"
+            <select formControlName="pay_status" (change)="RenewSubsForm.controls.pay_amt.setValue('');paidamount();"
               [ngClass]="{'form-control':true,'form-control-danger':RenewSubsForm.controls.pay_status.invalid&&submit}">
               <option value="" selected>Select Payment Status</option>
               <option value="2">Paid</option>

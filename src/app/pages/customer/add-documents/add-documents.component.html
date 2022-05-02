@@ -19,25 +19,30 @@
       </div>
       <div class="form-group row" *ngIf="addrflag==2">
          <div class="col-sm-4">
-            <label>Address Proof <span style="color:red;">*</span></label>
+            <label><b>Address Proof</b> <span style="color:red;">*</span></label>
             <select formControlName="addr_proof"
                [ngClass]="{'form-control':true,'form-control-danger':AddDocForm.controls.addr_proof.invalid&&submit}">
                <option value="" selected>Select Address Proof</option>
                <option value="1">Aadhaar Card</option>
                <option value="2">Ration Card</option>
                <option value="3">Voter ID</option>
+               <option value="4">Passport</option>
+               <option value="5">Gas Bill </option>
+               <option value="6">EB Bill </option>
+               <option value="7">Water Bill </option>
             </select>
+            <small  style="color: blueviolet;"><b>(Water Bill ,EB bill & Gas Bill shouldn't be older than 3 Months)</b></small>
             <small *ngIf="AddDocForm.controls.addr_proof.invalid&&submit" class="form-text error">Address Proof is
                Required!</small>
          </div>
       </div>
       <div class="form-group row" *ngIf="addrflag==2">
          <div class="col-sm-4">
-            <label>Upload Address Proof</label>
+            <label><b>Upload Address Proof</b></label>
             <input type="file" multiple formControlName="addr_up_proof" placeholder="Upload Proof"
                [ngClass]="{'form-control':true,'form-control-danger':AddDocForm.controls.addr_up_proof.invalid&&submit}"
                (change)="upload1($event);imageurl=[]" />
-            <small style="color: blueviolet;">Upload Two Files Both Front&Back of the Proof</small>
+            <small style="color: blueviolet;"><b>Upload Files Both Front&Back of the Proof</b></small>
             <small *ngIf="AddDocForm.hasError('required','addr_up_proof')&&submit" class="form-text error">Address
                Proof
                should be uploaded!</small>
@@ -59,7 +64,7 @@
                <option value="1">Ration Card</option>
                <option value="2">Pan Card</option>
             </select>
-            <small *ngIf="AddDocForm.controls.Proof.invalid&&submit" class="form-text error">Proof type is
+             <small *ngIf="AddDocForm.controls.Proof.invalid&&submit" class="form-text error">Proof type is
                required! </small>
          </div>
       </div>
@@ -69,8 +74,8 @@
             <input type="file" multiple formControlName="upproof" placeholder="Upload Proof"
                [ngClass]="{'form-control':true,'form-control-danger':AddDocForm.controls.upproof.invalid&&submit}"
                (change)="upload($event);imageURL=[]" />
-            <small style="color: blueviolet;">Upload Two Files Both Front&Back of the Proof</small>
-            <small *ngIf="AddDocForm.hasError('required','upproof')&&submit" class="form-text error">Proof
+               <small style="color: blueviolet;"><b>Upload Files Both Front&Back of the Proof</b></small>
+               <small *ngIf="AddDocForm.hasError('required','upproof')&&submit" class="form-text error">Proof
                should be uploaded</small>
          </div>
       </div>

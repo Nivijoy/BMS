@@ -27,7 +27,7 @@
              [item]="group1">
           </auto-completen>
        </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()>444)">
           <label>Reseller</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" placeholder='Select Reseller'
             (changed)="showtopup();toup_name=''" (keyUp)="showResellerName($event)" id="id" [item]="res1">

@@ -12,7 +12,9 @@
       <div class="period latest">
         <label style="text-align: left;font-size: medium;"><b>Balance</b></label>
         <div class="value">
-          <i class="fas fa-rupee-sign" style="font-size: larger;">{{balance == null ? 0 : balance }}</i>
+          <b  style="font-size: larger;font-family: 'Roboto';">{{balance == null ? 0 : (balance | currency:'INR':'symbol') }}</b>
+          <!-- <i  class="fas fa-rupee-sign" style="font-size: larger;">{{balance == null ? 0 : balance }}</i> -->
+
         </div>
       </div>
     </div>

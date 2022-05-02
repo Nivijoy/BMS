@@ -17,7 +17,7 @@ import { BusinessService, GroupService, NasService, IppoolService, ResellerServi
 export class EditResellerComponent implements OnInit {
   submit: boolean = false; EditReselForm; id: any = []; anas; ip; grup; editdatas; resellist;
   data; busname; pro; dist; states; bulkReseller = []; servtype; shareval; ottdata; ott_name = [];
-  sizes = []; sharename; distname; smsgateway; paymentgateway;ottcheckids;
+  sizes = []; sharename; distname; smsgateway; paymentgateway;ottcheckids;upload;imageURL;
   change: boolean;
   ispsharedefault = false; isReadonly = false; config;
   constructor(
@@ -82,7 +82,8 @@ export class EditResellerComponent implements OnInit {
     }
   }
 
-  prefixchange() {
+  prefixChange() {
+    console.log('Prfix Change')
     if (this.value.prefix_enable == false) {
       this.ctrl.prefix.setValue('');
     }
@@ -2143,6 +2144,15 @@ export class EditResellerComponent implements OnInit {
     }
   }
 
+  paymentType(){
+    if(!this.EditReselForm.value['pay_gateway']){
+      this.EditReselForm.value['pay_gateway_type'] = 0;
+    }
+    if(!this.EditReselForm.value['subpay_gateway']){
+      this.EditReselForm.value['subpay_gateway_type'] = 0;
+    }
+  }
+
   async edit() {
     let result = await this.resell.getResellerEdit({ id: this.id });
     if (result) {
@@ -2275,7 +2285,7 @@ export class EditResellerComponent implements OnInit {
       LName: new FormControl(this.editdatas ? this.editdatas['lastname'] : '', Validators.required),
       gender: new FormControl(this.editdatas ? this.editdatas['gender'] : '', Validators.required),
       Address: new FormControl(this.editdatas ? this.editdatas['address'] : '', Validators.required),
-      Address1: new FormControl(this.editdatas ? this.editdatas['branch_address'] : '', Validators.required),
+      Address1: new FormControl(this.editdatas ? this.editdatas['res_branch_address'] : '', Validators.required),
       State: new FormControl(this.editdatas ? this.editdatas['state'] : '', Validators.required),
       City: new FormControl(this.editdatas ? this.editdatas['city'] : '', Validators.required),
       email: new FormControl(this.editdatas ? this.editdatas['email'] : '', [Validators.required, Validators.pattern("[0-9 A-Z a-z ,.`!@#$%^&*_]*[@]{1}[a-z A-Z]*[.]{1}[a-z A-Z]{2,3}([.]{1}[a-z A-Z]{2,3})?")]),

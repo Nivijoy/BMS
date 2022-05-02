@@ -65,7 +65,7 @@ export class ViewCustComponent implements OnInit {
   cafverify: boolean = false; cafnotverify: boolean = false; renew_history; oldnew = 1; radact_tname; table_data; ottInvoiceData;
 
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; srvidData: any[] = [];
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname;selectdata;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname; selectdata;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
@@ -485,7 +485,43 @@ export class ViewCustComponent implements OnInit {
     this.loading = true
     let res = await this.accser.listInvoice({ uid: this.id, invtype: 1 })  // Non-GST Invoice
     this.loading = false;
-    this.invoicedata = res[0];
+    this.invoicedata = res[0]; 
+  }
+  async downloadInvoice()
+  {
+    this.loading = true
+    let res = await this.accser.listInvoice({ uid: this.id, invtype: 1 })  // Non-GST Invoice
+    this.loading = false;
+    this.invoicedata = res[0]; 
+     if (res) {
+      let tempdata = [], temp: any = res[0];
+      for (var i = 0; i < temp.length; i++) {
+        let param = {};
+        param['INVOICE ID'] = temp[i]['invid'];
+        param['SERVICE TYPE'] = temp[i]['service_name'];
+        param['SERVICE NAME'] = temp[i]['srvname'];
+        param['SUB PLAN'] = temp[i]['sub_plan'];
+        param['PACK PRICE'] = temp[i]['invoice_amount'];
+        param['TAX AMOUNT'] = temp[i]['tax_amount'];
+        param['BILL NO'] = temp[i]['rollid'];
+        param['GST NUMBER'] = temp[i]['supplier_gst_number'];
+        param['IGST'] =Number(temp[i]['igst']).toFixed(2) + " " + '%';
+        param['CGST'] =Number(temp[i]['cgst']).toFixed(2) + " " + '%';
+        param['SGST'] =Number(temp[i]['sgst']).toFixed(2) + " " + '%';
+        param['INVOICE TYPE'] = temp[i]['inv_type']==1? 'Invoice':'GST Invoice';
+        param['INVOICE STATUS'] = temp[i]['inv_status']==1?'Active':temp[i]['inv_status']==2?'Proforma Invoice': 'Cancelled';
+        param['RENEWAL DATE	'] = this.datePipe.transform(temp[i]['inv_date'], 'd MMM y hh:mm:ss a');
+        param['EXPIRE DATE'] = this.datePipe.transform(temp[i]['expiry_date'], 'd MMM y hh:mm:ss a');
+        param['PAY STATUS'] = temp[i]['pay_status']==2? 'Paid': 'Unpaid';
+        temp[i]['pay_status']=temp[i]['pay_status']==2?this.datePipe.transform(temp[i]['paydate'], 'd MMM y hh:mm:ss a'):'--';
+        param['PAY DATE'] =temp[i]['pay_status']
+        tempdata[i] = param
+      }
+      const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);
+      const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
+      JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+      JSXLSX.writeFile(wb, 'Invoice List' + EXCEL_EXTENSION);
+    }
   }
 
   async gstInvoice() {
@@ -803,9 +839,17 @@ export class ViewCustComponent implements OnInit {
 
   show_auth() {
     const activeModal = this.nasmodel.open(ShowAuthpassComponent, { size: 'sm', container: 'nb-layout' });
-
     activeModal.componentInstance.modalHeader = 'Auth Password';
     activeModal.componentInstance.item = this.id
+    activeModal.result.then((data) => {
+      this.view();
+    })
+  }
+
+  show_propass() {
+    const activeModal = this.nasmodel.open(ShowAuthpassComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.componentInstance.modalHeader = 'Profile Password';
+    activeModal.componentInstance.item = { id: this.id, password: 1 }
     activeModal.result.then((data) => {
       this.view();
     })
@@ -1003,7 +1047,7 @@ export class ViewCustComponent implements OnInit {
     this.loading = true
     this.nodes = [];
     let plandata: any;
-    plandata = await this.packser.sharingReports({ resel_id: this.data['reseller_id'], bus_id: this.data['isp_id'], tree_flag: 1,uid:this.data['uid'] });
+    plandata = await this.packser.sharingReports({ resel_id: this.data['reseller_id'], bus_id: this.data['isp_id'], tree_flag: 1, uid: this.data['uid'] });
     console.log('Get Plan Result', plandata);
     for (var val of plandata) {
       val.hasChildren = true;
@@ -1015,16 +1059,16 @@ export class ViewCustComponent implements OnInit {
       this.tree.treeModel.update();
     }
     this.loading = false;
-    let planDetails= await this.packser.showCustPlanMap({ bus_id: this.data['isp_id'], reseller_id: this.data['reseller_id'],uid:this.data['uid'] })
+    let planDetails = await this.packser.showCustPlanMap({ bus_id: this.data['isp_id'], reseller_id: this.data['reseller_id'], uid: this.data['uid'] })
     // console.log('Select',planDetails,planDetails[0]['subplanid']);
-    if(planDetails[0]['subplanid']){
+    if (planDetails[0]['subplanid']) {
       this.selectdata = planDetails[0]['subplanid']
       this.getSelected = this.selectdata.split(',')
       // console.log('Select',this.getSelected,typeof(this.getSelected));
-  
+
       this.selectnodes(this.getSelected)
     }
-    
+
 
 
   }
@@ -1054,7 +1098,7 @@ export class ViewCustComponent implements OnInit {
   }
   selectednodes() {
     const selectedNodes = [];
-     Object.entries(toJS(this.tree.treeModel.selectedLeafNodeIds)).forEach(([key, value]) => {
+    Object.entries(toJS(this.tree.treeModel.selectedLeafNodeIds)).forEach(([key, value]) => {
       // console.log(key, value);
       if (value === true) {
         selectedNodes.push(parseInt(key));
@@ -1107,22 +1151,22 @@ export class ViewCustComponent implements OnInit {
     // console.log('Unique parentId', this.srvidData);
     // console.log('Result', planid,'uid',this.data['uid']);
     let result = await this.packser.subscriberPlanMap({
-      isp_id: this.data['isp_id'], reseller: this.data['reseller_id'],uid:this.data['uid'], service_id: this.srvidData, plan_id: planid
+      isp_id: this.data['isp_id'], reseller: this.data['reseller_id'], uid: this.data['uid'], service_id: this.srvidData, plan_id: planid
     });
     // console.log('plan  Map result', result);
-    if(result){
+    if (result) {
       this.result_pop(result);
     }
 
   }
 
-  
+
   result_pop(item) {
     const activemodal = this.nasmodel.open(AddSuccessComponent, { size: 'lg', container: 'nb-layout' });
     activemodal.componentInstance.modalHeader = 'Result';
     activemodal.componentInstance.item = item;
     activemodal.result.then((data) => {
-       this.view();
+      this.view();
     });
   }
 

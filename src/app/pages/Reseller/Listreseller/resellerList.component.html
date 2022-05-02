@@ -11,7 +11,7 @@
   </nb-card-header>
   <nb-card-body>
     <toaster-container></toaster-container>
-    <button *ngIf="!role.getmenurole(402)" [hidden]="role.getroleid()==666||role.getroleid()==555"
+    <button *ngIf="!role.getmenurole(402)"
       class="btn btn-sm btn-success" [routerLink]="['/pages/reseller/add-reseller']">Add</button>
     <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
     <hr style="border: 0px;">
@@ -144,7 +144,7 @@
               (click)="page=pager.totalPages;getlist();">Last</a>
           </ul>
           <select [(ngModel)]="limit" (change)="initiallist()" class="form-control"
-            style="height: calc(2rem + 10px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
+            style="height: calc(2rem + 12px);max-width: 10vh;min-width: 74px;border-radius: 5px;">
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="75">75</option>
@@ -164,9 +164,11 @@
           <th>Status</th>
           <th>Login ID</th>
           <th>Balance</th>
-          <th>Total Subscribers</th>
+          <th>Active Subscribers</th>
+          <th>Online Subscribers</th>
           <th>Type</th>
           <th>Business Name</th>
+          <th>Primary Nas</th>
           <th>Service Type</th>
           <th>Mobile</th>
           <th>Email</th>
@@ -188,15 +190,15 @@
                     class="fa fa-eye "></i>&nbsp;View</li>
                 <li class="dropdown-item" title="Logo" style="padding-top: 0px;padding-bottom: 2px;"
                   (click)="view_logo(item.id)"><i style="font-size: 20px;" class="fa fa-bullseye "></i>&nbsp;Logo</li>
-                <li *ngIf="!role.getmenurole(403)" [hidden]="role.getroleid()==666||role.getroleid()==555"
+                <li *ngIf="!role.getmenurole(403)"  
                   class="dropdown-item" title="Edit" style="padding-top: 0px;padding-bottom: 2px;"
                   (click)="Edit_resel(item.id)"><i style="font-size: 20px;" class="nb-edit"></i>&nbsp;Edit</li>
                 <li class="dropdown-item" title="Password" style="padding-top: 0px;padding-bottom: 2px;"
                   (click)="password(item.id)"><i style="font-size: 20px;"
                     class="fa fa-keyboard"></i>&nbsp;Password&nbsp;&nbsp;</li>
                 <li class="dropdown-item" title="EditNas" style="padding-top: 0px;padding-bottom: 2px;"
-                  (click)="nasedit(item.id,item.isp_id,item.group_id,item.prim_nas_id)"><i style="font-size: 20px;"
-                    class="fa fa-random"></i>&nbsp;Edit-Nas&nbsp;&nbsp;</li>
+                  (click)="nasedit(item.id,item.isp_id,item.group_id,item.prim_nas_id)" *ngIf="role.getroleid() >= 775">
+                  <i style="font-size: 20px;" class="fa fa-random"></i>&nbsp;Edit-Nas&nbsp;&nbsp;</li>
               </ul>
             </div>
           </td>
@@ -210,14 +212,16 @@
           <td style="text-transform: none !important;text-align: center;" (click)="View_user(item.id,1)"><a
               [ngStyle]="{'color' :item.status==1 ? 'green' : 'red' }">{{item.managername}}</a></td>
           <td *ngIf="item.menu_name=='Bulk Reseller'">{{'--'}}</td>
-          <td *ngIf="item.menu_name!='Bulk Reseller' " style="text-align: center;font-weight: 900;"><i
-              class="fas fa-rupee-sign">&nbsp;{{item.balance_amt}}</i></td>
-          <td style="text-align: center;font-weight: 900;">{{item.ucount}}</td>
+          <td *ngIf="item.menu_name!='Bulk Reseller' " style="text-align: center;font-weight: 900;">
+            <b>&nbsp;{{item.balance_amt | currency:'INR':'symbol'}}</b></td>
+          <td style="text-align: center;font-weight: 900;">{{item.ucount || '--'}}</td>
+          <td style="text-align: center;font-weight: 900;">{{item.oncount || '--'}}</td>
           <td>{{item.menu_name}}</td>
           <td style="text-align: center;">{{item.company}}</td>
+          <td>{{item.nasip || '--'}}</td>
           <td>{{item.service_name}}</td>
           <td>{{item.mobile}}</td>
-          <td  style="text-transform: none !important;">{{item.email}}</td>
+          <td style="text-transform: none !important;">{{item.email}}</td>
           <td>{{item.gst_no}}</td>
           <td style="text-align: center;">{{item.sub_limit==0 ? 'Unlimited':'No Limit'}}</td>
           <td>{{item.prefix_on == true? 'Enable':'Disable'}}</td>

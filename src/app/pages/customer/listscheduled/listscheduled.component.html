@@ -18,13 +18,13 @@
             (changed)="profile();showUser();changeclear(1);" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()== 666 || role.getroleid()== 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control" optValues="menu_name"
             (changed)="showResellerName();changeclear(2);" placeholder='Select Reseller Type' optId="role" [item]="pro">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()== 666 || role.getroleid()== 555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
             placeholder='Select Reseller' (changed)="showUser();changeclear(3);" id="mid" [item]="res1">
@@ -94,13 +94,14 @@
           <th>Action</th>
           <th *ngIf="role.getroleid()>777">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Name</th>
+          <th *ngIf="role.getroleid()>444">Reseller Name</th>
           <th>AccountID</th>
           <th>Subscriber Name</th>
           <th>Service Name</th>
           <th>Sub Plan</th>
           <th>Invoice Amount</th>
           <th>Tax Amount</th>
+          <th>Service Type</th>
           <th>Scheduled By</th>
           <th>Scheduled Date</th>
           <th>Status</th>
@@ -129,14 +130,21 @@
               class='fas fa-spinner fa-pulse fa-spin fa-1x' style="color: #01a7ee;font-size: 1.5em;"></i> </td>
           <td *ngIf="role.getroleid()>777">{{item.rsid}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.company}}</td>
           <td (click)="view_cust(item.cust_id,11)" style="cursor: pointer;text-transform: none !important;">
-            <b>{{item.cust_profile_id}}</b></td>
+            <b>{{item.cust_profile_id}}</b>
+          </td>
           <td>{{item.cust_name}}</td>
           <td>{{item.srvname}}</td>
           <td>{{item.sub_plan}}</td>
-          <td>{{item.inv_amt}}</td>
-          <td>{{item.inv_tax}}</td>
+          <td style="font-weight:900">{{item.inv_amt | currency:'INR':'symbol'}}</td>
+          <td style="font-weight:900">{{item.inv_tax | currency:'INR':'symbol' }}</td>
+          <td>{{item.service_type ==1 ? 'Internet': item.service_type ==2 ? 'Internet & Voice': item.service_type ==3 ?
+            'Internet & OTT': item.service_type ==4? 'Internet & AddOn': item.service_type ==5? 'Internet & voice & OTT':
+            item.service_type ==6 ? 'Internet & Voice & Addon':
+            item.service_type==7? 'Internet & Ott & Addon': item.service_type ==8? 'All services': ''}}
+          </td>
+
           <td *ngIf="item.schedule_status!=3 && item.c_role != 111">{{item.creator}}</td>
           <td *ngIf="item.schedule_status!=3 && item.c_role  == 111">{{item.cust_profile_id}}</td>
 

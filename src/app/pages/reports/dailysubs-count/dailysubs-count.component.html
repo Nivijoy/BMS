@@ -51,7 +51,7 @@
     <div class=table-wrapper>
       <table class="table table-hover table-striped">
         <tr style="background-color :  #01a7ee;color:white;font-size: medium;">
-          <th *ngIf="role.getroleid()<=777">ISP Name</th>
+          <th *ngIf="role.getroleid()>=777">ISP Name</th>
           <th>Active Count</th>
           <th>Online Count</th>
           <th>New Count</th>
@@ -60,7 +60,7 @@
           <th>Date</th>
         </tr>
         <tr *ngFor="let item of pagedItems">
-          <td *ngIf="role.getroleid()<=777">{{item.busname}}</td>
+          <td *ngIf="role.getroleid()>=777">{{item.busname}}</td>
           <td>{{item.active_count}}</td>
           <td>{{item.online_count}}</td>
           <td>{{item.new_count}}</td>

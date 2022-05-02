@@ -18,7 +18,8 @@ import { Subject, Observable } from 'rxjs';
 
 export class SubscriberPicComponent implements OnInit {
   config; image; subspro_image: any; proid; picflag; idfront; idback; AddPicForm;
-  hide_cam:boolean=false; hide_cam1:boolean=false;hide_cam2:boolean=false;
+  hide_cam: boolean = false; hide_cam1: boolean = false; hide_cam2: boolean = false;
+  submit = false;
   public showWebcam = true;
   public allowCameraSwitch = true;
   public multipleWebcamsAvailable = true;
@@ -64,15 +65,15 @@ export class SubscriberPicComponent implements OnInit {
   ngOnInit() {
     this.createForm()
   }
-  confirm(){
-    this.hide_cam=true;
+  confirm() {
+    this.hide_cam = true;
   }
-    confirm1(){
-    this.hide_cam1=true;
+  confirm1() {
+    this.hide_cam1 = true;
   }
-  
-    confirm2(){
-    this.hide_cam2=true;
+
+  confirm2() {
+    this.hide_cam2 = true;
   }
 
   public frontSnapshot(): void {
@@ -171,6 +172,7 @@ export class SubscriberPicComponent implements OnInit {
 
   async addpic() {
     // console.log("Image",this.webcamImage)
+    this.submit = true;
     const file = new FormData();
     let username = this.proid;
     file.append('username', username)
@@ -188,14 +190,20 @@ export class SubscriberPicComponent implements OnInit {
       const imageBlob = this.dataURItoBlob(this.addressfront.imageAsBase64);
       let idfrontimageblob = new File([imageBlob], 'IDProofFront.jpg', { type: this.addressfront['_mimeType'] });
 
-      const imageblob = this.dataURItoBlob(this.addressback.imageAsBase64);
-      let idbackimageblob = new File([imageblob], 'IDProofBack.jpg', { type: this.addressback['_mimeType'] });
-
+      let idbackimageblob;
+      if (this.AddPicForm.value['back'] == true) {
+        const imageblob = this.dataURItoBlob(this.addressback.imageAsBase64);
+        idbackimageblob = new File([imageblob], 'IDProofBack.jpg', { type: this.addressback['_mimeType'] });
+      }
       let filename = this.AddPicForm.value['Proof'] == 0 ? 'Aadhaar' : this.AddPicForm.value['Proof'] == 1 ? 'Ration' : 'Pan';
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
 
+
       file.append('file', idfrontimageblob, first)
-      file.append('file', idbackimageblob, second)
+      if (this.AddPicForm.value['back'] == true) {
+        file.append('file', idbackimageblob, second)
+        file.append('idproofType', String(2));
+      } else file.append('idproofType', String(1))
       file.append('id_proof', filename)
       file.append('id_status', String(1))
       file.append('sameproof', String(this.AddPicForm.value['same_proof']))
@@ -205,14 +213,23 @@ export class SubscriberPicComponent implements OnInit {
       const imageBlob = this.dataURItoBlob(this.addressfront.imageAsBase64);
       let frontimageblob = new File([imageBlob], 'AddressFront.jpg', { type: this.addressfront['_mimeType'] });
 
-      const imageblob = this.dataURItoBlob(this.addressback.imageAsBase64);
-      let backimageblob = new File([imageblob], 'AddressBack.jpg', { type: this.addressback['_mimeType'] });
+      let backimageblob;
+      if (this.AddPicForm.value['back'] == true) {
+        const imageblob = this.dataURItoBlob(this.addressback.imageAsBase64);
+        backimageblob = new File([imageblob], 'AddressBack.jpg', { type: this.addressback['_mimeType'] });
+      }
 
-      let filename = this.AddPicForm.value['addr_proof'] == 1 ? 'Aadhaar' : this.AddPicForm.value['addr_proof'] == 2 ? 'Ration' : 'VoterId'
+
+      let filename = this.AddPicForm.value['addr_proof'] == 1 ? 'Aadhaar' : this.AddPicForm.value['addr_proof'] == 2 ? 'Ration' :
+        this.AddPicForm.value['addr_proof'] == 3 ? 'Voter ID' : this.AddPicForm.value['addr_proof'] == 4 ? 'Passport' : this.AddPicForm.value['addr_proof'] == 5 ? 'Gas Bill' :
+          this.AddPicForm.value['addr_proof'] == 6 ? 'EB Bill' : this.AddPicForm.value['addr_proof'] == 7 ? 'Water Bill' : '--'
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
 
       file.append('file', frontimageblob, first)
-      file.append('file', backimageblob, second)
+      if (this.AddPicForm.value['back'] == true) {
+        file.append('file', backimageblob, second)
+        file.append('proofType', String(2));
+      } else file.append('proofType', String(1))
       file.append('addr_proof', filename)
       file.append('addr_status', String(1))
       file.append('sameproof', String(this.AddPicForm.value['same_proof']))

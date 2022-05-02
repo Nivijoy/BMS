@@ -23,8 +23,9 @@ import { DepositProofComponent } from '../depositproof/depositproof.component';
 
 export class DepositpaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
-  res1; res_name; count; dep_by; depositer; dep_amt;totalDepositAmount;
-  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; start_date : any; end_date : any;
+  res1; res_name; count; dep_by; depositer; dep_amt; totalDepositAmount;
+  pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; start_date: any; end_date: any;
+  depReason = 0; reasondata; dd: any; mm: any;
 
   constructor(
     private alert: ToasterService,
@@ -40,13 +41,21 @@ export class DepositpaylistComponent implements OnInit {
 
 
   ) {
-    let nowdate = new Date();
-    this.start_date = this.end_date = nowdate.toISOString().slice(0,10);
-   }
+    let nowdate = new Date().toJSON().slice(0,10);
+    // this.dd = nowdate.getDate();
+    // this.mm = nowdate.getMonth();
+    // let yyyy = nowdate.getFullYear();
+    // if (this.dd < 10) { this.dd = '0' + this.dd } if (this.mm < 10) { this.mm = '0' + this.mm }
+    // let today = yyyy + '-' + this.mm + '-' + this.dd;
+    // // this.start_date = this.end_date = nowdate.toISOString().slice(0,10);
+    this.start_date = this.end_date = nowdate;
+
+  }
   async ngOnInit() {
     localStorage.removeItem('array');
     await this.initiallist();
     await this.showBusName();
+    await this.showreason();
     if (this.role.getroleid() <= 777) {
       this.bus_name = this.role.getispid();
       await this.showGroupName();
@@ -73,11 +82,7 @@ export class DepositpaylistComponent implements OnInit {
     this.profile = await this.reselser.showProfileReseller({ dep_role: 1, bus_id: this.bus_name, like: $event });
     // console.log("prof:", result)
   }
-  // alertmsg() {
-  //   if (!this.resel_type) {
-  //     this.toastalert('Please Select Reseller Type');
-  //   }
-  // }
+
   async showResellerName($event = '') {
     // console.log('inside', this.resel_type)
     this.res1 = await this.reselser.showResellerName({ bus_id: this.bus_name, groupid: this.group_name, role: this.resel_type, like: $event });
@@ -86,6 +91,10 @@ export class DepositpaylistComponent implements OnInit {
 
   async deposited($event = '') {
     this.depositer = await this.reselser.showResellerName({ bus_id: this.bus_name, name_like: $event });
+  }
+
+  async showreason() {
+    this.reasondata = await this.ser.showDepReason()
   }
 
   changeclear(item) {
@@ -129,8 +138,11 @@ export class DepositpaylistComponent implements OnInit {
     this.depositer = '';
     this.start_date = '';
     this.end_date = '';
+    this.depReason = 0;
 
     await this.initiallist();
+    await this.showBusName();
+    await this.showProfileReseller();
     if (this.role.getroleid() == 666 || this.role.getroleid() == 555) {
       await this.showProfileReseller();
       await this.showResellerName();
@@ -149,7 +161,8 @@ export class DepositpaylistComponent implements OnInit {
         dep_id: this.dep_by,
         dep_amount: this.dep_amt,
         start_date: this.start_date,
-        end_date: this.end_date
+        end_date: this.end_date,
+        dep_reason: this.depReason
         // res_id:this.reseller_under,
       })
     this.data = result[0];
@@ -182,7 +195,9 @@ export class DepositpaylistComponent implements OnInit {
       dep_id: this.dep_by,
       dep_amount: this.dep_amt,
       start_date: this.start_date,
-      end_date: this.end_date
+      end_date: this.end_date,
+      dep_reason: this.depReason
+
     })
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -191,7 +206,7 @@ export class DepositpaylistComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() == 666 || this.role.getroleid() == 555) {
+        if (this.role.getroleid() >= 775 || this.role.getroleid() >444) {
           param['GROUP NAME'] = temp[i]['groupname'];
           param['RESELLER TYPE'] = temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 555 ? 'Sub ISP Deposit' : 'Sub Distributor Deposit';
           param['RESELLER BUSINESS NAME'] = temp[i]['company']
@@ -205,9 +220,9 @@ export class DepositpaylistComponent implements OnInit {
         param['DEPOSIT AMOUNT'] = temp[i]['deposit_amount'];
         param['RECEIVED AMOUNT'] = temp[i]['received_amount'];
         param['Status'] = temp[i]['status'] == 1 ? 'Cancel' : 'Active';
-        param['CANCEL REASON'] = temp[i]['cancel_reason'] == null ? '--' : temp[i]['cancel_reason'];
-        param['REMARKS'] = temp[i]['dep_reason'];
+        param['REASON'] = temp[i]['dep_reason'];
         param['NOTE'] = temp[i]['note'] == null ? '--' : temp[i]['note'];
+        param['CANCEL REASON'] = temp[i]['cancel_reason'] == null ? '--' : temp[i]['cancel_reason'];
         temp[i]['cdate'] = this.datePipe.transform(temp[i]['c_date'], 'd MMM y h:mm:ss a');
         param['DEPOSITED BY'] = temp[i]['deposited_by'];
         param['DEPOSIT DATE'] = temp[i]['cdate'];

@@ -79,6 +79,10 @@ const routes: Routes = [{
     loadChildren: './tools/tools.module#ToolsModule',
   },
   {
+    path: 'hotel',
+    loadChildren: './hotel/hotel.module#HotelModule'
+  },
+  {
     path: '',
     redirectTo: 'iot-dashboard',
     pathMatch: 'full',

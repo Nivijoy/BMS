@@ -14,7 +14,9 @@
                         <label>Select Package <span style="color:red;">*</span></label>
                         <auto-completen
                            [addclass]="{'form-control' : true,'form-control-danger':SubsRenewForm.controls.srvid.invalid&&submit}"
-                           (keyUp)="Service($event)" (changed)="subplanshow()" formControlName="srvid"
+                           (keyUp)="Service($event)" 
+                           (changed)="subplanshow();SubsRenewForm.controls['sub_plan_id'].setValue('');SubsRenewForm.controls['ottplanid'].setValue('');packc=''" 
+                           formControlName="srvid"
                            optValues="srvname" placeholder='Select Service' optId="srvid" [item]="pack">
                         </auto-completen>
                         <small *ngIf="SubsRenewForm.controls.srvid.invalid&&submit" class="form-text error">Package is
@@ -27,7 +29,7 @@
                         <auto-completen
                            [addclass]="{'form-control' : true,'form-control-danger':SubsRenewForm.controls.sub_plan_id.invalid&&submit}"
                            formControlName="sub_plan_id" (keyup)="subplanshow($event.target.value)"
-                           (changed)="packcal();schedulecal();" optValues="sub_plan" placeholder='Select Sub Plan'
+                           (changed)="packcal();schedulecal();SubsRenewForm.controls['ottplanid'].setValue('');" optValues="sub_plan" placeholder='Select Sub Plan'
                            optId="id" [item]="subpack">
                         </auto-completen>
                         <small *ngIf="SubsRenewForm.controls.sub_plan_id.invalid&&submit" class="form-text error">Sub

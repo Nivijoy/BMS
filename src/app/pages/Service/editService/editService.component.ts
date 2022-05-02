@@ -18,7 +18,7 @@ import { DatePipe } from '@angular/common';
 export class EditServiceComponent implements OnInit {
   submit: boolean = false; EditServiceForm; id; editdatas; busname; nasips;
   resell; buresellitems; nasresel; grup; reseldata; edititems; idnas; res_id; bulkService = [];
-  editprice; config; falback; svst_date; svend_date;
+  editprice; config; falback; svst_date; svend_date;carryover;expvalid;
 
   constructor(
     private alert: ToasterService,
@@ -166,7 +166,7 @@ export class EditServiceComponent implements OnInit {
       this.EditServiceForm.get('groupid').clearValidators();
       this.EditServiceForm.get('groupid').updateValueAndValidity();
     }
-    if (this.role.getroleid() >=775 || this.role.getroleid() == 666 || this.role.getroleid() == 661) {
+    if (this.role.getroleid() >=775 || this.role.getroleid() == 666 || this.role.getroleid() == 665) {
       this.EditServiceForm.get('ser_validity').setValidators([Validators.required]);
      }
      if(this.role.getroleid() < 443){

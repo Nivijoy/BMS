@@ -20,7 +20,7 @@
             (changed)="showProfileReseller();changeclear(1);" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control"
             (changed)="showResellerName();changeclear(2);" optValues="menu_name" placeholder='Select Reseller Type'
@@ -28,7 +28,7 @@
           </auto-completen>
           <small style="color: blueviolet;">Select Profile</small>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid()==666 || role.getroleid()==555)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775) || (role.getroleid() > 444)">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company" (changed)="changeclear(3)"
             placeholder='Select Reseller' (keyUp)="showResellerName($event)" id="res_name" [item]="res1">
@@ -86,6 +86,16 @@
           <label>End Date</label>
           <input type="date" placeholder="End Date" [(ngModel)]="end_date" class="form-control">
         </div>
+        <div class="col-sm-2">
+          <label>status</label>
+          <select name="opstatus" class="form-control"  [(ngModel)]="opstatus">
+          <option value="" selected >Select Renewal type</option>
+          <option value="0">Success</option>
+          <option value="1">Initialized</option>
+          <option value="4">Canceled(Failure)</option>
+          <option value="5">Pending</option>
+          </select>
+        </div>
       </div>
       <button type="button" class="btn btn-md btn-success middle" (click)='initiallist();'
         style="margin: auto; display: block;">Search</button>
@@ -107,7 +117,9 @@
           <td style="text-align:left;font-weight:800;"> TOTAL DEPOSIT AMOUNT :</td>
          </tr>
         <tr>
-           <td style="text-align: left;font-size: x-large;"><i class="fas fa-rupee-sign">&nbsp;{{ totalOnlinePay }}</i></td>
+           <!-- <td style="text-align: left;font-size: x-large;"><i class="fas fa-rupee-sign">&nbsp;{{ totalOnlinePay || 0 }}</i></td> -->
+           <td style="text-align: left;font-size: x-large;font-weight: 600;">{{ totalOnlinePay || 0 | currency: 'INR': 'symbol' }}</td>
+
         </tr>
       </tbody>
     </table>
@@ -128,8 +140,8 @@
           <th *ngIf="!role.getmenurole(816)">Action</th>
           <th *ngIf="role.getroleid()>=775">ID</th>
           <th *ngIf="role.getroleid()>777">ISP Name</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Type</th>
-          <th *ngIf="role.getroleid()>=775">Reseller Business Name</th>
+          <th *ngIf="role.getroleid()>444">Reseller Type</th>
+          <th *ngIf="role.getroleid()>444">Reseller Business Name</th>
           <th>Name</th>
           <th>Pay Mode</th>
           <th>OrderID</th>
@@ -150,7 +162,7 @@
                 class="btn btn-primary btn-icon" type="button" ngbDropdownToggle>Action&nbsp;
               </button>
               <ul style="width: 75;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
-                <li *ngIf="!role.getmenurole(816)" class="dropdown-item" title="check" (click)="statuscheck(item.opid)">
+                <li *ngIf="!role.getmenurole(816)" class="dropdown-item" title="check" (click)="statuscheck(item.opid,item.gw_id)">
                   <i style="font-size: 20px;" class="fa fa-sync"></i>&nbsp;Check
                 </li>
               </ul>
@@ -162,9 +174,9 @@
           </td> -->
           <td *ngIf="role.getroleid()>=775">{{item.opid}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
+          <td *ngIf="role.getroleid()>444">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
             Deposit':item.role==551 ? 'Sub Distributor Deposit':'Subscriber'}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.company}}</td>
+          <td *ngIf="role.getroleid()>444">{{item.company}}</td>
           <td>{{item.user_name}}</td>
           <td style="text-align: center;">{{item.pay_mode}}</td>
           <td>{{item.order_id}}</td>
@@ -176,7 +188,7 @@
             Topup':
             item.pay_for==4 ? 'ResellerIP Amount':'Subscriber Schedule'}}</td>
           <td>{{item.opstatus==0 ? 'Success':item.opstatus==1 ? 'Initiate':'Cancel'}}</td>
-          <td *ngIf="role.getroleid()>=775">{{item.doneby}}</td>
+          <td>{{item.doneby}}</td>
           <td>{{item.cdate | date:'d MMM y h:mm:ss a'}}</td>
           <td>{{item.mdate | date:'d MMM y h:mm:ss a'}}</td>
         </tr>

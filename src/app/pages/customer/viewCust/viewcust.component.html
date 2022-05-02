@@ -37,6 +37,9 @@
                <button class="btn btn-xs btn-outline-primary" (click)="Add_profile();"><b>Change Profile
                      Pwd</b></button>
             </div>
+            <div style="padding: 2px;">
+               <button class="btn btn-xs btn-outline-primary" (click)="show_propass();"><b>Show Profile Pwd</b></button>
+            </div>
             <div style="padding: 2px;" *ngIf="data.acctype==0">
                <button class="btn btn-xs btn-outline-primary" (click)="Add_auth();"><b>Change Auth Pwd</b></button>
             </div>
@@ -90,6 +93,10 @@
                            <nb-card-header style="background-color :  #01a7ee;color: white;">Basic Info</nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
+                                 <tr>
+                                    <th>Customer Name</th>
+                                    <td>{{data.cust_name||''}}</td>
+                                 </tr>
                                  <tr *ngIf="role.getroleid()>777">
                                     <th>ISP Name</th>
                                     <td>{{data.busname}}</td>
@@ -98,21 +105,21 @@
                                     <th>Circle</th>
                                     <td>{{data.groupname}}</td>
                                  </tr>
-                                 <tr *ngIf="role.getroleid()>=775">
+                                 <tr>
                                     <th>Reseller ProfileID</th>
                                     <td style="text-transform: none !important;">{{data.managername||''}}</td>
                                  </tr>
-                                 <tr *ngIf="role.getroleid()>=775">
+                                 <tr>
                                     <th>Reseller BusinessName</th>
                                     <td>{{data.company}}</td>
                                  </tr>
-                                 <tr>
+                                 <!-- <tr>
                                     <th>Subscriber ID</th>
                                     <td style="text-transform: none !important;font-size: medium">
                                        <b>{{data.cust_profile_id}}</b>
                                     </td>
-                                 </tr>
-                                 <tr *ngIf="role.getroleid()>=775">
+                                 </tr> -->
+                                 <tr>
                                     <th>Branch Name</th>
                                     <td>{{data.branch}}</td>
                                  </tr>
@@ -153,10 +160,7 @@
                                     <td>{{data.acc_type==1?'Prepaid':data.acc_type==2 ? 'Postpaid':data.acc_type==3 ?
                                        'Demo Account':'VPN Account'}}</td>
                                  </tr>
-                                 <tr>
-                                    <th>Customer Name</th>
-                                    <td>{{data.cust_name||''}}</td>
-                                 </tr>
+
                                  <tr>
                                     <th>Mobile Number</th>
                                     <th><a [ngStyle]="{'color' : data.smsverifystatus==1 ? 'green' : 'red' }"
@@ -233,6 +237,12 @@
                            </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
+                                 <tr>
+                                    <th>Subscriber ID</th>
+                                    <td style="text-transform: none !important;font-size: medium">
+                                       <b>{{data.cust_profile_id}}</b>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <th>Subscriber Type</th>
                                     <td>{{data.acctype==0?'Regular':'MAC'}}</td>
@@ -329,6 +339,10 @@
                                     <th>Mac Addess</th>
                                     <td>{{data.mac_addr}}</td>
                                  </tr>
+                                 <tr>
+                                    <th>Last Renewal Date</th>
+                                    <td><b>{{(data.renewal_date | date: 'd MMM y h:mm:ss a') || '--'}}</b></td>
+                                 </tr>
                               </table>
                            </nb-card-body>
                         </nb-card>
@@ -368,7 +382,11 @@
                               <table class="table table-hover table-striped">
                                  <tr>
                                     <th>Service Name</th>
-                                    <td>{{data.srvname}}</td>
+                                    <td><b>{{data.srvname || '--'}}</b></td>
+                                 </tr>
+                                 <tr>
+                                    <th>SubPlan</th>
+                                    <td><b>{{data.sub_plan || '--'}}</b></td>
                                  </tr>
                                  <tr>
                                     <th>
@@ -440,15 +458,7 @@
                                     <th></th>
                                  </tr>
                                  <tr>
-                                    <th>Collected BY</th>
-                                    <th></th>
-                                 </tr>
-                                 <tr>
-                                    <th>Renew Date </th>
-                                    <th></th>
-                                 </tr>
-                                 <tr>
-                                    <th>Invoice Date </th>
+                                    <th>Renewal Date </th>
                                     <th></th>
                                  </tr>
                                  <tr>
@@ -601,6 +611,8 @@
                   <div (click)="invoicelist()">Invoice</div>
                </ng-template>
                <ng-template ngbTabContent>
+                  <br>
+                  <i (click)="downloadInvoice()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
                   <table class="table table-hover table-striped">
                      <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
                         <th>Action</th>
@@ -610,13 +622,15 @@
                         <th>Sub Plan</th>
                         <th>Pack Price</th>
                         <th>Tax Amount </th>
+                        <th>Invoice NO</th>
                         <th>GST Number</th>
                         <th>IGST</th>
                         <th>CGST</th>
                         <th>SGST</th>
                         <th>Invoice Type</th>
                         <th>Invoice Status</th>
-                        <th>Invoice Date</th>
+                        <th>Renewal Date</th>
+                        <th>Expiry Date</th>
                         <th>Pay Status</th>
                         <th>Pay Date</th>
                      </tr>
@@ -647,6 +661,7 @@
                         <td>{{item.sub_plan}}</td>
                         <td style="text-align: center;">{{item.invoice_amount}}</td>
                         <td style="text-align: center;">{{item.tax_amount}}</td>
+                        <td style="text-align: center;">{{item.rollid}}</td>
                         <td>{{item.supplier_gst_number}}</td>
                         <td style="text-align: center;">{{item.igst+" "+'%'}}</td>
                         <td style="text-align: center;">{{item.cgst+" "+'%'}}</td>
@@ -654,8 +669,10 @@
                         <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
                         <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
                         <td>{{item.inv_date | date:'d MMM y'}}</td>
+                        <td>{{item.expiry_date | date:'d MMM y'}}</td>
                         <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
-                        <td>{{item.pay_status==2 ? (item.paydate | date:'d MMM y '):'--'}}</td>
+                        <td style="text-align: center;">{{item.pay_status==2 ? (item.paydate | date:'d MMM y '):'--'}}
+                        </td>
                      </tr>
                   </table>
                </ng-template>
@@ -787,7 +804,7 @@
                      <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
                         <th *ngIf="role.getroleid()>=775">Invoice ID</th>
                         <th *ngIf="role.getroleid()>=775">OTT ID</th>
-                        <th>BillNo</th>
+                        <th>Invoice No</th>
                         <th>OTTPlan Name</th>
                         <th>OTTPlanCode</th>
                         <th>Time Unit</th>
@@ -801,7 +818,7 @@
                         <td>{{item.billno}}</td>
                         <td>{{item.ottplan_name}}</td>
                         <td>{{item.ottplancode}}</td>
-                      
+
                         <td style="text-align: center;">{{item.dayormonth == 1? item.ottdays + "Days" : item.ottdays +
                            "Months" }}
                         </td>
@@ -828,7 +845,7 @@
                   <table class="table table-hover table-striped">
                      <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
                         <th *ngIf="role.getroleid()>=775">Renewal ID</th>
-                        <th>Bill No</th>
+                        <th>Invoice No</th>
                         <th>Manager Name</th>
                         <th>Renew Date</th>
                         <th>Renewal Type</th>
@@ -1067,7 +1084,7 @@
                   <div class="row">
                      <div class="col-sm-2">
                         <label>Select Data</label>
-                        <select class="form-control" [(ngModel)]="oldnew" (change)="showTableName();radact_tname=''">
+                        <select class="form-control" [(ngModel)]="oldnew" (change)="showTableName();radact_tname='';from_date='';to_date='';">
                            <option value="1" selected>New</option>
                            <option value="2">Old</option>
                         </select>
@@ -1151,6 +1168,8 @@
                   <div class="table-wrapper">
                      <table class="table table-hover table-striped">
                         <tr style="background-color :  #01a7ee;color:white;font-size: medium;">
+                           <th>Running Service</th>
+                           <th>Service Type</th>
                            <th>Start Time</th>
                            <th>End Time</th>
                            <th>Online Time</th>
@@ -1164,6 +1183,9 @@
                            <th>Terminate Cause</th>
                         </tr>
                         <tr *ngFor="let item of pagedItems">
+                           <td>{{item.srvname || '--'}}</td>
+                           <td>{{item.srvmode ==0? 'Regular': item.srvmode ==1? 'Fallback': item.srvmode
+                              ==2?'Expired':item.srvmode==3?'Disabled':''}}</td>
                            <td>{{item.acctstarttime | date:'d MMM y h:mm:ss a'}}</td>
                            <td>{{item.acctstoptime | date:'d MMM y h:mm:ss a'}}</td>
                            <td>{{item.time}}</td>
@@ -1293,7 +1315,7 @@
                      <nb-card>
                         <nb-card-header style="background-color: #01a7ee;">Service Maping</nb-card-header>
                         <nb-card-body>
-                           <div class="form-group row" >
+                           <div class="form-group row">
                               <div class="col-sm-12" style="height: 500px;">
                                  <tree-root #tree [options]="options" [nodes]="nodes"></tree-root>
                               </div>

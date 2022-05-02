@@ -169,6 +169,15 @@ export class CustService {
   async bulkUpdateExpiry(params) {
     return await this.http.post("/api/subs/updateSubscriberExpiry", params).toPromise();
   }
+  async bulkUpdateSrvmode(params) {
+    return await this.http.post("/api/subs/custsrvmodeupdate", params).toPromise();
+  }
+  async bulkResellerReplace(params) {
+    return await this.http.post("/api/subs/bulkresellerreplace", params).toPromise();
+  }
+  async bulkUpdateDatasplit(params) {
+    return await this.http.post("/api/subs/custdatasplitupdate", params).toPromise();
+  }
   async showSubscriber(params) {
     return await this.http.post("/api/subs/showSubscriber", params).toPromise();
   }

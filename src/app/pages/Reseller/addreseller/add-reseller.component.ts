@@ -137,6 +137,7 @@ export class AddResellerComponent implements OnInit {
       await this.profile();
       await this.servicetype();
       await this.SMSgateway();
+      await this.payGateway();
     }
     if (this.role.getroleid() < 775) {
       this.AddReselForm.get('reselcreate_type').setValue(0)
@@ -2785,7 +2786,7 @@ export class AddResellerComponent implements OnInit {
     this.s = 0; this.f = 0;
     let s = 0;
     this.failure = [];
-    // console.log("outside",this.AddReselForm.value)
+    console.log("outside",this.AddReselForm.value)
     const invalid = [];
     const controls = this.AddReselForm.controls;
     for (const name in controls) {
@@ -2794,6 +2795,8 @@ export class AddResellerComponent implements OnInit {
       }
     };
     if (this.AddReselForm.invalid || this.value.Password != this.value.CPassword) {
+      console.log('Invalid',invalid)
+      window.alert('Please fill all mandatory fields')
       this.submit = true;
       return;
     }
@@ -2814,8 +2817,8 @@ export class AddResellerComponent implements OnInit {
       let method = 'addReseller';
       this.loading = true;
       let result = await this.resell[method]({ bulkReseller: reselldata });
-      // console.log(result)
-      if(result[0]['error_msg']!=0){
+      console.log(result)
+       if(result[0]['error_msg']!=0){
         this.ott_name = [];
       }
       if (result) {
