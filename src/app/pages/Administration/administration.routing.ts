@@ -44,6 +44,7 @@ import { OttLogComponent } from './ott-log/ott-log.component';
 import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.component';
 import { InvoiceMailLogComponent } from './invoice-mail-log/invoice-mail-log.component';
 import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mail-log.component';
+import { MailLogComponent } from './mail-log/mail-log.component';
 
 const routes: Routes = [{
   path: '',
@@ -94,6 +95,7 @@ const routes: Routes = [{
     { path: 'reseller-ott-plan', component: ResellerOttPlanComponent },
     { path: 'invoice-mail-log', component: InvoiceMailLogComponent },
     { path: 'gst-mail-log', component: GstinvoiceMailLogComponent },
+    { path: 'user-mail-log', component: MailLogComponent },
   ],
 }];
 
@@ -142,5 +144,6 @@ export const routedComponents = [
   ResellerOttPlanComponent,
   InvoiceMailLogComponent,
   GstinvoiceMailLogComponent,
-  
+  MailLogComponent,
+
 ];

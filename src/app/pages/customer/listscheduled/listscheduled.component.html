@@ -43,6 +43,7 @@
             <option value="1">Scheduled</option>
             <option value="2">Completed</option>
             <option value="3">Canceled</option>
+            <option value="5">Initialized</option>
           </select>
         </div>
       </div>
@@ -151,8 +152,8 @@
           <td *ngIf="item.schedule_status==3">{{item.modified}}</td>
           <td *ngIf="item.schedule_status!=3">{{item.schedule_date | date:'d MMM y h:mm:ss a'}}</td>
           <td *ngIf="item.schedule_status==3">{{item.lm_date | date:'d MMM y h:mm:ss a'}}</td>
-          <td>{{item.schedule_status==1 ? 'On Process':item.schedule_status==2 ? 'Schedule
-            Completed':item.schedule_status==3 ? 'Cancel':'Already Done'}}</td>
+          <td>{{item.schedule_status==1 ? 'On Process':item.schedule_status==2 ? 'Schedule Completed':item.schedule_status==3 ? 'Cancel'
+            :item.schedule_status ==4 ? 'Already Done': item.schedule_status ==5? 'Initialized' : '--'}}</td>
         </tr>
         <tr>
           <td colspan="6" *ngIf="pagedItems==''">NO DATA FOUND</td>

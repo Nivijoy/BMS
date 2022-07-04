@@ -34,7 +34,7 @@ export class AddVoiceNumComponent implements OnInit {
     private alert: ToasterService,
     private custser: CustService,
     public role: RoleService,
-    private activemodal : NgbModal,
+    private activemodal: NgbModal,
     private busser: BusinessService,
     private router: Router
 
@@ -73,8 +73,8 @@ export class AddVoiceNumComponent implements OnInit {
   }
 
 
-  bulkvalid(){
-    if(this.AddVoiceForm.value['create_type'] == 1){
+  bulkvalid() {
+    if (this.AddVoiceForm.value['create_type'] == 1) {
       this.AddVoiceForm.get('voice_num').clearValidators();
       this.AddVoiceForm.get('voice_num').updateValueAndValidity();
 
@@ -143,6 +143,8 @@ export class AddVoiceNumComponent implements OnInit {
       if (result[0]['error_msg'] == 0) {
         await this.closeModal();
         await this.result_pop(result)
+      } else {
+        await this.result_pop(result)
       }
     }
     if (this.AddVoiceForm.value['create_type'] == 1) {
@@ -150,7 +152,8 @@ export class AddVoiceNumComponent implements OnInit {
       if (result[0]['error_msg'] == 0) {
         await this.closeModal();
         await this.result_pop(result)
-
+      } else {
+        await this.result_pop(result)
       }
     }
 
@@ -161,7 +164,7 @@ export class AddVoiceNumComponent implements OnInit {
     activeModal.componentInstance.modalHeader = 'Result';
     activeModal.componentInstance.item = item;
     activeModal.result.then((data) => {
-      
+
     });
   }
 
@@ -210,9 +213,9 @@ export class AddVoiceNumComponent implements OnInit {
     this.AddVoiceForm = new FormGroup({
       bus_id: new FormControl(this.item ? this.item.isp_id : '', Validators.required),
       create_type: new FormControl('', Validators.required),
-      voice_num: new FormControl(this.item ? this.item.vnumber : '',Validators.required),
+      voice_num: new FormControl(this.item ? this.item.vnumber : '', Validators.required),
       password: new FormControl(''),
-      slot_num : new FormControl(this.item ? this.item['slotnumber']:''),
+      slot_num: new FormControl(this.item ? this.item['slotnumber'] : ''),
       status: new FormControl(this.item ? this.item.vflag : '0'),
     });
   }

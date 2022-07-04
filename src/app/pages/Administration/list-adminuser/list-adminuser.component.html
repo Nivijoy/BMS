@@ -73,7 +73,7 @@
               <ul style="width: 75px;margin:3px;z-index: 1;" class="dropdown-menu" ngbDropdownMenu>
                 <li *ngIf="!role.getmenurole(84)" class="dropdown-item" title="View" (click)="change_passwrd(item.id)"><i style="font-size: 20px;"
                     class="fa fa-key "></i>&nbsp;Password</li>
-                <li *ngIf="!role.getmenurole(83)" [routerLink]="['/pages/administration/edit-adminuser']" [queryParams]='{id: item.id}'
+                <li *ngIf="!role.getmenurole(83)" [routerLink]="['/pages/administration/edit-adminuser']" [queryParams]='{id: item.id}' [skipLocationChange]="true"
                   class="dropdown-item" title="Edit" ><i style="font-size: 20px;" class="nb-edit"></i>&nbsp;Edit</li>
               </ul>
             </div>

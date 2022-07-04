@@ -38,6 +38,7 @@ export class AddResellerComponent implements OnInit {
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
+  public isOpening = false; 
 
   constructor(
     private alert: ToasterService,
@@ -2316,13 +2317,13 @@ export class AddResellerComponent implements OnInit {
 
     let bulkvald: boolean = false;
     for (var i = 0; i < this.bulk.length; i++) {
-      if (!this.bulk[i].hasOwnProperty('Reseller Profile')) {
+      if (!this.bulk[i].hasOwnProperty('Reseller Profile*')) {
         this.toastalert('Please fill the Reseller Profile in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let role = this.bulk[i]['Reseller Profile']
+        let role = this.bulk[i]['Reseller Profile*']
         role = role == 'Bulk Reseller' ? 444 : role == 'Deposit Reseller' ? 333 : role == 'SUB ISP Bulk' ? 666 :
           role == 'SUB ISP Deposit' ? 555 : role == 'Sub Distributor Bulk' ? 661 : role == 'Sub Distributor Deposit' ? 551 : 222;
         this.bulk[i].Role = role;
@@ -2335,50 +2336,50 @@ export class AddResellerComponent implements OnInit {
       else {
         this.bulk[i].reseller_under = this.AddReselForm.value['reseller_under']
       }
-      if (!this.bulk[i].hasOwnProperty('Reseller Business Name')) {
-        this.toastalert('Please fill the Reseller Businees Name in Excel Sheet');
+      if (!this.bulk[i].hasOwnProperty('Reseller Business Name*')) {
+        this.toastalert('Please fill the Reseller Business Name in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let rbusname = this.bulk[i]['Reseller Business Name']
+        let rbusname = this.bulk[i]['Reseller Business Name*']
         this.bulk[i].RName = rbusname;
       }
-      if (!this.bulk[i].hasOwnProperty('First Name')) {
+      if (!this.bulk[i].hasOwnProperty('First Name*')) {
         this.toastalert('Please fill the First Name in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let fname = this.bulk[i]['First Name']
+        let fname = this.bulk[i]['First Name*']
         this.bulk[i].FName = fname;
       }
-      if (!this.bulk[i].hasOwnProperty('Last Name')) {
+      if (!this.bulk[i].hasOwnProperty('Last Name*')) {
         this.toastalert('Please fill the Last Name in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let lname = this.bulk[i]['Last Name']
+        let lname = this.bulk[i]['Last Name*']
         this.bulk[i].LName = lname;
       }
-      if (!this.bulk[i].hasOwnProperty('Gender')) {
+      if (!this.bulk[i].hasOwnProperty('Gender*')) {
         this.toastalert('Please fill the Gender in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let gender = this.bulk[i]['Gender']
+        let gender = this.bulk[i]['Gender*']
         gender = gender == 'Female' ? 1 : gender == 'Male' ? 2 : 3;
         this.bulk[i].gender = gender;
       }
-      if (!this.bulk[i].hasOwnProperty('Email')) {
+      if (!this.bulk[i].hasOwnProperty('Email*')) {
         this.toastalert('Please fill the Email in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let mail = this.bulk[i]['Email']
+        let mail = this.bulk[i]['Email*']
         this.bulk[i].email = mail;
       }
       if (this.bulk[i].hasOwnProperty('Alternate Email')) {
@@ -2388,13 +2389,13 @@ export class AddResellerComponent implements OnInit {
       else {
         this.bulk[i].Aemail = this.AddReselForm.value['Aemail']
       }
-      if (!this.bulk[i].hasOwnProperty('Mobile Number')) {
+      if (!this.bulk[i].hasOwnProperty('Mobile Number*')) {
         this.toastalert('Please fill the Mobile Number in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let mobnum = this.bulk[i]['Mobile Number']
+        let mobnum = this.bulk[i]['Mobile Number*']
         this.bulk[i].Mobile = mobnum;
       }
       if (this.bulk[i].hasOwnProperty('Telephone Number')) {
@@ -2404,87 +2405,87 @@ export class AddResellerComponent implements OnInit {
       else {
         this.bulk[i].Telephone = this.AddReselForm.value['Telephone']
       }
-      if (!this.bulk[i].hasOwnProperty('Residential Address')) {
+      if (!this.bulk[i].hasOwnProperty('Residential Address*')) {
         this.toastalert('Please fill the Residential Address in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let readdr = this.bulk[i]['Residential Address']
+        let readdr = this.bulk[i]['Residential Address*']
         this.bulk[i].Address = readdr;
       }
-      if (!this.bulk[i].hasOwnProperty('Reseller Login ID')) {
+      if (!this.bulk[i].hasOwnProperty('Reseller Login ID*')) {
         this.toastalert('Please fill the Reseller Login ID in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let rlogin = this.bulk[i]['Reseller Login ID']
+        let rlogin = this.bulk[i]['Reseller Login ID*']
         this.bulk[i].UserName = rlogin;
       }
-      if (!this.bulk[i].hasOwnProperty('Password')) {
+      if (!this.bulk[i].hasOwnProperty('Password*')) {
         this.toastalert('Please fill the Password in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
         const md = new Md5
-        let password = this.bulk[i].Password
+        let password = this.bulk[i]['Password*']
         this.bulk[i].password_en = md.appendStr(password).end();
       }
-      if (!this.bulk[i].hasOwnProperty('Branch Name')) {
+      if (!this.bulk[i].hasOwnProperty('Branch Name*')) {
         this.toastalert('Please fill the Branch Name in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let branch = this.bulk[i]['Branch Name']
+        let branch = this.bulk[i]['Branch Name*']
         this.bulk[i].brname = branch;
       }
 
-      if (!this.bulk[i].hasOwnProperty('Business Address')) {
+      if (!this.bulk[i].hasOwnProperty('Business Address*')) {
         this.toastalert('Please fill the Business Address in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let busaddr = this.bulk[i]['Business Address']
+        let busaddr = this.bulk[i]['Business Address*']
         this.bulk[i].Address1 = busaddr;
       }
-      if (!this.bulk[i].hasOwnProperty('State')) {
+      if (!this.bulk[i].hasOwnProperty('State*')) {
         this.toastalert('Please fill the State in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let stat = this.bulk[i]['State']
+        let stat = this.bulk[i]['State*']
         this.bulk[i].State = stat;
       }
-      if (!this.bulk[i].hasOwnProperty('City')) {
+      if (!this.bulk[i].hasOwnProperty('City*')) {
         this.toastalert('Please fill the City in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let cit = this.bulk[i]['City']
+        let cit = this.bulk[i]['City*']
         this.bulk[i].City = cit;
       }
-      if (!this.bulk[i].hasOwnProperty('Subscriber Limit')) {
+      if (!this.bulk[i].hasOwnProperty('Subscriber Limit*')) {
         this.toastalert('Please fill the Subscriber Limit in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let sublimit = this.bulk[i]['Subscriber Limit']
+        let sublimit = this.bulk[i]['Subscriber Limit*']
         this.bulk[i].subs_limit = sublimit;
       }
-      if (!this.bulk[i].hasOwnProperty('Status')) {
+      if (!this.bulk[i].hasOwnProperty('Status*')) {
         this.toastalert('Please fill the Status in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let status = this.bulk[i]['Status']
+        let status = this.bulk[i]['Status*']
         status = status == 'Active' ? true : false;
         this.bulk[i].status = status;
       }
@@ -2495,23 +2496,23 @@ export class AddResellerComponent implements OnInit {
       else {
         this.bulk[i].ass_nas = this.AddReselForm.value['ass_nas'];
       }
-      if (!this.bulk[i].hasOwnProperty('Agreement Start Date')) {
+      if (!this.bulk[i].hasOwnProperty('Agreement Start Date*')) {
         this.toastalert('Please fill the Agreement Start Date in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let stdate = this.bulk[i]['Agreement Start Date']
+        let stdate = this.bulk[i]['Agreement Start Date*']
         let strtdate = new Date((stdate - (25567 + 2)) * 86400 * 1000)
         this.bulk[i].start_date = strtdate;
       }
-      if (!this.bulk[i].hasOwnProperty('Agreement End Date')) {
+      if (!this.bulk[i].hasOwnProperty('Agreement End Date*')) {
         this.toastalert('Please fill the Agreement End Date in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let endate = this.bulk[i]['Agreement End Date']
+        let endate = this.bulk[i]['Agreement End Date*']
         let enddate = new Date((endate - (25567 + 2)) * 86400 * 1000)
         this.bulk[i].end_date = enddate;
       }
@@ -2543,13 +2544,13 @@ export class AddResellerComponent implements OnInit {
       else {
         this.bulk[i].subdis_name = this.AddReselForm.value['subdis_name'];
       }
-      if (!this.bulk[i].hasOwnProperty('Service Type')) {
+      if (!this.bulk[i].hasOwnProperty('Service Type*')) {
         this.toastalert('Please fill the Service Type in Excel Sheet');
         bulkvald = true;
         break;
       }
       else {
-        let sertype = this.bulk[i]['Service Type']
+        let sertype = this.bulk[i]['Service Type*']
         sertype = sertype == 'Internet' ? 1 : sertype == 'Internet & Voice' ? 2 : sertype == 'Internet & OTT' ? 3 : sertype == 'Internet & AddOn' ? 4 :
           sertype == 'Internet&Voice&OTT' ? 5 : sertype == 'Internet&Voice&AddOn' ? 6 : sertype == 'Internet&OTT&AddON' ? 7 : 8;
         this.bulk[i].serv_type = sertype;
@@ -2846,10 +2847,10 @@ export class AddResellerComponent implements OnInit {
       // this.createForm();
     }
     if (this.value.reselcreate_type == '1') {
+      this.loading = true;
       // console.log(this.AddReselForm.value)
       // console.log("in",this.bulk)
       let method = 'addReseller';
-      this.loading = false;
       let result = await this.resell[method]({ bulkReseller: this.bulk });
       // console.log(result)
       if (result) {
@@ -2862,11 +2863,39 @@ export class AddResellerComponent implements OnInit {
   }
 
   changeListener(file) {
+    console.log('Opening',this.isOpening)
+    this.isOpening = true;
+console.log('Opening',this.isOpening)
+    console.log('file in')
     this.file = file;
     this.filereader(this.file, result => {
-      this.bulk = result;
+      this.isOpening = false;
+         this.bulk = result;
+        console.log('file out')
+       
     });
   }
+
+  // filereader(file, callback) {
+  //   if (file) {
+  //     let fileReader = new FileReader(), filedata;
+  //     fileReader.onload = (e) => {
+  //       this.arrayBuffer = fileReader.result;
+  //       var data = new Uint8Array(this.arrayBuffer);
+  //       var arr = new Array();
+  //       for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+  //       var bstr = arr.join("");
+  //       var workbook = JSXLSX.read(bstr, { type: "binary" });
+  //       var first_sheet_name = workbook.SheetNames[0];
+  //       var worksheet = workbook.Sheets[first_sheet_name];
+  //       // console.log(JSXLSX.utils.sheet_to_json(worksheet,{raw:true}));
+  //       callback(JSXLSX.utils.sheet_to_json(worksheet, { raw: true }))
+  //     }
+  //     fileReader.readAsArrayBuffer(file);
+  //   } else {
+  //     callback([])
+  //   }
+  // }
 
   filereader(file, callback) {
     if (file) {

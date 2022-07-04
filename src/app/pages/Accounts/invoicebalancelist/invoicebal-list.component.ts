@@ -10,6 +10,7 @@ import {
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
 import { ViewInvoiceComponent } from '../viewinvoice/viewinvoice.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -22,7 +23,7 @@ const EXCEL_EXTENSION = '.xlsx';
 
 export class InvoicebalanceListComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name = ''; bus; group1; resel_type = '';
-  res1; res_name = ''; paymentForm; tot; Download; count; group_name = ''; pro
+  res1; res_name = ''; paymentForm; tot; Download; count; group_name = ''; pro; start_date; end_date;
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   public primaryColour = '#dd0031';
@@ -39,7 +40,7 @@ export class InvoicebalanceListComponent implements OnInit {
     private reselser: ResellerService,
     public pageservice: PagerService,
     public activeModal: NgbModal,
-
+    private datepipe: DatePipe
 
   ) { }
 
@@ -103,6 +104,8 @@ export class InvoicebalanceListComponent implements OnInit {
         bus_id: this.bus_name,
         role: this.resel_type,
         resel_id: this.res_name,
+        start_date: this.start_date,
+        end_date: this.end_date
         // res_id:this.reseller_under,
       });
     this.data = result[0];
@@ -117,6 +120,8 @@ export class InvoicebalanceListComponent implements OnInit {
       bus_id: this.bus_name,
       role: this.resel_type,
       resel_id: this.res_name,
+      start_date: this.start_date,
+      end_date: this.end_date
     });
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -133,6 +138,7 @@ export class InvoicebalanceListComponent implements OnInit {
         param['TRANSACTION'] = temp[i]['rflag'] == 1 ? 'Deduction' : 'Deposit';
         param['BEFORE BALANCE'] = temp[i]['before_balance_amt'];
         param['AMOUNT (INR)'] = temp[i]['amt'];
+        param['DATE'] = this.datepipe.transform(temp[i]['c_date'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');;
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

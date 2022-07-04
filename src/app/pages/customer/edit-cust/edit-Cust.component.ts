@@ -495,6 +495,7 @@ export class EditCustComponent implements OnInit {
       pan_no: new FormControl(this.editdatas ? this.editdatas['pan'] : ''),
       attributes: new FormControl(this.editdatas ? this.editdatas['attributes'] : ''),
       mat_from: new FormControl(this.editdatas ? this.editdatas['mat_from'] : ''),
+      pincode: new FormControl(this.editdatas? this.editdatas['zip']:''),
       materialDetails: new FormArray([
         // this.createMaterial()
       ]),

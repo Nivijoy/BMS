@@ -63,7 +63,7 @@ export class ViewCustComponent implements OnInit {
   verify: boolean = false; notverify: boolean = false; verifyid: boolean = false; notverifyid: boolean = false;
   verifyaddr: boolean = false; notverifyaddr: boolean = false; verifypic: boolean = false; notverifypic: boolean = false;
   cafverify: boolean = false; cafnotverify: boolean = false; renew_history; oldnew = 1; radact_tname; table_data; ottInvoiceData;
-
+ 
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; srvidData: any[] = [];
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; servtype; custname; selectdata;
   public primaryColour = '#dd0031';
@@ -577,8 +577,9 @@ export class ViewCustComponent implements OnInit {
     activeModal.componentInstance.modalHeader = 'Balance Payment';
     activeModal.componentInstance.item = { invid: invid, uid: uid, payamt: amnt };
     activeModal.result.then((data) => {
+      console.log('Result', data);
       this.invoicelist();
-      this.view();
+      // this.view();
     })
 
   }
@@ -740,22 +741,26 @@ export class ViewCustComponent implements OnInit {
     this.router.navigate(['/pages/cust/add-custpic']);
   }
 
-  addpic(item, picflag) {
+  addpic(uid,item, picflag) {
     localStorage.setItem('array', JSON.stringify(item));
     localStorage.setItem('flag', JSON.stringify(picflag));
+    localStorage.setItem('subid',JSON.stringify(uid));
     this.router.navigate(['/pages/cust/add-custpic']);
   }
 
-  snapaddrproof(item, picflag) {
+  snapaddrproof(uid,item, picflag) {
     localStorage.setItem('array', JSON.stringify(item));
     localStorage.setItem('flag', JSON.stringify(picflag));
+    localStorage.setItem('subid',JSON.stringify(uid));
 
     this.router.navigate(['/pages/cust/add-custpic']);
   }
 
-  snapidproof(item, picflag) {
+  snapidproof(uid,item, picflag) {
     localStorage.setItem('array', JSON.stringify(item));
     localStorage.setItem('flag', JSON.stringify(picflag));
+    localStorage.setItem('subid',JSON.stringify(uid));
+
     this.router.navigate(['/pages/cust/add-custpic']);
   }
 
@@ -855,37 +860,37 @@ export class ViewCustComponent implements OnInit {
     })
   }
 
-  cafuploadproof(proid, cafaddr) {
+  cafuploadproof(uid,proid, cafaddr) {
     const activeModal = this.nasmodel.open(DocpopComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'CAF Upload';
-    activeModal.componentInstance.item = { proid: proid, cafaddr: cafaddr };
+    activeModal.componentInstance.item = {uid:uid, proid: proid, cafaddr: cafaddr };
     activeModal.result.then((data) => {
       this.view();
     })
   }
 
-  addrsproof(proid, addr) {
+  addrsproof(uid,proid, addr) {
     const activeModal = this.nasmodel.open(DocpopComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Address Proof';
-    activeModal.componentInstance.item = { proid: proid, addr: addr };
+    activeModal.componentInstance.item = {uid:uid, proid: proid, addr: addr };
     activeModal.result.then((data) => {
       this.view();
     })
   }
 
-  idproof(proid, idproof) {
+  idproof(uid,proid, idproof) {
     const activeModal = this.nasmodel.open(DocpopComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Identity Proof';
-    activeModal.componentInstance.item = { proid: proid, idproof: idproof };
+    activeModal.componentInstance.item = {uid:uid, proid: proid, idproof: idproof };
     activeModal.result.then((data) => {
       this.view();
     })
   }
 
-  custpicupload(proid, subpicflag) {
+  custpicupload(uid,proid, subpicflag) {
     const activeModal = this.nasmodel.open(DocpopComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'Subscriber Picture';
-    activeModal.componentInstance.item = { proid: proid, subpicflag: subpicflag };
+    activeModal.componentInstance.item = {uid:uid,proid: proid, subpicflag: subpicflag };
     activeModal.result.then((data) => {
       this.view();
     })

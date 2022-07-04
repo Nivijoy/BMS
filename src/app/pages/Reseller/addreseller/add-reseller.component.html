@@ -64,6 +64,13 @@
                 </tr>
               </table>
             </div>
+            <div *ngIf="isOpening" style="font-weight:800;font-size:larger;padding:1rem 31rem;">
+              <i
+              class='fas fa-spinner fa-pulse fa-spin fa-1x' style="color: #01a7ee;font-size: 1.5em;"></i>
+               Please wait! File is reading...</div>
+            <!-- <div *ngIf="isOpening" class="spinner-border text-primary" role="status">
+              <span><i class="fa fa-spinner fa-spin"></i> ...Loading  </span>   
+             </div> -->
           </div>
           <div class="form-group row" *ngIf="AddReselForm.value['reselcreate_type']=='0'">
             <div class="col-sm-4">
@@ -105,7 +112,7 @@
               <select formControlName="reseller_under" (change)="showResellerUnder();reselunderempty();sharedefault()"
                 [ngClass]="{'form-control':true,'form-control-danger':AddReselForm.controls.reseller_under.invalid&&submit}">
                 <option value="" selected>Select Reseller Under</option>
-                <option [hidden]="AddReselForm.value['Role']=='551' || role.getroleid() > '444'"
+                <option [hidden]="AddReselForm.value['Role']=='551' || (role.getroleid() > '444' && role.getroleid() < '775')"
                   value="0">None</option>
                 <option [hidden]="role.getroleid()=='555' || role.getroleid()=='554' "
                   *ngIf="AddReselForm.value['Role']=='551'||AddReselForm.value['Role']=='333'||AddReselForm.value['Role']=='444'"

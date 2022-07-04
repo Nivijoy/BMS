@@ -33,4 +33,10 @@ export class UserLogService {
    async listNaslog(params) {
       return await this.http.post("/api/log/listNaslog",params).toPromise();
    }
+   async userMailLog(params) {
+      return await this.http.post("/api/log/userMailLog",params).toPromise();
+   }
+   async userDatausage(params) {
+      return await this.http.post("/api/log/userDatausage",params).toPromise();
+   }
 }

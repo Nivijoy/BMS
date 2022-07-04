@@ -117,7 +117,7 @@ export class ListSubsDocPendingomponent implements OnInit {
 
   async initiallist() {
     this.loading = true;
-    let result = await this.custser.listSubscriber({
+    let result = await this.custser.listDocument({
       index: (this.page - 1) * this.limit,
       limit: this.limit,
       doc_pending:1,

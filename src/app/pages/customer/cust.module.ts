@@ -20,7 +20,7 @@ import { CancelScheduleCustComponent } from './schedulecancel/schedulecancel.com
 import { ScheduleChangeComponent } from './schedulechange/schedulechange.component';
 import {
   CustService, S_Service, SelectService, RoleService, BusinessService, GroupService,
-  ResellerService, IppoolService, InventoryService, OperationService, AccountService, ComplaintService
+  ResellerService, IppoolService, InventoryService, OperationService, AccountService, ComplaintService,UserLogService
 } from './../_service/indexService';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ShareModule } from '../sharemodule/share.module';
@@ -47,6 +47,7 @@ import { VoicePasswordComponent } from './voicepassword/voicepassword.component'
 import { LimitUpdateComponent } from './updatelimit/updatelimit.component';
 import { RenewCustComponent } from './RenewCustomer/renewCust.component';
 import { BulkupdateComponent } from './bulkupdate/bulkupdate.component';
+import { DataUsageComponent } from './data-usage/data-usage.component';
 
 // import { SubsServiceAssignComponent } from './subs-packmapping/subs-packmapping.component';
 export const MY_NATIVE_FORMATS = {
@@ -101,6 +102,7 @@ export const MY_NATIVE_FORMATS = {
     LimitUpdateComponent,
     RenewCustComponent,
     BulkupdateComponent,
+    DataUsageComponent,
     // SubsServiceAssignComponent,
   ],
   entryComponents: [
@@ -133,6 +135,6 @@ export const MY_NATIVE_FORMATS = {
     // SubsServiceAssignComponent,
   ],
   providers: [CustService, S_Service, SelectService, RoleService, BusinessService, AccountService,ConfirmationDialogService,
-    GroupService, ResellerService, IppoolService, InventoryService, OperationService,NgxImageCompressService, ComplaintService,DatePipe]
+    GroupService, ResellerService, IppoolService, InventoryService, OperationService,NgxImageCompressService, ComplaintService,DatePipe,UserLogService]
 })
 export class CustModule { }

@@ -64,12 +64,26 @@ export class BulkupdateComponent implements OnInit {
         { msg: 'Please Fill Branch Name', label: 'To_Branch_Name', required: true },
       ]
     }
-
+    if (val == 5) {
+      this.bulk_meta = [
+        { msg: 'Please Fill Login Id', label: 'profile_id', required: true },
+        { msg: 'Please Fill Service', label: 'service_name', required: true },
+        { msg: 'Please Fill SubPlan', label: 'subplan', required: true },
+      ]
+    }
+    if (val == 6) {
+      this.bulk_meta = [
+        { msg: 'Please Fill Login Id', label: 'profile_id', required: true },
+        { msg: 'Please Fill Password', label: 'password', required: true },
+      ]
+    }
     return this.bulk_meta;
   }
   async business() {
     this.busname = await this.busser.showBusName({})
   }
+
+
   async showProfile($event = '') {
     if (this.bulkUpdateForm.value['bus_id']) {
       this.profile = await this.resser.showProfileReseller({ like: $event, rec_role: 1, bus_id: this.bulkUpdateForm.value['bus_id'] })
@@ -83,8 +97,13 @@ export class BulkupdateComponent implements OnInit {
   }
   async bulkUpdate() {
     this.submit = true;
+    const invalid = [], controls = this.bulkUpdateForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) invalid.push(name)
+    }
     if (this.bulkUpdateForm.invalid || (this.bulk.length == 0 && this.bulkUpdateForm.value['format'] != 2)) {
-      window.alert('Please Select any one Service or upload file');
+      console.log('Invlaid', invalid);
+      window.alert('Please fill all mandatory field or upload file');
       return;
     }
     let value = this.bulkUpdateForm.value['format'];
@@ -151,10 +170,11 @@ export class BulkupdateComponent implements OnInit {
           else this.bulk[i][meta.label] = this.bulk[i][meta.label]
         }
         this.bulk[i].bus_id = this.bulkUpdateForm.value['bus_id']
+        this.bulk[i].role = this.bulkUpdateForm.value['resel_type']
         this.bulk[i].freseller_id = this.bulkUpdateForm.value['freseller'];
         this.bulk[i].treseller_id = this.bulkUpdateForm.value['treseller'];
       }
-      console.log('bulk', this.bulk)
+      // console.log('bulk', this.bulk)
       this.loading = true;
       let resp = await this.cust.bulkResellerReplace({ replacereseller: this.bulk });
       if (resp) {
@@ -163,13 +183,67 @@ export class BulkupdateComponent implements OnInit {
         if (resp[0]['error_msg'] == 0) this.reset();
       } else this.loading = false;
     }
+    if (value == 5) {  //Service Replace
+      let result = this.metaData(value)
+      for (let i = 0; i < this.bulk.length; i++) {
+        for (let meta of result) {
+          console.log("value", this.bulk[i].hasOwnProperty(meta.label))
+          if (meta.required && !this.bulk[i].hasOwnProperty(meta.label)) this.toastalert(meta.msg)
+        }
+        this.bulk[i].reseller_id = this.bulkUpdateForm.value['reseller'];
+      }
+      // console.log("bulk", this.bulk)
+      this.loading = true;
+      let resp = await this.cust.bulkSrvReplace({ replaceservice: this.bulk });
+      // console.log("resp", resp)
+      if (resp) {
+        this.loading = false;
+        this.result_pop(resp, true);
+        if (resp[0]['error_msg'] == 0) this.reset();
+      } else this.loading = false;
+
+    }
+
+    if (value == 6) {     //Update Authentication Password 
+      let result = this.metaData(value)
+      for (let i = 0; i < this.bulk.length; i++) {
+        for (let meta of result) {
+          if (meta.required && !this.bulk[i].hasOwnProperty(meta.label)) this.toastalert(meta.msg)
+        }
+      };
+      this.loading = true;
+      let resp = await this.cust.bulkPwdUpdate({ replacePwd: this.bulk });
+      if (resp) {
+        this.loading = false;
+        this.result_pop(resp, true);
+        if (resp[0]['error_msg'] == 0) this.myInputFile.nativeElement.value = "";
+      } else this.loading = false;
+    }
   }
-  clearValidation() {
+
+  clearSetValidation() {
+    let resetValue = ['resel_type', 'reseller', 'srvmode', 'freseller', 'treseller', 'fresel_type', 'tresel_type', 'file']
+    for (let val of resetValue) {
+      if (this.bulkUpdateForm.controls[val]) this.bulkUpdateForm.controls[val].setValue('');
+    }
     let value = this.bulkUpdateForm.value['format'];
-    if (value == 1) this.clearValid('bus_id', 'resel_type', 'reseller', 'srvmode');
-    if (value != 4) this.clearValid('fresel_type', 'tresel_type', 'freseller', 'treseller')
-    if (value == 3) this.clearValid('srvmode');
-    if (value == 4) this.clearValid('resel_type', 'reseller', 'srvmode')
+    //! Set and Clear Validation
+    if (value == 1 || value == 6) this.clearValid('bus_id', 'resel_type', 'reseller', 'srvmode');
+    if (value != 4) this.clearValid('fresel_type', 'tresel_type', 'freseller', 'treseller')   // val in (1,2,3,5,6)
+    if (value == 3 || value == 5) {
+      this.clearValid('srvmode');
+      this.setValid('bus_id', 'resel_type', 'reseller');
+    }
+    if (value == 4) {
+      this.clearValid('resel_type', 'reseller', 'srvmode');
+      this.setValid('bus_id', 'fresel_type', 'tresel_type', 'freseller', 'treseller');
+    }
+
+    if (value == 2) {
+      this.setValid('bus_id', 'resel_type', 'reseller', 'srvmode');
+      this.myInputFile.nativeElement.value = "";
+    }
+
   }
 
   clearValid(...value) {
@@ -179,11 +253,26 @@ export class BulkupdateComponent implements OnInit {
     }
   }
 
+  setValid(...value) {
+    for (let val of value) {
+      this.bulkUpdateForm.get(val).setValidators(Validators.required);
+    }
+  }
+
   reset() {
+    // if (this.bulkUpdateForm.value['format'] == 4) { 
+    //   this.myInputFile.nativeElement.value = "";
+    //   this.bulkUpdateForm.reset()
+    //   this.bulkUpdateForm.controls['format'].setValue(4);
+    //   this.submit = false
+    //   this.bulk = [];
+    //   return
+    // }
     if (this.bulkUpdateForm.value['format'] != 2) this.myInputFile.nativeElement.value = "";
     this.bulkUpdateForm.reset()
+    if (this.role.getroleid() <= 777) this.bulkUpdateForm.get('bus_id').setValue(this.role.getispid());
     this.bulkUpdateForm.controls['format'].setValue(1);
-    this.bulk = [];
+    this.bulk = []; this.submit = false
   }
 
   result_pop(item, flag) {
@@ -235,18 +324,17 @@ export class BulkupdateComponent implements OnInit {
     this.alert.popAsync(toast);
   }
 
-
   createForm() {
     this.bulkUpdateForm = new FormGroup({
-      format: new FormControl('', Validators.required),
-      bus_id: new FormControl('', Validators.required),
-      resel_type: new FormControl('', Validators.required),
-      fresel_type: new FormControl('', Validators.required),
-      tresel_type: new FormControl('', Validators.required),
-      reseller: new FormControl('', Validators.required),
-      freseller: new FormControl('', Validators.required),
-      treseller: new FormControl('', Validators.required),
-      srvmode: new FormControl('', Validators.required),
+      format: new FormControl('1', Validators.required),
+      bus_id: new FormControl(''),
+      resel_type: new FormControl(''),
+      fresel_type: new FormControl(''),
+      tresel_type: new FormControl(''),
+      reseller: new FormControl(''),
+      freseller: new FormControl(''),
+      treseller: new FormControl(''),
+      srvmode: new FormControl(''),
     })
   }
 

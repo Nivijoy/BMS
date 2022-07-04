@@ -25,7 +25,8 @@ export class DepositpaylistComponent implements OnInit {
   submit: boolean = false; addNas; data; search; bus_name; bus; group1; group_name; profile; resel_type;
   res1; res_name; count; dep_by; depositer; dep_amt; totalDepositAmount;
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; start_date: any; end_date: any;
-  depReason = 0; reasondata; dd: any; mm: any;
+  depReason = 0; reasondata; dd: any; mm: any;showtype=0
+
 
   constructor(
     private alert: ToasterService,
@@ -41,7 +42,7 @@ export class DepositpaylistComponent implements OnInit {
 
 
   ) {
-    let nowdate = new Date().toJSON().slice(0,10);
+    let nowdate = new Date().toJSON().slice(0, 10);
     // this.dd = nowdate.getDate();
     // this.mm = nowdate.getMonth();
     // let yyyy = nowdate.getFullYear();
@@ -139,6 +140,7 @@ export class DepositpaylistComponent implements OnInit {
     this.start_date = '';
     this.end_date = '';
     this.depReason = 0;
+    this.showtype = 0;
 
     await this.initiallist();
     await this.showBusName();
@@ -162,7 +164,8 @@ export class DepositpaylistComponent implements OnInit {
         dep_amount: this.dep_amt,
         start_date: this.start_date,
         end_date: this.end_date,
-        dep_reason: this.depReason
+        dep_reason: this.depReason,
+        showtype: this.showtype
         // res_id:this.reseller_under,
       })
     this.data = result[0];
@@ -196,7 +199,8 @@ export class DepositpaylistComponent implements OnInit {
       dep_amount: this.dep_amt,
       start_date: this.start_date,
       end_date: this.end_date,
-      dep_reason: this.depReason
+      dep_reason: this.depReason,
+      showtype: this.showtype
 
     })
     if (res) {
@@ -206,15 +210,15 @@ export class DepositpaylistComponent implements OnInit {
         if (this.role.getroleid() > 777) {
           param['ISP NAME'] = temp[i]['busname'];
         }
-        if (this.role.getroleid() >= 775 || this.role.getroleid() >444) {
+        if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
           param['GROUP NAME'] = temp[i]['groupname'];
           param['RESELLER TYPE'] = temp[i]['role'] == 333 ? 'Deposit Reseller' : temp[i]['role'] == 555 ? 'Sub ISP Deposit' : 'Sub Distributor Deposit';
           param['RESELLER BUSINESS NAME'] = temp[i]['company']
         }
         param['DEPOSIT MODE'] = temp[i]['dflag'] == 1 ? 'Depost' : temp[i]['dflag'] == 2 ? 'Received' : temp[i]['dflag'] == 3 ?
-          'Deposit Against Payment' : temp[i]['dflag'] == 4 ? 'Commission' : '--';
+          'Deposit Against Payment' : temp[i]['dflag'] == 4 ? 'Commission' : temp[i]['dflag']==5?'Debit':temp[i]['dflag']==6?'Credit':'--';
         param['DEPOSIT TYPE'] = temp[i]['deposit_type'] == 1 ? 'Cash' : temp[i]['deposit_type'] == 2 ? 'Bank Payment' :
-          temp[i]['deposit_type'] == 3 ? 'Net Banking' : temp[i]['deposit_type'] == 4 ? 'UPI' : 'Deposit';
+          temp[i]['deposit_type'] == 3 ? 'Net Banking' : temp[i]['deposit_type'] == 4 ? 'UPI' :temp[i]['deposit_type']==6?'Wallet': 'Deposit';
         param['ORDER ID'] = temp[i]['txnid'];
         param['UTR'] = temp[i]['utr'] == null ? '--' : temp[i]['utr'];
         param['DEPOSIT AMOUNT'] = temp[i]['deposit_amount'];

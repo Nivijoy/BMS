@@ -1,3 +1,4 @@
+
 <div class="modal-header">
   <span>{{ modalHeader }}</span>
   <button class="close" aria-label="Close" (click)="activeModal.close(false)">
@@ -6,6 +7,11 @@
 </div>
 <form [formGroup]="PayBalanceForm" class="form-horizontal" (ngSubmit)="payment();">
   <div class="modal-body">
+    <ngx-loading *ngIf="loading" [show]="loading"
+    [config]="{animationType: ngxLoadingAnimationTypes.wanderingCubes, primaryColour: primaryColour, secondaryColour: secondaryColour, backdropBorderRadius: '3px'}">
+  </ngx-loading>
+  <toaster-container [toasterconfig]></toaster-container>
+
     <div class="form-group row">
       <div class="col-sm-12">
         <label>Pay Amount <span style="color:red;">*</span></label>

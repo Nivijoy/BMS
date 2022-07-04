@@ -36,7 +36,7 @@ export class PaystatusCheckComponent implements OnInit {
 	}
 
 	async ngOnInit() {
-		console.log('Item---',this.item);
+		console.log('Pay Status Check---',this.item);
 		if(this.item.error_msg==4 || this.item.error_msg==5 || this.item.error_msg==0){
 			console.log('Item',this.item['error_msg'])
 			this.status_descp = this.item.StatusDesc;

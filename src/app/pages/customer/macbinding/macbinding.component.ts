@@ -65,6 +65,7 @@ export class MacBindingComponent implements OnInit {
       this.submit = true;
       return;
     }
+    this.loading = true;
     this.MacbindForm.value['uid'] = this.item.uid;
     this.MacbindForm.value['login_type'] = this.item.acctype;
     this.macbinddata = [this.MacbindForm.value]
@@ -72,7 +73,7 @@ export class MacBindingComponent implements OnInit {
     let result = await this.custser.updateMacBind({ macbind: this.macbinddata })
     this.data = result
     console.log(result)
-    // this.loading = false;
+    this.loading = false;
     const toast: Toast = {
       type: result[0]['error_msg'] == 0 ? 'success' : 'warning',
       title: result[0]['error_msg'] == 0 ? 'Success' : 'Failure',
@@ -80,6 +81,7 @@ export class MacBindingComponent implements OnInit {
       timeout: 3000,
       showCloseButton: true,
       bodyOutputType: BodyOutputType.TrustedHtml,
+     
     };
     this.alert.popAsync(toast);
     if (result[0]['error_msg'] == 0) {

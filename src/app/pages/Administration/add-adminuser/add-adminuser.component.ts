@@ -11,6 +11,7 @@ import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import { RoleService, ResellerService, AdminuserService, GroupService, BusinessService, SelectService } from '../../_service/indexService';
+import {Location } from '@angular/common'
 
 @Component({
   selector: 'add-adminuser',
@@ -35,7 +36,7 @@ export class AddAdminuserComponent implements OnInit {
     private groupser: GroupService,
     private busser: BusinessService,
     private reselser: ResellerService,
-
+    private location : Location
   ) {
 
   }
@@ -461,6 +462,7 @@ export class AddAdminuserComponent implements OnInit {
       this.id = param.id || null;
     })
     if (this.id) {
+      this.location.replaceState('/pages/administration/edit-adminuser')
       await this.edit();
       this.AddAdminForm.get('Password').clearValidators();
       this.AddAdminForm.get('Password').updateValueAndValidity();

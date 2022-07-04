@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
-import { BusinessService, RoleService, PagerService, AdminuserService, GroupService } from '../../_service/indexService';
+import { BusinessService, RoleService, PagerService, AdminuserService, GroupService, ResellerService } from '../../_service/indexService';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as JSXLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -19,7 +19,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 export class ResellerOttPlanComponent implements OnInit {
   submit: boolean = false; ottdata; total; bus; bus_name; config; search; group1; group_name;
   pager: any = {}; page: number = 1; pagedItems: any = []; limit: number = 25; ottplan_code; ottplandata; ottplan_name; ottplanname;
-  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes; resel_name; reseller;
   public primaryColour = '#dd0031';
   public secondaryColour = '#006ddd';
   public loading = false;
@@ -31,7 +31,7 @@ export class ResellerOttPlanComponent implements OnInit {
     public pageservice: PagerService,
     private nasmodel: NgbModal,
     private groupser: GroupService,
-
+    private resser: ResellerService,
 
   ) { }
 
@@ -41,7 +41,12 @@ export class ResellerOttPlanComponent implements OnInit {
     await this.showBusName();
     if (this.role.getroleid() <= 777) {
       this.bus_name = this.role.getispid();
+      this.showGroupName();
+      this.showReseller();
+      this.showOTTPlanName();
+      this.showOTTPlanCode();
     }
+
   }
 
   async showBusName($event = '') {
@@ -54,6 +59,9 @@ export class ResellerOttPlanComponent implements OnInit {
     // console.log("group",result)
   }
 
+  async showReseller($event = '') {
+    this.reseller = await this.resser.showResellerName({ bus_id: this.bus_name, groupid: this.group_name, like: $event, except: 1 })
+  }
   async showOTTPlanCode($event = '') {
     if (this.bus_name) this.ottplandata = await this.adminser.showOTTPlanCode({ bus_id: this.bus_name, like: $event });
   }
@@ -67,6 +75,7 @@ export class ResellerOttPlanComponent implements OnInit {
     this.group_name = '';
     this.ottplan_code = '';
     this.ottplan_name = '';
+    this.resel_name = '';
     await this.initiallist();
   }
 
@@ -78,7 +87,8 @@ export class ResellerOttPlanComponent implements OnInit {
         limit: this.limit,
         bus_id: this.bus_name,
         ottplan_code: this.ottplan_code,
-        ottplan_name: this.ottplan_name
+        ottplan_name: this.ottplan_name,
+        resel_id: this.resel_name,
       })
     // console.log("result")
     this.loading = false;
@@ -133,7 +143,8 @@ export class ResellerOttPlanComponent implements OnInit {
     let res = await this.adminser.listResellerOttMap({
       bus_id: this.bus_name,
       ottplan_code: this.ottplan_code,
-      ottplan_name: this.ottplan_name
+      ottplan_name: this.ottplan_name,
+      resel_id: this.resel_name,
     })
     if (res) {
       let tempdata = [], temp: any = res[0];
@@ -143,7 +154,7 @@ export class ResellerOttPlanComponent implements OnInit {
         if (this.role.getroleid() > 444) param['RESELLER NAME'] = temp[i]['company'];
         param['OTTPLANNAME'] = temp[i]['ottplan_name'];
         param['OTTPLANCODE'] = temp[i]['ottplancode'];
-         param['TAXTYPE'] = temp[i]['taxtype'] == 0 ? 'Inclusive' : 'Exclusive';
+        param['TAXTYPE'] = temp[i]['taxtype'] == 0 ? 'Inclusive' : 'Exclusive';
         param['TIMEUNIT'] = temp[i]['dayormonth'] == 1 ? temp[i]['days'] + "Days" : temp[i]['days'] + "Months";
         param['AMOUNT'] = temp[i]['ottamt'];
         param['STATUS'] = temp[i]['omstatus'] == 1 ? 'Enable' : 'Disable';

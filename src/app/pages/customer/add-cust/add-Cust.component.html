@@ -153,6 +153,14 @@
                                           <small *ngIf="AddSubsForm.hasError('required','ID')&&submit"
                                              class="form-text error"> User ID is
                                              required! </small>
+                                          <small *ngIf="AddSubsForm.hasError('pattern','ID')&&submit"
+                                             class="form-text error">
+                                             <span>Use Minimum 6 or Maximum 20 Characters with a mix of <br>
+                                                small case letters, numbers & allowed symbols (._-)!</span>
+                                          </small>
+                                          <small *ngIf="AddSubsForm.hasError('cannotContainSpace','ID')&&submit"
+                                             class="form-text error"> Username can not contain space.! </small>
+
                                        </div>
                                     </div>
                                     <div class="form-group row">
@@ -291,6 +299,11 @@
                                           </select>
                                           <small *ngIf="AddSubsForm.controls.locality.invalid&&submit"
                                              class="form-text error">Locality is Required!</small>
+                                       </div>
+                                       <div class="col-sm-6">
+                                          <label>Pincode </label>
+                                          <input type="text" formControlName="pincode" placeholder="Pincode "
+                                             [ngClass]="{'form-control' : true,'form-control-danger':AddSubsForm.controls.pincode.invalid&&submit}" />
                                        </div>
                                     </div>
                                     <div class="form-group row" *ngIf="AddSubsForm.value['create_type']=='0'">

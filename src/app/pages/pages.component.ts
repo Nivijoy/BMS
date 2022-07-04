@@ -462,9 +462,9 @@ export class PagesComponent {
       title: 'Hotel',
       icon: 'fa fa-user-secret',
       hidden: this.roleid < 999,
-      children:[
+      children: [
         {
-          title:'List',
+          title: 'List',
           link: '/pages/hotel/list-hotel'
         }
       ]
@@ -561,6 +561,11 @@ export class PagesComponent {
           link: '/pages/cust/listscheduled',
           hidden: !this.role.find(x => x == 711),
         },
+        {
+          title: 'Data Usage',
+          link: '/pages/cust/data-usage',
+          hidden: this.roleid < 775
+        }
       ],
     },
     {
@@ -576,11 +581,11 @@ export class PagesComponent {
       hidden: !(this.role.find(x => x == 801) || this.role.find(x => x == 802) || this.role.find(x => x == 804) ||
         this.role.find(x => x == 805) || this.role.find(x => x == 807) || this.role.find(x => x == 815) || this.role.find(x => x == 1021)
         || this.role.find(x => x == 810) || this.role.find(x => x == 1026) || this.role.find(x => x == 811) || this.role.find(x => x == 812)
-        || this.role.find(x => x == 808)),
+        || this.role.find(x => x == 808) || this.role.find(x => x == 1063)),
       children: [
         {
           title: 'Deposit',
-          hidden: !(this.role.find(x => x == 801) || this.role.find(x => x == 802)),
+          hidden: !(this.role.find(x => x == 801) || this.role.find(x => x == 802) || this.role.find(x => x == 1063) || this.role.find(x => x == 815)),
           children: [
             {
               title: 'List',
@@ -596,6 +601,11 @@ export class PagesComponent {
               title: 'Outstanding',
               link: '/pages/Accounts/listresel-outstand',
               hidden: !this.role.find(x => x == 815)
+            },
+            {
+              title: 'Wallet Sharing',
+              link: '/pages/Accounts/wallet-share',
+              hidden: !this.role.find(x => x == 1063),
             },
           ]
         },
@@ -669,7 +679,7 @@ export class PagesComponent {
         || this.role.find(x => x == 1012) || this.role.find(x => x == 1013) || this.role.find(x => x == 1041)),
       children: [
         {
-          title:'Renewal Report',
+          title: 'Renewal Report',
           link: '/pages/reports/renewalReport',
           hidden: (!this.role.find(x => x == 1062))
         },
@@ -843,7 +853,7 @@ export class PagesComponent {
       title: 'Logs',
       icon: 'fas fa-clipboard-list',
       hidden: (!(this.role.find(x => x == 1001) || this.role.find(x => x == 1002) || this.role.find(x => x == 1003)
-        || this.role.find(x => x == 1004) || this.role.find(x => x == 1005))),
+        || this.role.find(x => x == 1004) || this.role.find(x => x == 1005) || this.role.find(x => x == 1064))),
       children: [
         {
           title: 'ProfileLog',
@@ -883,6 +893,11 @@ export class PagesComponent {
         {
           title: 'GSTMaillog',
           link: '/pages/administration/gst-mail-log'
+        },
+        {
+          title: 'UserMailLog',
+          link: '/pages/administration/user-mail-log',
+          hidden: !this.role.find(x => x == 1064),
         }
 
       ],

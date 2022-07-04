@@ -57,7 +57,8 @@ export class ServiceListComponent implements OnInit {
       await this.profile();
     }
     if (this.role.getroleid() < 775) {
-      this.group_name = this.role.getgrupid();
+      // Group option for reseller service Mapping
+      // this.group_name = this.role.getgrupid();
       this.res_name = this.role.getresellerid();
       await this.showService()
     }
@@ -340,4 +341,5 @@ export class ServiceListComponent implements OnInit {
     localStorage.setItem('details', JSON.stringify(item))
     this.route.navigate(['/pages/service/viewservice'])
   }
+
 }

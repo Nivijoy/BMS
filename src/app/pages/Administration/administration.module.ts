@@ -1,4 +1,4 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ThemeModule } from '../../@theme/theme.module';
 import { AdminRoutingModule, routedComponents } from './administration.routing';
 import { ToasterModule } from 'angular2-toaster';
@@ -7,14 +7,14 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { AutoCompleteNModule } from '../auto-complete-module/auto-completen-module';
 import {
   GroupService, BusinessService, ResellerService, RoleService, AdminuserService,
-  UserLogService, ReportService, NasService,S_Service
+  UserLogService, ReportService, NasService, S_Service
 } from '../_service/indexService';
 import { TreeModule } from 'angular-tree-component';
 import { AddStaticIPComponent } from './add-staticip/addstaticip.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 // import { CKEditorModule} from 'ckeditor4-angular';
-import { CKEditorModule} from 'ng2-ckeditor';
+import { CKEditorModule } from 'ng2-ckeditor';
 import { SmstemplatesComponent } from './smstemplates/smstemplates.component';
 import { Ng2SmartTableModule } from 'ngx-smart-table';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -39,9 +39,10 @@ import { OttLogComponent } from './ott-log/ott-log.component';
 import { ResellerOttPlanComponent } from './reseller-ott-plan/reseller-ott-plan.component';
 import { InvoiceMailLogComponent } from './invoice-mail-log/invoice-mail-log.component';
 import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mail-log.component';
- 
- 
-  
+import { MailLogComponent } from './mail-log/mail-log.component';
+
+
+
 @NgModule({
   imports: [
     ThemeModule,
@@ -55,7 +56,7 @@ import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mai
     NgxLoadingModule.forRoot({}),
     ShareModule,
     filterModule
-    ],
+  ],
   declarations: [
     routedComponents,
     ChangepasswordComponent,
@@ -79,7 +80,8 @@ import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mai
     ResellerOttPlanComponent,
     InvoiceMailLogComponent,
     GstinvoiceMailLogComponent,
-     // OttcountComponent,
+    MailLogComponent,
+    // OttcountComponent,
     //  ReadonlyDirective,
 
   ],
@@ -90,7 +92,7 @@ import { GstinvoiceMailLogComponent } from './gstinvoice-mail-log/gstinvoice-mai
     AddsmscreditsComponent,
     // OttcountComponent
   ],
-  providers: [CompanyService, GroupService, AdminuserService, NasService,S_Service,
+  providers: [CompanyService, GroupService, AdminuserService, NasService, S_Service,
     RoleService, BusinessService, ResellerService, UserLogService, ReportService, NgbActiveModal],
 })
 

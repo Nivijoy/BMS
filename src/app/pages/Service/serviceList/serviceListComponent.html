@@ -114,8 +114,10 @@
         <i (click)="download()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
       </div>
     </div>
-    <div class="table-wrapper">
-      <table class="table table-hover table-striped">
+    <!-- <div class="table-wrapper">
+      <table class="table table-hover table-striped"> -->
+        <div class="table-responsive">
+        <table class="table">
         <tr>
           <th rowspan="2" style="border: 3px solid #aeb8b9;color: white;"
             *ngIf="(!role.getmenurole(316) || !role.getmenurole(317))"><br>Action</th>
@@ -174,6 +176,7 @@
               </ul>
             </div>
           </td>
+          
           <td *ngIf="role.getroleid()>777">{{item.srvid}}</td>
           <td *ngIf="role.getroleid()>777">{{item.busname}}</td>
           <td *ngIf="role.getroleid()>=775">{{item.groupname}}</td>

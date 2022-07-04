@@ -27,14 +27,21 @@
             (changed)="changeclear(2);" placeholder='Select Group' optId="groupid" [item]="group1">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)">
+        <div class="col-sm-2" *ngIf="[666,555].includes(this.role.getroleid())">
+          <label>Select List Type</label>
+          <select [(ngModel)]="showtype" name="showtype" id="showtype" class="form-control">
+            <option value="0" selected="selected">Reseller</option>
+            <option value="1">Own</option>
+          </select>
+        </div>
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)" [hidden]="showtype==1">
           <label>Reseller Type</label>
           <auto-completen [(ngModel)]="resel_type" addclass="form-control"
             (changed)="showResellerName();changeclear(3);" optValues="menu_name" placeholder='Select Reseller Type'
             optId="role" [item]="profile">
           </auto-completen>
         </div>
-        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)">
+        <div class="col-sm-2" *ngIf="(role.getroleid()>=775 || role.getroleid() > 444)" [hidden]="showtype==1">
           <label>Reseller Name</label>
           <auto-completen [(ngModel)]="res_name" addclass="form-control" optValues="company"
             placeholder='Select Reseller' id="res_name" [item]="res1">
@@ -151,10 +158,9 @@
           <td *ngIf="role.getroleid()>=775">{{item.role==333 ? 'Deposit Reseller':item.role==555 ? 'Sub ISP
             Deposit':'Sub Distributor Deposit'}}</td>
           <td *ngIf="role.getroleid()>444">{{item.company}}</td>
-          <td>{{item.dflag==1 ?'Deposit':item.dflag==2 ? 'Received':item.dflag==3?'Deposit against
-            Payment':item.dflag==4?'Commission':item.dflag==5 ? 'Debit':item.dflag==6 ? 'Credit':'--'}}
+          <td>{{item.dflag==1 ?'Deposit':item.dflag==2 ? 'Received':item.dflag==3?'Deposit against Payment':item.dflag==4?'Commission':item.dflag==5 ? 'Debit':item.dflag==6 ? 'Credit':'--'}}
           <td style="text-align: center;">{{item.deposit_type==1 ? 'Cash':item.deposit_type==2 ? 'Bank
-            Payment':item.deposit_type==3 ?'Net Banking':item.deposit_type==4 ?'UPI':'Deposit'}}</td>
+            Payment':item.deposit_type==3 ?'Net Banking':item.deposit_type==4 ?'UPI':item.deposit_type==6?'Wallet':'Deposit'}}</td>
           <td>{{item.txnid}}</td>
           <td>{{item.utr==null ? '--':item.utr}}</td>
           <td style="text-align: center;"><i class="fas fa-rupee-sign">&nbsp;{{item.deposit_amount}}</i></td>

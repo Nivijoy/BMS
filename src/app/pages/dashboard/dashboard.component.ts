@@ -36,7 +36,7 @@ interface CardSettings {
 })
 
 export class DashboardComponent implements OnDestroy {
-   alive = true;snapidproof;flip;snapaddrproof;flip1;flip2;
+   alive = true; snapidproof; flip; snapaddrproof; flip1; flip2;
    lival: any;
    // live=null;
    value1 = 100;
@@ -144,6 +144,7 @@ export class DashboardComponent implements OnDestroy {
             this.statusCards[5].value = this.totalcount.suspend;
             this.statusCards[6].value = this.totalcount.disconnect_status;
             this.statusCards[7].value = this.totalcount.exp_online;
+            this.statusCards[8].value = this.totalcount.ofline_status;
 
          }
          // await this.getdeposit();
@@ -752,6 +753,15 @@ export class DashboardComponent implements OnDestroy {
       color: '',
    };
 
+   coffeeMakerCard5: CardSettings = {
+      title: 'Offline',
+      iconClass: 'fas fa-user-circle',
+      type: 'offline',
+      value: 0,
+      status: 9,
+      color: '',
+   };
+
    statusCards: any;
 
    commonStatusCardsSet: CardSettings[] = [
@@ -763,7 +773,7 @@ export class DashboardComponent implements OnDestroy {
       this.coffeeMakerCard2,
       this.coffeeMakerCard3,
       this.coffeeMakerCard4,
-
+      this.coffeeMakerCard5,
    ];
 
    statusCardsByThemes: {

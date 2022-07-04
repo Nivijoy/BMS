@@ -4,7 +4,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustService } from '../../_service/indexService';
+import { CustService,UsernameValidator } from '../../_service/indexService';
 @Component({
   selector: 'UpdateUsername',
   templateUrl: './updateusername.component.html',
@@ -34,7 +34,6 @@ export class UpdateUsernameComponent implements OnInit {
       this.submit = true;
       return;
     }
-    // console.log('qqqq')
     this.AddNasForm.value['id'] = this.id;
     let result = await this.ser.changesubsusername(this.AddNasForm.value)
     this.datas = result[0];
@@ -58,7 +57,7 @@ export class UpdateUsernameComponent implements OnInit {
 
   createForm() {
     this.AddNasForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+      username: new FormControl('', [Validators.required,Validators.pattern("[a-z0-9._\-\]{5,20}$"),UsernameValidator.cannotContainSpace]),
 
     });
   }

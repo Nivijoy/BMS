@@ -14,6 +14,8 @@
             <div class="custom-control custom-checkbox">
                <input type="checkbox" class="custom-control-input" id="same_proof" formControlName="same_proof" />
                <label class="custom-control-label" for="same_proof">Address&ID Proofs Same</label>
+               <small  style="color: blueviolet;"><b>(Address & ID Proof must be same only when you select proof as Aadhaar and Voter ID)</b></small>
+
             </div>
          </div>
       </div>
@@ -61,7 +63,7 @@
                formControlName="Proof">
                <option value="" selected>Select Proof Type</option>
                <option value="0">Aadhaar Card</option>
-               <option value="1">Ration Card</option>
+               <option value="1">Voter ID</option>
                <option value="2">Pan Card</option>
             </select>
              <small *ngIf="AddDocForm.controls.Proof.invalid&&submit" class="form-text error">Proof type is
@@ -114,6 +116,15 @@
             <label>Picure Preview</label><br>
             <img [src]="subpicurl" style="width: 100%;height: 150px;">
          </div>
+      </div>
+      <div class="form-group row" *ngIf="idflag ==2 || this.AddDocForm.value['same_proof'] == true">
+            <div class="col-sm-4">
+               <label>Proof ID <span style="color:red;">*</span></label>
+               <input type="text" formControlName="ProofID" placeholder="ProofID "
+                  [ngClass]="{'form-control' : true,'form-control-danger':AddDocForm.controls.ProofID.invalid&&submit}" />
+               <small *ngIf="AddDocForm.controls.ProofID.invalid&&submit" class="form-text error">Proof
+                  is required! </small>
+            </div>
       </div>
    </div>
    <div class="modal-footer">

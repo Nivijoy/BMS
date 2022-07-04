@@ -265,9 +265,9 @@ export class CustListComponent implements OnInit, OnDestroy {
       acctype: this.acc_type,
       acc_type: this.acnt_type,
       conntype: this.conn_type,
-      active: this.dashstatus == 3 ? this.act_status = 1 : this.dashstatus == 4 ? this.act_status = 2 :
+      active: (this.dashstatus == 3 || this.dashstatus == 9) ? this.act_status = 1 : this.dashstatus == 4 ? this.act_status = 2 :
         this.dashstatus == 5 ? this.act_status = 4 : this.dashstatus == 6 ? this.act_status = 3 : this.dashstatus == 8 ? this.act_status = 0 : this.act_status,
-      online: this.dashstatus == 2 ? this.on_status = 1 : this.dashstatus == 7 ? this.on_status = 3 : this.on_status,
+      online: this.dashstatus == 2 ? this.on_status = 1 : this.dashstatus == 7 ? this.on_status = 3 : this.dashstatus == 9 ? this.on_status = 2 : this.on_status,
       exptrackflag: this.exp_track,
       sdate: this.st_date,
       edate: this.en_date,
@@ -342,9 +342,9 @@ export class CustListComponent implements OnInit, OnDestroy {
       acctype: this.acc_type,
       acc_type: this.acnt_type,
       conntype: this.conn_type,
-      active: this.dashstatus == 3 ? this.act_status = 1 : this.dashstatus == 4 ? this.act_status = 2 :
+      active: (this.dashstatus == 3 || this.dashstatus == 9) ? this.act_status = 1 : this.dashstatus == 4 ? this.act_status = 2 :
         this.dashstatus == 5 ? this.act_status = 4 : this.dashstatus == 6 ? this.act_status = 3 : this.dashstatus == 8 ? this.act_status = 0 : this.act_status,
-      online: this.dashstatus == 2 ? this.on_status = 1 : this.dashstatus == 7 ? this.on_status = 3 : this.on_status,
+      online: this.dashstatus == 2 ? this.on_status = 1 : this.dashstatus == 7 ? this.on_status = 3 : this.dashstatus == 9 ? this.on_status = 2 : this.on_status,
       exptrackflag: this.exp_track,
       sdate: this.st_date,
       edate: this.en_date,
@@ -391,37 +391,39 @@ export class CustListComponent implements OnInit, OnDestroy {
         param['USER SERVICE'] = temp[i]['srvname'] || 'N/A';
         param['RUNNING SERVICE'] = temp[i]['online_status'] == 1 ? temp[i]['rsrvname'] : '--';
 
-       if(this.dashstatus!=2 && this.on_status!=1){
-        param['SUBPLAN'] = temp[i]['sub_plan'] || 'N/A';
-        param['DL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitdl'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
-        param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcuplimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcuplimit']) : '--';
-        param['TOTAL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitcomb'] == 0 ? '--' : temp[i]['lclimitcomb'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lclimitcomb']) : 'Unlimited';
-        temp[i]['registered'] = temp[i]['registered'] != null ? this.datePipe.transform(temp[i]['registered'], 'dd-MM-yyyy', 'es-ES') : '-';
-        param['REGISTERED DATE'] = temp[i]['registered'];
-        temp[i]['createdon'] = this.datePipe.transform(temp[i]['createdon'], 'dd-MM-yyyy');
-        param['CREATION DATE'] = temp[i]['createdon'];
-        temp[i]['expiration'] = temp[i]['expiration'] == '0000-00-00 00:00:00' ? '' : this.datePipe.transform(temp[i]['expiration'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
-        param['EXPIRY DATE'] = temp[i]['expiration'];
-        param['MOBILE NUMBER'] = temp[i]['mobile'];
-        param['ADDRESS'] = temp[i]['address'];
-        param['BRANCH'] = temp[i]['branch'];
-        param['LOCALITY'] = temp[i]['area'] == 0 ? 'Rural' : temp[i]['area'] == 1 ? 'Urban' : '--';
-        param['CONNECTION TYPE'] = temp[i]['subs_type'] == 0 ? 'SME' : temp[i]['subs_type'] == 1 ? 'Home User' : temp[i]['subs_type'] == 2 ? 'Corporate' : 'EDU/INST';
-        param['IP MODE'] = temp[i]['ipmodecpe'] == 0 ? 'Dynamic' : temp[i]['ipmodecpe'] == 1 ? 'Ippool' : (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 0) ? 'Static IP' :
-          (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 1) ? 'PublicIP' : '';
-        param['IP'] = temp[i]['staticipcpe'] || '--';
-       }else{
-         param['MAC'] = temp[i]['callingstationid'];
-         param['IP ADDRESS'] =temp[i]['framedipaddress'];
-         temp[i]['acctstarttime'] = this.datePipe.transform(temp[i]['acctstarttime'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
-         param['START TIME'] = temp[i]['acctstarttime'];
-         param['ONLINE TIME'] = temp[i]['online_time'];
-         param['DOWNLOAD'] = temp[i]['acctoutputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctoutputoctets']);
-         param['UPLOAD'] =  temp[i]['acctinputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctinputoctets']);
-         param['TOTAL'] =  temp[i]['totoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['totoctets']);
-         param['NAS IP'] = temp[i]['nasipaddress'];
-         
-       }
+        if (this.dashstatus != 2 && this.on_status != 1) {
+          param['SUBPLAN'] = temp[i]['sub_plan'] || 'N/A';
+          param['DL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitdl'] == 0 ? '--' : temp[i]['lcdllimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcdllimit']) : '--';
+          param['UL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitul'] == 0 ? '--' : temp[i]['lcuplimit'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lcuplimit']) : '--';
+          param['TOTAL LIMIT'] = temp[i]['srvdatatype'] == 2 ? temp[i]['limitcomb'] == 0 ? '--' : temp[i]['lclimitcomb'] == 0 ? 'Data Limit Over' : this.bytefunc(temp[i]['lclimitcomb']) : 'Unlimited';
+          temp[i]['registered'] = temp[i]['registered'] != null ? this.datePipe.transform(temp[i]['registered'], 'dd-MM-yyyy', 'es-ES') : '-';
+          param['REGISTERED DATE'] = temp[i]['registered'];
+          temp[i]['createdon'] = this.datePipe.transform(temp[i]['createdon'], 'dd-MM-yyyy');
+          param['CREATION DATE'] = temp[i]['createdon'];
+          temp[i]['expiration'] = temp[i]['expiration'] == '0000-00-00 00:00:00' ? '' : this.datePipe.transform(temp[i]['expiration'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
+          param['EXPIRY DATE'] = temp[i]['expiration'];
+          param['MOBILE'] = temp[i]['mobile'];
+          param['EMAIL'] = temp[i]['email'];
+          param['ADDRESS'] = temp[i]['address'];
+          param['PINCODE'] = temp[i]['zip'] ? temp[i]['zip'] : '';
+          param['BRANCH'] = temp[i]['branch'];
+          param['LOCALITY'] = temp[i]['area'] == 0 ? 'Rural' : temp[i]['area'] == 1 ? 'Urban' : '--';
+          param['CONNECTION TYPE'] = temp[i]['subs_type'] == 0 ? 'SME' : temp[i]['subs_type'] == 1 ? 'Home User' : temp[i]['subs_type'] == 2 ? 'Corporate' : 'EDU/INST';
+          param['IP MODE'] = temp[i]['ipmodecpe'] == 0 ? 'Dynamic' : temp[i]['ipmodecpe'] == 1 ? 'Ippool' : (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 0) ? 'Static IP' :
+            (temp[i]['ipmodecpe'] == 2 && temp[i]['staticip_flag'] == 1) ? 'PublicIP' : '';
+          param['IP'] = temp[i]['staticipcpe'] || '--';
+        } else {
+          param['MAC'] = temp[i]['callingstationid'];
+          param['IP ADDRESS'] = temp[i]['framedipaddress'];
+          temp[i]['acctstarttime'] = this.datePipe.transform(temp[i]['acctstarttime'], 'dd-MM-yyyy hh:mm:ss a', 'es-ES');
+          param['START TIME'] = temp[i]['acctstarttime'];
+          param['ONLINE TIME'] = temp[i]['online_time'];
+          param['DOWNLOAD'] = temp[i]['acctoutputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctoutputoctets']);
+          param['UPLOAD'] = temp[i]['acctinputoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['acctinputoctets']);
+          param['TOTAL'] = temp[i]['totoctets'] == 0 ? '0 Bytes' : this.bytefunc(temp[i]['totoctets']);
+          param['NAS IP'] = temp[i]['nasipaddress'];
+
+        }
 
         tempdata[i] = param
       }

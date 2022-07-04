@@ -184,5 +184,15 @@ export class CustService {
   async showRadacctName(params) {
     return await this.http.post("/api/subs/showRadacctName", params).toPromise();
   }
+  async listDocument(params) {
+    return await this.http.post("/api/subs/listDocument", params).toPromise();
+  }
+  async bulkSrvReplace(params) {
+    return await this.http.post("/api/subs/bulkSrvReplace", params).toPromise();
+  }
+  async bulkPwdUpdate(params) {
+    return await this.http.post("/api/subs/bulkPwdUpdate", params).toPromise();
+  }
+
 
 }

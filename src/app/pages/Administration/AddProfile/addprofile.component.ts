@@ -124,13 +124,13 @@ export class AddprofileComponent implements OnInit {
         { id: 1028, name: 'List OTT' },
         { id: 1029, name: 'Add OTT' },
         { id: 1030, name: 'Edit OTT' },
-        { id: 1059, name: 'Reseller OTT PLAN'}
+        { id: 1059, name: 'Reseller OTT PLAN' }
       ],
     },
     {
       name: 'PROMOTION',
       children: [
-        { id: 1058, name: 'Send Email'}
+        { id: 1058, name: 'Send Email' }
       ]
     },
     {
@@ -271,7 +271,8 @@ export class AddprofileComponent implements OnInit {
       name: 'Accounts',
       children: [
         { id: 1046, name: 'Invoice Share Show' },
-        { id: 1060, name: 'Invoice Share Amount Details'},
+        { id: 1060, name: 'Invoice Share Amount Details' },
+        { id: 1063, name: 'Wallet Share' },
 
         {
           name: 'Deposit',
@@ -349,12 +350,13 @@ export class AddprofileComponent implements OnInit {
         { id: 1003, name: 'Bandwidth Log' },
         { id: 1004, name: 'Editprofile Log' },
         { id: 1005, name: 'Resellershare Log' },
+        { id: 1064, name: 'UserMail Log'},
       ]
     },
     {
       name: 'Reports',
       children: [
-        { id: 1062, name: 'Renewal Report'},
+        { id: 1062, name: 'Renewal Report' },
         { id: 1006, name: 'Dues' },
         { id: 1035, name: 'view Dues' },
         { id: 1007, name: 'Collection' },
@@ -371,7 +373,7 @@ export class AddprofileComponent implements OnInit {
         { id: 1012, name: 'Reseller Nas' },
         { id: 1013, name: 'Nas Status' },
         { id: 1041, name: 'Subscriber Traffic' },
-        { id: 1061, name: 'Reseller Revenue Sharing'}
+        { id: 1061, name: 'Reseller Revenue Sharing' }
       ]
     },
     {

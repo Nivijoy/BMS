@@ -18,27 +18,31 @@ import { OnlinePaylistComponent } from './onlinepaylist/onlinepaylist.component'
 import { TransactionStatusComponent } from './trascn-status/trascn-status.component';
 import { CustOnlinePaylistComponent } from './custonlinepaylist/custonlinepaylist.component';
 import { ListInvoiceAckComponent } from './ackowledg-list/acknowledg-list.component';
+import { WalletShareComponent } from './wallet-share/wallet-share.component';
+import { ListWalletShareComponent } from './list-wallet-share/list-wallet-share.component';
 const routes: Routes = [{
   path: '',
   component: AccountsComponent,
   children: [
-    { path: 'adddeposit', component: AddDepositComponent, canActivate:[AuthGuard] },
-    { path: 'editdeposit', component: AddDepositComponent ,canActivate:[AuthGuard]},
-    { path: 'depositlist', component: DepositpaylistComponent ,canActivate:[AuthGuard]},
-    { path: 'invoicelist', component: InvoicelistComponent,canActivate:[AuthGuard] },
-    { path: 'pivotlist', component: pivotlistComponent ,canActivate:[AuthGuard]},
-    { path: 'listreceipt',component: ListReceiptComponent ,canActivate:[AuthGuard]},
-    { path: 'listresel-outstand',component: ListReseloutstandComponent },
-    { path: 'invoicebal-list',component:InvoicebalanceListComponent },
-    { path: 'openclose-balancelist',component:OpenClosebalanceListComponent },
-    { path: 'listusedreceipt',component:ListUsedReceiptComponent },
-    { path: 'gstinvoicelist',component:GstInvoicelistComponent },
-    { path: 'cancelinvreport',component:CancelInvoiceComponent  },
-    { path: 'cancelgstinvreport',component:CancelGSTInvoiceComponent  },
-    { path: 'onlinepaylist',component: OnlinePaylistComponent },
-    { path: 'trascn-status',component : TransactionStatusComponent  },
-    { path: 'custonlinepaylist', component:CustOnlinePaylistComponent },
-    { path: 'acknowledg-list', component:ListInvoiceAckComponent },
+    { path: 'adddeposit', component: AddDepositComponent, canActivate: [AuthGuard] },
+    { path: 'editdeposit', component: AddDepositComponent, canActivate: [AuthGuard] },
+    { path: 'depositlist', component: DepositpaylistComponent, canActivate: [AuthGuard] },
+    { path: 'invoicelist', component: InvoicelistComponent, canActivate: [AuthGuard] },
+    { path: 'pivotlist', component: pivotlistComponent, canActivate: [AuthGuard] },
+    { path: 'listreceipt', component: ListReceiptComponent, canActivate: [AuthGuard] },
+    { path: 'listresel-outstand', component: ListReseloutstandComponent },
+    { path: 'invoicebal-list', component: InvoicebalanceListComponent },
+    { path: 'openclose-balancelist', component: OpenClosebalanceListComponent },
+    { path: 'listusedreceipt', component: ListUsedReceiptComponent },
+    { path: 'gstinvoicelist', component: GstInvoicelistComponent },
+    { path: 'cancelinvreport', component: CancelInvoiceComponent },
+    { path: 'cancelgstinvreport', component: CancelGSTInvoiceComponent },
+    { path: 'onlinepaylist', component: OnlinePaylistComponent },
+    { path: 'trascn-status', component: TransactionStatusComponent },
+    { path: 'custonlinepaylist', component: CustOnlinePaylistComponent },
+    { path: 'acknowledg-list', component: ListInvoiceAckComponent },
+    { path: 'wallet-share', component: WalletShareComponent },
+    { path: 'list-wallet', component: ListWalletShareComponent },
   ],
 }];
 @NgModule({
@@ -65,4 +69,6 @@ export const routedComponents = [
   TransactionStatusComponent,
   CustOnlinePaylistComponent,
   ListInvoiceAckComponent,
+  WalletShareComponent,
+  ListWalletShareComponent,
 ];

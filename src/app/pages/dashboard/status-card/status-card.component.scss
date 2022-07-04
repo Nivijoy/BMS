@@ -64,8 +64,8 @@
       &.secondary {
         @include btn-hero-secondary-bg();
         @include btn-hero-secondary-bevel-glow-shadow();
-        background-image: linear-gradient(to right, #df2727, #df2727);
-        box-shadow: 0 0 0 0 #df2727, 0 0 0 0 #df2727;
+        background-image: linear-gradient(to right, #df4d4d, #df4d4d);
+        box-shadow: 0 0 0 0 #df4d4d, 0 0 0 0 #df4d4d;
       }
        &.disconnect {
         @include btn-hero-secondary-bg();
@@ -78,6 +78,12 @@
         @include btn-hero-secondary-bevel-glow-shadow();
         background-image: linear-gradient(to right, #7b878d, #7b878d);
         box-shadow: 0 0 0 0 #7b878d, 0 0 0 0 #7b878d;
+      }
+      &.offline {
+        @include btn-hero-secondary-bg();
+        @include btn-hero-secondary-bevel-glow-shadow();
+        background-image: linear-gradient(to right, #e61313, #e61313);
+        box-shadow: 0 0 0 0 #e61313, 0 0 0 0 #e61313;
       }
 
      
@@ -114,9 +120,22 @@
         }
         &.secondary {
           background-image: btn-hero-secondary-light-gradient();
-          background-image: linear-gradient(to right, #df2727, #df2727);
-          box-shadow: 0 0 0 0 #df2727, 0 0 0 0 #df2727;
+          background-image: linear-gradient(to right, #df4d4d, #df4d4d);
+          box-shadow: 0 0 0 0 #df4d4d, 0 0 0 0 #df4d4d;
         }
+        &.tag {
+          @include btn-hero-secondary-bg();
+          @include btn-hero-secondary-bevel-glow-shadow();
+          background-image: linear-gradient(to right, #7b878d, #7b878d);
+          box-shadow: 0 0 0 0 #7b878d, 0 0 0 0 #7b878d;
+        }
+        &.offline {
+          @include btn-hero-secondary-bg();
+          @include btn-hero-secondary-bevel-glow-shadow();
+          background-image: linear-gradient(to right, #e61313, #e61313);
+          box-shadow: 0 0 0 0 #e61313, 0 0 0 0 #e61313;
+        }
+  
       }
     }
 

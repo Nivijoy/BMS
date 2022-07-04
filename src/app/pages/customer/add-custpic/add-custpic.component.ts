@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
 import 'style-loader!angular2-toaster/toaster.css';
 import { Router } from '@angular/router';
@@ -16,10 +16,10 @@ import { Subject, Observable } from 'rxjs';
 
 })
 
-export class SubscriberPicComponent implements OnInit {
+export class SubscriberPicComponent implements OnInit, OnDestroy {
   config; image; subspro_image: any; proid; picflag; idfront; idback; AddPicForm;
   hide_cam: boolean = false; hide_cam1: boolean = false; hide_cam2: boolean = false;
-  submit = false;
+  submit = false; uid;
   public showWebcam = true;
   public allowCameraSwitch = true;
   public multipleWebcamsAvailable = true;
@@ -52,7 +52,8 @@ export class SubscriberPicComponent implements OnInit {
 
   ) {
     this.proid = JSON.parse(localStorage.getItem('array'));
-    this.picflag = JSON.parse(localStorage.getItem('flag'))
+    this.picflag = JSON.parse(localStorage.getItem('flag'));
+    this.uid = JSON.parse(localStorage.getItem('subid'));
   }
 
   public camera(): void {
@@ -173,9 +174,14 @@ export class SubscriberPicComponent implements OnInit {
   async addpic() {
     // console.log("Image",this.webcamImage)
     this.submit = true;
+    if (this.AddPicForm.invalid && (this.picflag == 2 || this.AddPicForm.value['same_proof'])) {
+      window.alert('Please fill Mandatory fields');
+      return;
+    }
     const file = new FormData();
     let username = this.proid;
-    file.append('username', username)
+    file.append('username', username);
+    file.append('uid', this.uid);
     if (this.picflag == 1) {
       const imageBlob = this.dataURItoBlob(this.webcamImage.imageAsBase64);
       //imageFile created below is the new compressed file which can be send to API in form data
@@ -272,7 +278,14 @@ export class SubscriberPicComponent implements OnInit {
       back: new FormControl(''),
       Proof: new FormControl(''),
       addr_proof: new FormControl(''),
-      same_proof: new FormControl(false)
+      same_proof: new FormControl(false),
+      ProofID: new FormControl('', Validators.required),
     })
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('array');
+    localStorage.removeItem('flag');
+    localStorage.removeItem('subid');
   }
 }

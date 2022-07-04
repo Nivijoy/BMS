@@ -116,12 +116,16 @@ export class ListBalanceLogComponent implements OnInit {
   }
 
   async download() {
+    this.loading = true;
     let res = await this.repser.listBalanceLog({
       bus_id: this.bus_name,
       role: this.resel_type,
-      resel_id: this.res_name
+      resel_id: this.res_name,
+      start_date: this.start_date,
+      end_date:this.end_date
     })
     if (res) {
+      this.loading = false;
       let tempdata = [], temp: any = res[0];
       for (var i = 0; i < temp.length; i++) {
         let param = {};
@@ -145,6 +149,8 @@ export class ListBalanceLogComponent implements OnInit {
       const wb: JSXLSX.WorkBook = JSXLSX.utils.book_new();
       JSXLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
       JSXLSX.writeFile(wb, 'Deposit Report' + EXCEL_EXTENSION);
+    }else{
+      this.loading = false;
     }
   }
  

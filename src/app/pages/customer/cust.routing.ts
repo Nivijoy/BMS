@@ -17,6 +17,7 @@ import { SubsServiceAssignComponent } from './subs-packmapping/subs-packmapping.
 import { ListVoiceNumComponent } from './list-voicenum/list-voicenum.component';
 import { BulkUpdateLimitComponent } from './bulk-updatelimit/bulk-updatelimit.component';
 import { BulkupdateComponent } from './bulkupdate/bulkupdate.component';
+import { DataUsageComponent } from './data-usage/data-usage.component';
 
 const routes: Routes = [{
   path: '',
@@ -37,6 +38,7 @@ const routes: Routes = [{
     { path: 'list-voicenum', component: ListVoiceNumComponent },
     { path: 'bulk-updatelimit', component: BulkUpdateLimitComponent },
     { path: 'bulkupdate', component: BulkupdateComponent },
+    { path: 'data-usage', component: DataUsageComponent },
   ],
 }];
 
@@ -64,4 +66,5 @@ export const routedComponents = [
   ListVoiceNumComponent,
   BulkUpdateLimitComponent,
   BulkupdateComponent,
+  DataUsageComponent,
 ];

@@ -50,10 +50,22 @@ export class DocpopComponent implements OnInit {
 
   async adddoc() {
     // console.log(this.AddDocForm.value['same_proof'])
-    this.loading = true; this.submit = true;
+    this.submit = true;
+    // if(this.idflag == 2 || this.AddDocForm.value['same_proof']){
+    //   this.AddDocForm.get('ProofID').setValidators(Validators.required)
+    // }else{
+    //   this.AddDocForm.set('ProofID').clearValidators();
+    //   this.AddDocForm.set('ProofID').updateValueAndValidity();
+    // }
+    if(this.AddDocForm.invalid && (this.idflag == 2 || this.AddDocForm.value['same_proof'])){
+      window.alert('Please Fill ProofID');
+      return;
+    }
+    this.loading = true; 
     const file = new FormData();
-    let username = this.item.proid
-    file.append('username', username)
+    let username = this.item.proid,uid=this.item.uid;
+    file.append('username', username);
+    file.append('uid',uid);
 
     if (this.addrflag == 2 || this.idflag == 2) {
       file.append('sameproof', String(this.AddDocForm.value['same_proof']))
@@ -75,7 +87,7 @@ export class DocpopComponent implements OnInit {
     }
     //Id Proof alone
     if (this.idflag == 2 && this.AddDocForm.value['same_proof'] == false) {
-      let filename = this.AddDocForm.value['Proof'] == 0 ? 'Aadhar' : this.AddDocForm.value['Proof'] == 1 ? 'Ration' : 'Pan'
+      let filename = this.AddDocForm.value['Proof'] == 0 ? 'Aadhar' : this.AddDocForm.value['Proof'] == 1 ? 'Voter' : 'Pan'
       let first = username + '-' + filename + 'first', second = username + '-' + filename + 'second';
       file.append('Proof', this.AddDocForm.value['Proof'])
       file.append('file', this.id_proof_file[0], first);
@@ -84,6 +96,7 @@ export class DocpopComponent implements OnInit {
         file.append('idproofType', String(2));
       } else file.append('idproofType', String(1))
       // file.append('id_proof', filename)
+      file.append('ProofID',this.AddDocForm.value['ProofID']);
       file.append('id_status', String(1));
     }
     //Address & ID proofs are same
@@ -102,6 +115,7 @@ export class DocpopComponent implements OnInit {
       // file.append('addr_proof', filename)
       file.append('addr_status', String(1));
       file.append('id_status', String(1));
+      file.append('ProofID',this.AddDocForm.value['ProofID'])
     }
     //Id proof & Address Proof are same
     //uploading id Proof
@@ -117,7 +131,7 @@ export class DocpopComponent implements OnInit {
       // file.append('id_proof', filename)
       file.append('id_status', String(1));
       file.append('addr_status', String(1));
-
+      file.append('ProofID',this.AddDocForm.value['ProofID'])
     }
     //caf form upload
     if (this.cafflag == 3) {
@@ -217,6 +231,7 @@ export class DocpopComponent implements OnInit {
       same_proof: new FormControl(false),
       cafupproof: new FormControl(''),
       cust_pic: new FormControl(''),
+      ProofID:new FormControl('',Validators.required),
     })
   }
 }

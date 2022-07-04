@@ -253,6 +253,7 @@ export class OnlinePaylistComponent implements OnInit {
       result = await this.payser.pumstatus({ opid: item })  // payUMoney
     }
     if (result) {
+      console.log('Result',result)
       this.paydata = result[0];
       this.loading = false
       const activeModal = this.nasmodel.open(PaystatusCheckComponent, { size: 'lg', container: 'nb-layout' });

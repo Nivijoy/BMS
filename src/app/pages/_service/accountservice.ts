@@ -114,5 +114,8 @@ export class AccountService {
   async showOrdertransactionId(params){
     return await this.http.post("/api/account/showOrdertransactionId",params).toPromise();
   }
+  async walletSharing(params){
+    return await this.http.post("/api/account/walletSharing",params).toPromise();
+  }
 
 }

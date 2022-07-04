@@ -67,7 +67,7 @@
             <div style="padding: 2px;" *ngIf="data.status==2">
                <button style="padding: 5px;" class="btn btn-danger" (click)="subshold(id,4);"><b>Un-Suspend</b></button>
             </div>
-            <div style="padding: 2px;" *ngIf="data.online_status==1">
+            <div style="padding: 2px;" *ngIf="data.online_status==1 && data.calledstationid=='PPP' ">
                <button class="btn btn-xs btn-outline-primary" (click)="getlivegraph(data.cust_profile_id);"><b>Live
                      Graph</b></button>
             </div>
@@ -131,8 +131,7 @@
                                  <tr *ngIf="data.schedule_status == 1">
                                     <th>Schedule Date</th>
                                     <td style="font-size:medium;color:blue"><b>{{data.schedule_date ?
-                                          (data.schedule_date| date : 'd
-                                          MMM y h:mm:ss a'):'N/A' }}</b>
+                                          (data.schedule_date| date : 'd MMM y h:mm:ss a'):'N/A' }}</b>
                                     </td>
                                  </tr>
                                  <tr>
@@ -370,6 +369,11 @@
                                     <th>Billing Address</th>
                                     <td>{{data.billing_addr||''}}</td>
                                  </tr>
+                                 <tr>
+                                    <th>Pincode</th>
+                                    <td><b>{{data.zip || '--'}}</b></td>
+                                 </tr>
+
                               </table>
                            </nb-card-body>
                         </nb-card>
@@ -471,15 +475,23 @@
                      </div>
                      <div class="col-lg-6" *ngIf="data.acc_type!=3">
                         <nb-card>
-                           <nb-card-header style="background-color :  #01a7ee;color: white;">Documents</nb-card-header>
+                           <nb-card-header style="background-color :  #01a7ee;color: white;">Documents
+                           </nb-card-header>
                            <nb-card-body>
                               <table class="table table-hover table-striped">
                                  <tr>
                                     <th (click)='cafform(data.cust_profile_id)'>CAF Form</th>
-                                    <th>{{((data.address_photo_status==1 || data.id_photo_status==1) ||
-                                       (data.address_photo_status==2||data.id_photo_status==2)) ? 'CAF
-                                       Generated':'Pending'}}
-                                    </th>
+                                    <!-- <th>{{((data.address_photo_status==1 || data.id_photo_status==1) ||
+                                          (data.address_photo_status==2||data.id_photo_status==2)) ? 'CAF Generated':'Pending'}}
+                                       </th> -->
+                                    <th (click)="cafform()"
+                                       style="cursor:pointer;color: darkblue;text-decoration: underline;" *ngIf="((data.address_photo_status==1 || data.id_photo_status==1) ||
+                                       (data.address_photo_status==2||data.id_photo_status==2))">CAF Generated Click
+                                       here to view</th>
+                                    <th
+                                       *ngIf="((data.address_photo_status==0 || data.id_photo_status==0) ||
+                                       (data.address_photo_status==3||data.id_photo_status==3) || (data.address_photo_status==null || data.id_photo_status==null))">
+                                       Pending</th>
                                     <th style=" padding: 1px;" class=" last" data-title="'Action'"
                                        *ngIf="data.address_photo_status==2 || data.id_photo_status==2">
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
@@ -493,7 +505,7 @@
                                              <li (click)='cafform()' style="cursor: pointer;">&nbsp;
                                                 <i style="color: black" class="fa fa-eye"></i>&nbsp;View
                                              </li>
-                                             <li (click)='cafuploadproof(data.cust_profile_id,3)'
+                                             <li (click)='cafuploadproof(data.uid,data.cust_profile_id,3)'
                                                 style="cursor: pointer;">&nbsp;
                                                 <i style="color: #00ff81;" class="fa fa-upload"></i>&nbsp;Upload
                                              </li>
@@ -515,7 +527,7 @@
                                     <th>
                                        {{data.address_photo_status==1?'Collected':data.address_photo_status==2?'Verified':data.address_photo_status==3?'Recollect':'Not
                                        Uploaded'}}</th>
-                                    <th *ngIf="data.address_photo_status==0 || data.address_photo_status==3"
+                                    <th *ngIf="data.address_photo_status==0 || data.address_photo_status==3 || data.address_photo_status ==null"
                                        style=" padding: 1px;" class=" last" data-title="'Action'">
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
                                           <button
@@ -525,11 +537,12 @@
                                           </button>
                                           <ul style="width: 75px;margin:3px;z-index: 1;line-height: 30px;"
                                              class="dropdown-menu" ngbDropdownMenu>
-                                             <li (click)='addrsproof(data.cust_profile_id,2)' style="cursor: pointer;">
+                                             <li (click)='addrsproof(data.uid,data.cust_profile_id,2)'
+                                                style="cursor: pointer;">
                                                 &nbsp;
                                                 <i style="color: #00ff81;" class="fa fa-upload"></i>&nbsp;Upload
                                              </li>
-                                             <li (click)='snapaddrproof(data.cust_profile_id,3)'
+                                             <li (click)='snapaddrproof(id,data.cust_profile_id,3)'
                                                 style="cursor: pointer;">&nbsp;
                                                 <i style="color:royalblue;" class="fa fa-camera"></i>&nbsp;Camera
                                              </li>
@@ -542,7 +555,7 @@
                                     <th>
                                        {{data.id_photo_status==1?'Collected':data.id_photo_status==2?'Verified':data.id_photo_status==3?'Recollect':'Not
                                        Uploaded'}}</th>
-                                    <th *ngIf="data.id_photo_status==0 || data.id_photo_status==3"
+                                    <th *ngIf="data.id_photo_status==0 || data.id_photo_status==3 || data.id_photo_status == null"
                                        style=" padding: 1px;" class=" last" data-title="'Action'">
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
                                           <button
@@ -552,11 +565,13 @@
                                           </button>
                                           <ul style="width: 75px;margin:3px;z-index: 1;line-height: 30px;"
                                              class="dropdown-menu" ngbDropdownMenu>
-                                             <li (click)='idproof(data.cust_profile_id,2)' style="cursor: pointer;">
+                                             <li (click)='idproof(data.uid,data.cust_profile_id,2)'
+                                                style="cursor: pointer;">
                                                 &nbsp;
                                                 <i style="color: #00ff81;" class="fa fa-upload"></i>&nbsp;Upload
                                              </li>
-                                             <li (click)='snapidproof(data.cust_profile_id,2)' style="cursor: pointer;">
+                                             <li (click)='snapidproof(id,data.cust_profile_id,2)'
+                                                style="cursor: pointer;">
                                                 &nbsp;
                                                 <i style="color:royalblue;" class="fa fa-camera"></i>&nbsp;Camera
                                              </li>
@@ -570,7 +585,7 @@
                                     <th>
                                        {{data.user_photo_status==1?'Collected':data.user_photo_status==2?'Verified':data.user_photo_status==3?'Recollect':'Not
                                        Uploaded'}}</th>
-                                    <th *ngIf="data.user_photo_status==0 || data.user_photo_status==3"
+                                    <th *ngIf="data.user_photo_status==0 || data.user_photo_status==3 || data.user_photo_status ==null"
                                        style=" padding: 1px;" class=" last" data-title="'Action'">
                                        <div class="dropdown ghost-dropdown" ngbDropdown>
                                           <button
@@ -580,12 +595,12 @@
                                           </button>
                                           <ul style="width: 75px;margin:3px;z-index: 1;line-height: 30px;"
                                              class="dropdown-menu" ngbDropdownMenu>
-                                             <li (click)='custpicupload(data.cust_profile_id,4)'
+                                             <li (click)='custpicupload(data.uid,data.cust_profile_id,4)'
                                                 style="cursor: pointer;">
                                                 &nbsp;
                                                 <i style="color: #00ff81;" class="fa fa-upload"></i>&nbsp;Upload
                                              </li>
-                                             <li (click)='addpic(data.cust_profile_id,1)' style="cursor: pointer;">
+                                             <li (click)='addpic(id,data.cust_profile_id,1)' style="cursor: pointer;">
                                                 &nbsp;
                                                 <i style="color:royalblue;" class="fa fa-camera"></i>&nbsp;Camera
                                              </li>
@@ -613,68 +628,72 @@
                <ng-template ngbTabContent>
                   <br>
                   <i (click)="downloadInvoice()" class="green right fas fa-file-excel fa-2x" aria-hidden="true"></i>
-                  <table class="table table-hover table-striped">
-                     <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
-                        <th>Action</th>
-                        <th *ngIf="role.getroleid()>777">Invoice ID</th>
-                        <th>Service Type</th>
-                        <th>Service Name</th>
-                        <th>Sub Plan</th>
-                        <th>Pack Price</th>
-                        <th>Tax Amount </th>
-                        <th>Invoice NO</th>
-                        <th>GST Number</th>
-                        <th>IGST</th>
-                        <th>CGST</th>
-                        <th>SGST</th>
-                        <th>Invoice Type</th>
-                        <th>Invoice Status</th>
-                        <th>Renewal Date</th>
-                        <th>Expiry Date</th>
-                        <th>Pay Status</th>
-                        <th>Pay Date</th>
-                     </tr>
-                     <tr *ngFor="let item of invoicedata">
-                        <td style="width: 80px; height: 25px;  vertical-align: middle; margin: 5px  ; padding: 4px;"
-                           class=" last" data-title="'Action'">
-                           <div class="form-group row">
-                              <div class="dropdown ghost-dropdown" ngbDropdown>
-                                 <button style="width: 70px;font-size: 10px" class="btn btn-primary btn-icon"
-                                    type="button" ngbDropdownToggle>Action
-                                 </button>
-                                 <ul style="width: 75px;" class="dropdown-menu" ngbDropdownMenu>
-                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,1)"><i
-                                          style="font-size: 20px;" class="far fa-eye "></i>&nbsp;View</li>
-                                    <li [hidden]="item.inv_status==3||item.pay_status==2" class="dropdown-item"
-                                       title="View" (click)="pay(item.invid,id,item.topay)"><i style="font-size: 20px;"
-                                          class="fa fa-credit-card "></i>&nbsp;Pay</li>
+                  <div class="table-scroll">
+                     <table class="table table-hover table-striped">
+                        <tr style="background-color :  #01a7eee5;color:white;font-size: medium;">
+                           <th>Action</th>
+                           <th *ngIf="role.getroleid()>777">Invoice ID</th>
+                           <th>Service Type</th>
+                           <th>Service Name</th>
+                           <th>Sub Plan</th>
+                           <th>Pack Price</th>
+                           <th>Tax Amount </th>
+                           <th>Invoice NO</th>
+                           <th>GST Number</th>
+                           <th>IGST</th>
+                           <th>CGST</th>
+                           <th>SGST</th>
+                           <th>Invoice Type</th>
+                           <th>Invoice Status</th>
+                           <th>Renewal Date</th>
+                           <th>Expiry Date</th>
+                           <th>Pay Status</th>
+                           <th>Pay Date</th>
+                        </tr>
+                        <tr *ngFor="let item of invoicedata">
+                           <td style="width: 80px; height: 25px;  vertical-align: middle; margin: 5px  ; padding: 4px;"
+                              class=" last" data-title="'Action'">
+                              <div class="form-group row">
+                                 <div class="dropdown ghost-dropdown" ngbDropdown>
+                                    <button style="width: 70px;font-size: 10px" class="btn btn-primary btn-icon"
+                                       type="button" ngbDropdownToggle>Action
+                                    </button>
+                                    <ul style="width: 75px;" class="dropdown-menu" ngbDropdownMenu>
+                                       <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,1)"><i
+                                             style="font-size: 20px;" class="far fa-eye "></i>&nbsp;View</li>
+                                       <li [hidden]="item.inv_status==3||item.pay_status==2" class="dropdown-item"
+                                          title="View" (click)="pay(item.invid,id,item.topay)"><i
+                                             style="font-size: 20px;" class="fa fa-credit-card "></i>&nbsp;Pay</li>
 
-                                    <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,3)"><i
-                                          style="font-size: 20px;" class="fa fa-receipt "></i>&nbsp;Reference</li>
-                                 </ul>
+                                       <li class="dropdown-item" title="View" (click)="view_invoice(item.invid,3)"><i
+                                             style="font-size: 20px;" class="fa fa-receipt "></i>&nbsp;Reference</li>
+                                    </ul>
+                                 </div>
                               </div>
-                           </div>
-                        </td>
-                        <td *ngIf="role.getroleid()>777">{{item.invid}}</td>
-                        <td>{{item.service_name}}</td>
-                        <td>{{item.srvname}}</td>
-                        <td>{{item.sub_plan}}</td>
-                        <td style="text-align: center;">{{item.invoice_amount}}</td>
-                        <td style="text-align: center;">{{item.tax_amount}}</td>
-                        <td style="text-align: center;">{{item.rollid}}</td>
-                        <td>{{item.supplier_gst_number}}</td>
-                        <td style="text-align: center;">{{item.igst+" "+'%'}}</td>
-                        <td style="text-align: center;">{{item.cgst+" "+'%'}}</td>
-                        <td style="text-align: center;">{{item.sgst+" "+'%'}}</td>
-                        <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
-                        <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}</td>
-                        <td>{{item.inv_date | date:'d MMM y'}}</td>
-                        <td>{{item.expiry_date | date:'d MMM y'}}</td>
-                        <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
-                        <td style="text-align: center;">{{item.pay_status==2 ? (item.paydate | date:'d MMM y '):'--'}}
-                        </td>
-                     </tr>
-                  </table>
+                           </td>
+                           <td *ngIf="role.getroleid()>777">{{item.invid}}</td>
+                           <td>{{item.service_name}}</td>
+                           <td>{{item.srvname}}</td>
+                           <td>{{item.sub_plan}}</td>
+                           <td style="text-align: center;">{{item.invoice_amount}}</td>
+                           <td style="text-align: center;">{{item.tax_amount}}</td>
+                           <td style="text-align: center;">{{item.rollid}}</td>
+                           <td>{{item.supplier_gst_number}}</td>
+                           <td style="text-align: center;">{{item.igst+" "+'%'}}</td>
+                           <td style="text-align: center;">{{item.cgst+" "+'%'}}</td>
+                           <td style="text-align: center;">{{item.sgst+" "+'%'}}</td>
+                           <td>{{item.inv_type==1 ? 'Invoice':'GST Invoice'}}</td>
+                           <td>{{item.inv_status==1 ? 'Active':item.inv_status==2 ? 'Proforma Invoice': 'Cancelled'}}
+                           </td>
+                           <td>{{item.inv_date | date:'d MMM y'}}</td>
+                           <td>{{item.expiry_date | date:'d MMM y'}}</td>
+                           <td>{{item.pay_status==2 ? 'Paid': 'Unpaid'}}</td>
+                           <td style="text-align: center;">{{item.pay_status==2 ? (item.paydate | date:'d MMM y
+                              '):'--'}}
+                           </td>
+                        </tr>
+                     </table>
+                  </div>
                </ng-template>
             </ngb-tab>
             <ngb-tab>
@@ -1084,7 +1103,8 @@
                   <div class="row">
                      <div class="col-sm-2">
                         <label>Select Data</label>
-                        <select class="form-control" [(ngModel)]="oldnew" (change)="showTableName();radact_tname='';from_date='';to_date='';">
+                        <select class="form-control" [(ngModel)]="oldnew"
+                           (change)="showTableName();radact_tname='';from_date='';to_date='';">
                            <option value="1" selected>New</option>
                            <option value="2">Old</option>
                         </select>

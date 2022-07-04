@@ -17,7 +17,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ListScheduledCustComponent implements OnInit {
   data; totalpage = 10; pages = [1, 2, 3, 4, 5]; count; bus; bus_name; search; pro; res_name = '';
-  resel_type = ''; res1; start_num = ''; end_num = ''; cust_name = '';start_date = ''; end_date = '';
+  resel_type = ''; res1; start_num = ''; end_num = ''; cust_name = ''; start_date = ''; end_date = '';
   custname; status = '';
   pager: any = {}; page: number = 1; pagedItems: any = []; limit = 25;
   constructor(
@@ -162,7 +162,7 @@ export class ListScheduledCustComponent implements OnInit {
           param['SCHEDULED DATE'] = temp[i]['schedul_date'];
         }
         param['STATUS'] = temp[i]['schedule_status'] == 1 ? 'On Process' : temp[i]['schedule_status'] == 2 ? 'Completed'
-          : temp[i]['schedule_status'] == 3 ? 'Canceled' : 'Already Done'
+          : temp[i]['schedule_status'] == 3 ? 'Canceled' : temp[i]['schedule_status'] == 4 ? 'Already Done' : temp[i]['schedule_status'] == 5 ? 'Initialized' : '--';
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

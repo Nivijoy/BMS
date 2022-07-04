@@ -146,7 +146,10 @@ export class ListReceiptComponent implements OnInit {
         }
         param['START NUMBER'] = temp[i]['start_num'];
         param['END NUMBER'] = temp[i]['end_num'];
-        param['SRARUS'] = temp[i]['rstatus'] == 1 ? 'Active' : temp[i]['rstatus'] == 2 ? 'Disable' : 'Cancel';
+        param['TOTAl'] = temp[i]['tot_rcp'];
+        param['USED'] = temp[i]['used'];
+        param['AVAILABLE'] = temp[i]['unused'];
+        param['STATUS'] = temp[i]['rstatus'] == 1 ? 'Active' : temp[i]['rstatus'] == 2 ? 'Disable' : 'Cancel';
         tempdata[i] = param
       }
       const worksheet: JSXLSX.WorkSheet = JSXLSX.utils.json_to_sheet(tempdata);

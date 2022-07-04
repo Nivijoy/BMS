@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Md5 } from 'ts-md5/dist/md5';
 import {
   CustService, S_Service, SelectService, RoleService, IppoolService,
-  BusinessService, GroupService, ResellerService, InventoryService
+  BusinessService, GroupService, ResellerService, InventoryService, UsernameValidator
 } from '../../_service/indexService';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
@@ -20,8 +20,6 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ngxLoadingAnimationTypes, NgxLoadingComponent } from 'ngx-loading';
-// import { balancePreviousStylesIntoKeyframes } from '@angular/animations/browser/src/util';
-
 
 @Component({
   selector: 'Add-Cust',
@@ -302,7 +300,7 @@ export class AddCustComponent implements OnInit {
   }
 
   async subprefix() {
-    if (this.role.getroleid() >= 775 && this.role.getroleid()> 444) {
+    if (this.role.getroleid() >= 775 && this.role.getroleid() > 444) {
       let result = await this.custser.custprofileid({ resel_id: this.AddSubsForm.value['reseller'] })
       // console.log(result);
 
@@ -518,39 +516,39 @@ export class AddCustComponent implements OnInit {
     }
   }
   // Documents comment
-/*
-  proofvalid() {
-    if (this.AddSubsForm.value['proofsame'] == true) {
-      this.AddSubsForm.get('upproof').clearValidators();
-      this.AddSubsForm.get('upproof').updateValueAndValidity();
+  /*
+    proofvalid() {
+      if (this.AddSubsForm.value['proofsame'] == true) {
+        this.AddSubsForm.get('upproof').clearValidators();
+        this.AddSubsForm.get('upproof').updateValueAndValidity();
+      }
     }
-  }
-
-  uploadProofValidation() {
-    if (this.AddSubsForm.value['docupload'] == '1') {
-      this.AddSubsForm.get('addr_up_proof').clearValidators();
-      this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
-      this.AddSubsForm.get('upproof').clearValidators();
-      this.AddSubsForm.get('upproof').updateValueAndValidity();
+  
+    uploadProofValidation() {
+      if (this.AddSubsForm.value['docupload'] == '1') {
+        this.AddSubsForm.get('addr_up_proof').clearValidators();
+        this.AddSubsForm.get('addr_up_proof').updateValueAndValidity();
+        this.AddSubsForm.get('upproof').clearValidators();
+        this.AddSubsForm.get('upproof').updateValueAndValidity();
+      }
     }
-  }
-
-  proof() {
-    this.AddSubsForm.value["Proof"] != "" ? this.AddSubsForm.get('ProofID').setValidators([Validators.required]) : this.AddSubsForm.get('ProofID').clearValidators()
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-    this.AddSubsForm.value['Proof'] == 0 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$")]) : this.AddSubsForm.get('ProofID').clearValidators();
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-    this.AddSubsForm.value['Proof'] == 2 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("[A-Z]{5}[0-9]{4}[A-Z]{1}")]) : this.AddSubsForm.get('ProofID').clearValidators();
-    this.AddSubsForm.get('ProofID').updateValueAndValidity();
-
-  }
-  */
+  
+    proof() {
+      this.AddSubsForm.value["Proof"] != "" ? this.AddSubsForm.get('ProofID').setValidators([Validators.required]) : this.AddSubsForm.get('ProofID').clearValidators()
+      this.AddSubsForm.get('ProofID').updateValueAndValidity();
+  
+      this.AddSubsForm.value['Proof'] == 0 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$")]) : this.AddSubsForm.get('ProofID').clearValidators();
+      this.AddSubsForm.get('ProofID').updateValueAndValidity();
+  
+      this.AddSubsForm.value['Proof'] == 2 ? this.AddSubsForm.get('ProofID').setValidators([Validators.pattern("[A-Z]{5}[0-9]{4}[A-Z]{1}")]) : this.AddSubsForm.get('ProofID').clearValidators();
+      this.AddSubsForm.get('ProofID').updateValueAndValidity();
+  
+    }
+    */
 
   async Service($event = '') {
     if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
-      console.log('show service data',this.AddSubsForm.value['reseller'])
+      console.log('show service data', this.AddSubsForm.value['reseller'])
       this.pack = await this.serv.showServiceName({ edit_flag: 1, resel_id: this.AddSubsForm.value['reseller'], like: $event })
     }
     if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
@@ -584,9 +582,9 @@ export class AddCustComponent implements OnInit {
   }
 
   async reselbranch() {
-     if (this.role.getroleid() >= 775 || this.role.getroleid()> 444) {
+    if (this.role.getroleid() >= 775 || this.role.getroleid() > 444) {
       this.branches = await this.resser.showResellerBranch({ resel_id: this.AddSubsForm.value['reseller'] })
-     }
+    }
     if (this.role.getroleid() < 775 && (this.role.getroleid() <= 444)) {
       if (this.role.getroleid() == 443 || this.role.getroleid() == 332 || this.role.getroleid() == 221) {
         this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getmanagerid() })
@@ -595,7 +593,7 @@ export class AddCustComponent implements OnInit {
       } else {
         this.branches = await this.resser.showResellerBranch({ resel_id: this.role.getresellerid() })
       }
-     }
+    }
   }
 
   upload1(event: any) {
@@ -613,7 +611,7 @@ export class AddCustComponent implements OnInit {
         }
         reader.readAsDataURL(event.target.files[i]);
       }
-    }else{
+    } else {
       window.alert('Please upload front and back in separate files');
     }
   }
@@ -633,7 +631,7 @@ export class AddCustComponent implements OnInit {
         }
         reader.readAsDataURL(event.target.files[i]);
       }
-    }else{
+    } else {
       window.alert('Please upload front and back in separate (2)files');
     }
   }
@@ -683,7 +681,7 @@ export class AddCustComponent implements OnInit {
     }
   }
 
- 
+
 
   async mode() {
     this.AddSubsForm.get('ippool').setValue('');
@@ -746,7 +744,7 @@ export class AddCustComponent implements OnInit {
     { msg: 'Please Fill Contract From Date', label: 'Contract From Date', assign_to: 'cont_from_date', required: false },
     { msg: 'Please Fill Contract To Date', label: 'Contract To Date', assign_to: 'cont_to_date', required: false },
     { msg: 'Please Fill Package Name', label: 'Package Name*', assign_to: 'package', required: true },
-    { msg: 'Please Fill Sub Plan Name', label: 'Sub Plan Name', assign_to: 'sub_plan', required: true },
+    { msg: 'Please Fill Sub Plan Name', label: 'Sub Plan Name', assign_to: 'sub_plan', required: false },
     { msg: 'Please Fill Download Limit(MB)', label: 'Download Limit(MB)', assign_to: 'dllimit', required: false },
     { msg: 'Please Fill Upload Limit(MB)', label: 'Upload Limit(MB)', assign_to: 'uplimit', required: false },
     { msg: 'Please Fill Total Limit(MB)', label: 'Total Limit(MB)', assign_to: 'comblimit', required: false },
@@ -763,11 +761,13 @@ export class AddCustComponent implements OnInit {
     { msg: 'Please Fill Package Mode', label: 'Package Mode*', assign_to: 'pack_mode', required: true },
     { msg: 'Please Fill Registered Date', label: 'Registered Date*', assign_to: 'reg_date', required: true },
     { msg: 'Please Fill Demo Account', label: 'Demo Account*', assign_to: 'demo_accnt', required: true },
-    { msg: 'Please Fill Last Renewal Date', label: 'Last Renewal Date*', assign_to: 'last_renewal', required: true }
+    { msg: 'Please Fill Last Renewal Date', label: 'Last Renewal Date*', assign_to: 'last_renewal', required: true },
+    { msg: 'Please Fill pincode', label: 'Pincode', assign_to: 'pincode', required: false }
   ]
   async addSubscriber() {
     this.submit = true;
     const invalid = [];
+    console.log('this', this.AddSubsForm.getError(), this.AddSubsForm.hasError('userMatch', 'ID'), this.AddSubsForm.hasError('required', 'ID'))
     const controls = this.AddSubsForm.controls;
     for (const name in controls) {
       if (controls[name].invalid) {
@@ -1146,7 +1146,7 @@ export class AddCustComponent implements OnInit {
       this.AddSubsForm.get('groupid').clearValidators();
       this.AddSubsForm.get('groupid').updateValueAndValidity();
 
-     }
+    }
     if (this.role.getroleid() >= 775) {
       this.AddSubsForm.get('sim_use').clearValidators();
       this.AddSubsForm.get('sim_use').updateValueAndValidity();
@@ -1184,6 +1184,7 @@ export class AddCustComponent implements OnInit {
 
   createForm() {
     this.AddSubsForm = new FormGroup({
+      // this.AddSubsForm =this._fb.group({
       bus_id: new FormControl('', Validators.required),
       groupid: new FormControl('', Validators.required),
       reseller: new FormControl('', Validators.required),
@@ -1196,8 +1197,8 @@ export class AddCustComponent implements OnInit {
       checkpasswrd: new FormControl(''),
       password: new FormControl('', Validators.required),
       conpass: new FormControl(''),
-      // ID: new FormControl('', [Validators.required,Validators.minLength(6),Validators.pattern("[0-9 A-Z a-z ._-]")]),
-      ID: new FormControl('', Validators.required),
+      ID: new FormControl('', [Validators.required, Validators.pattern("[a-z0-9._\-\]{5,20}$"), UsernameValidator.cannotContainSpace]),
+      // ID: new FormControl('', [Validators.required,Validators.pattern("/^(?=[a-zA-Z0-9._\-\]{6,20}$)(?!.*[_\-\.]{2})[^_\-\.].*[^_\-\.]$/")]),
       First: new FormControl('', Validators.required),
       // Last: new FormControl('', Validators.required),
       mobnum: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
@@ -1206,7 +1207,7 @@ export class AddCustComponent implements OnInit {
       city: new FormControl('', Validators.required),
       latitude: new FormControl(''),
       longitude: new FormControl(''),
-      email: new FormControl('', [Validators.required, Validators.pattern("[0-9 A-Z a-z ,.`!@#$%^&*_]*[@]{1}[a-z A-Z]*[.]{1}[a-z A-Z]{2,3}([.]{1}[a-z A-Z]{2,3})?")]),
+      email: new FormControl('', [Validators.required, Validators.pattern("[0-9 A-Z a-z ,.`!@#$%^&*_]*[@]{1}[a-z A-Z 0-9]*[.]{1}[a-z A-Z]{2,3}([.]{1}[a-z A-Z]{2,3})?")]),
       locality: new FormControl('', Validators.required),
       Installation: new FormControl('', Validators.required),
       Billing: new FormControl('', Validators.required),
@@ -1259,12 +1260,31 @@ export class AddCustComponent implements OnInit {
       dllimit: new FormControl('0', [Validators.pattern('^[0-9]*$')]),
       uplimit: new FormControl('0', [Validators.pattern('^[0-9]*$')]),
       comblimit: new FormControl('0', [Validators.pattern('^[0-9]*$')]),
+      pincode: new FormControl(''),
       materialDetails: new FormArray([
         this.createMaterial()
       ]),
     });
     // this.addMaterial();
   }
+
+  //   userNameValidator =() => {
+  //     console.log('Insideeeeee')
+  //      return (formGroup: FormGroup) => {
+  //          const regex = /^(?=[a-zA-Z0-9._\-\^\S]{6,20}$)(?!.*[_\-\.]{2})[^_\-\.].*[^_\-\.]$/
+  //         const status = regex.test(formGroup.get('ID').value);
+  //         console.log('Status',status,'\n',formGroup.get('ID').value)
+  //         const ctrl = formGroup.controls['ID']
+  //         console.log('ctrl',ctrl)
+  //         if (!status) {
+  //             ctrl.setErrors({
+  //                 userMatch: true
+  //             });
+  //         } else {
+  //             ctrl.setErrors(null);
+  //         }
+  //     }
+  // }
 
   onkeyupQty(event: any, index: number) { // without type info
     //console.log(index, test);

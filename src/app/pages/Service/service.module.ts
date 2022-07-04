@@ -21,7 +21,6 @@ import { CustomercountComponent } from './customercount/cust-count.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {  NgxLoadingModule } from 'ngx-loading';
 import { ServicemapComponent } from './servicemap/servicemap.component';
-
 // import {GrdFilterPipe} from './../filter/grd-filterpipe';
 
 
@@ -36,8 +35,7 @@ import { ServicemapComponent } from './servicemap/servicemap.component';
     OwlNativeDateTimeModule,
     AutoCompleteNModule,
     NgxLoadingModule.forRoot({}),
-
-    // GrdFilterPipe
+     // GrdFilterPipe
   ],
   declarations:[
   routedComponents,

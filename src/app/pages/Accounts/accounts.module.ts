@@ -26,6 +26,8 @@ import { DepositProofComponent } from './depositproof/depositproof.component';
 import { ServiceShareComponent } from './serviceshare/service-share.component';
 import { ConfirmationDialogService } from '../../confirmation-dialog/confrimation-dialog.service';
 import { ChangedateComponent } from './changedate/changedate.component';
+import { WalletShareComponent } from './wallet-share/wallet-share.component';
+import { ListWalletShareComponent } from './list-wallet-share/list-wallet-share.component';
 
 
 @NgModule({
@@ -57,6 +59,8 @@ import { ChangedateComponent } from './changedate/changedate.component';
     ViewQrCodeComponent,
     DepositProofComponent,
     ChangedateComponent,
+    WalletShareComponent,
+    ListWalletShareComponent,
   ],
   entryComponents: [
     AddSuccessComponent,

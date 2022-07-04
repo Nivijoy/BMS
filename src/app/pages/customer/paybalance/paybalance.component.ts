@@ -4,6 +4,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoleService, OperationService, ResellerService } from '../../_service/indexService';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @Component({
   selector: 'paybalance',
@@ -15,6 +16,10 @@ export class BalancePayComponent implements OnInit {
   PayBalanceForm; id; resel;
   submit: boolean;
   Make;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  public primaryColour = '#dd0031';
+  public secondaryColour = '#006ddd';
+  public loading = false;
   constructor(
     public activeModal: NgbActiveModal,
     private alert: ToasterService,
@@ -31,7 +36,7 @@ export class BalancePayComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('Item',this.item)
+    console.log('Item', this.item)
     await this.createForm();
     // console.log(this.role.getroleid())
     // this.PayBalanceForm.get('pay_amt').setValue(this.item['payamt'])
@@ -39,8 +44,8 @@ export class BalancePayComponent implements OnInit {
 
   };
 
-  async showReseller($event=''){
-    this.resel = await this.reselser.showResellerName({service_role: 1})
+  async showReseller($event = '') {
+    this.resel = await this.reselser.showResellerName({ service_role: 1 })
   }
 
   async payment() {
@@ -48,16 +53,19 @@ export class BalancePayComponent implements OnInit {
     if (this.PayBalanceForm.invalid) {
       return;
     }
+    this.loading = true;
+    console.log('Loading---', this.loading);
+
     // console.log('inside',this.PayBalanceForm.value)
     this.PayBalanceForm.value['invid'] = this.item['invid'];
     this.PayBalanceForm.value['cust_id'] = this.item['uid'];
     let paymentdata = [this.PayBalanceForm.value];
 
     let result = await this.opser.invoiceBalanceReceipt({ balance: paymentdata });
-    // console.log("payresult", result);
+    console.log("payresult", result);
 
     if (result) {
-      const toast: Toast = {
+       const toast: Toast = {
         type: result[0]['error_msg'] == 0 ? 'success' : 'warning',
         title: result[0]['error_msg'] == 0 ? 'Success' : 'Failure',
         body: result[0]['msg'],
@@ -74,9 +82,9 @@ export class BalancePayComponent implements OnInit {
 
   createForm() {
     let nowdate = new Date();
-     this.PayBalanceForm = new FormGroup({
-      pay_amt: new FormControl(this.item['payamt'] || '',Validators.required),
-      receipt_date: new FormControl(nowdate.toISOString().slice(0,10)),
+    this.PayBalanceForm = new FormGroup({
+      pay_amt: new FormControl(this.item['payamt'] || '', Validators.required),
+      receipt_date: new FormControl(nowdate.toISOString().slice(0, 10)),
       rnote: new FormControl(''),
       collect_by: new FormControl('')
 

@@ -21,22 +21,32 @@
         <div class="col-sm-3" *ngIf="role.getroleid()>777">
           <label>Business Name</label>
           <auto-completen [(ngModel)]="bus_name" addclass="form-control" optValues="busname"
-            (changed)="showGroupName();showOTTPlanCode();showOTTPlanName();" (keyUp)="showBusName($event)"
-            placeholder='Select Business' id="bus_name" [item]="bus">
+            (changed)="showGroupName();showReseller();showOTTPlanCode();showOTTPlanName();group_name='';ottplan_name='';ottplan_code='';resel_name='';"
+            (keyUp)="showBusName($event)" placeholder='Select Business' id="bus_name" [item]="bus">
           </auto-completen>
         </div>
         <div class="col-sm-3" *ngIf="role.getroleid()>=775">
           <label>Circle</label>
-          <auto-completen [(ngModel)]="group_name" addclass="form-control" optValues="groupname"
+          <auto-completen [(ngModel)]="group_name" addclass="form-control" optValues="groupname" (changed)="showReseller();"
             placeholder='Select Circle' (keyUp)="showGroupName($event)" optId="groupid" [item]="group1">
           </auto-completen>
+        </div>
+        <div class="col-sm-3" *ngIf="role.getroleid()>=775">
+          <label>Reseller</label>
+          <auto-completen [(ngModel)]="resel_name" addclass="form-control" optValues="company"
+            placeholder="Select Reseller" (keyUp)="showReseller($event)" id="id" [item]="reseller"></auto-completen>
         </div>
         <div class="col-sm-3">
           <label>OTT PlanName</label>
           <auto-completen [(ngModel)]="ottplan_name" addclass="form-control" optValues="ottplan_name"
-            placeholder='Select OTTPlanName' (keyUp)="showOTTPlanName($event)" optId="ottplanid" [item]="ottplanname">
+            (changed)="ottplan_code=''" placeholder='Select OTTPlanName' (keyUp)="showOTTPlanName($event)"
+            optId="ottplanid" [item]="ottplanname">
           </auto-completen>
         </div>
+
+      </div>
+
+      <div class="form-group row">
         <div class="col-sm-3">
           <label>OTT PlanCode</label>
           <auto-completen [(ngModel)]="ottplan_code" addclass="form-control" optValues="ottplancode"
@@ -44,6 +54,7 @@
           </auto-completen>
         </div>
       </div>
+
       <button type="button" class="btn btn-md btn-success" (click)='initiallist();'
         style="margin: auto; display: block;">Search</button>
     </div>

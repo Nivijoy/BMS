@@ -384,6 +384,7 @@
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1"><br>Connection Type</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">IpMode</th>
           <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">Ip</th>
+          <th style="border: 3px solid #aeb8b9;color: white;" rowspan="2" *ngIf="dashstatus!=2 && on_status!=1">Email</th>
 
         </tr>
         <tr style="background-color :  #01a7ee;color:white;position: sticky;top: 38px;">
@@ -502,6 +503,7 @@
             (item.ipmodecpe==2 && item.staticip_flag==1)? 'PublicIp': '--'}}
           </td>
           <td *ngIf="dashstatus!=2 && on_status!=1">{{item.staticipcpe || '--'}}</td>
+          <td *ngIf="dashstatus!=2 && on_status!=1">{{item.email || '--'}}</td>
         </tr>
         <tr>
           <td colspan="16" *ngIf="pagedItems==''">NO DATA FOUND</td>

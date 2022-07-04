@@ -19,8 +19,8 @@
                             <span
                                 style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{data?data.busname:'--'}}<br>
                             </span>
-                            <span
-                                style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address ? bus_address:'--'}}}<br>
+                            <span style="white-space: break-spaces;font-weight: bolder;">&nbsp;{{bus_address ?
+                                bus_address:'--'}}}<br>
                             </span>
                         </p>
                     </tbody>
@@ -50,26 +50,31 @@
                         <span style="border-left: 1px solid black;">&nbsp;<b>{{data?data.cust_name:''}}</b>
                             &nbsp;&nbsp;</span>
                     </div>
+                    <div style="border-bottom: 1px solid black;"> Customer ProfileID
+                        <span style="border-left: 1px solid black;">&nbsp;<b>{{data?data.cust_profile_id:''}}</b>
+                            &nbsp;&nbsp;</span>
+                    </div>
                     <div style="border-bottom: 1px solid black">
                         <span>{{data?(data.address_flag==0 ? 'Billing Address':'Billing & Installation
                             Address'):''}}</span>
-                        <span style="border-left: 1px solid black;">&nbsp;{{data?data.billing_addr:''}}&nbsp;</span>
+                        <span
+                            style="border-left: 1px solid black;">&nbsp;<b>{{data?data.billing_addr:''}}</b>&nbsp;</span>
                     </div>
                     <table style="border-bottom: 1px solid black; width:100%;">
                         <thead>
                             <tr>
                                 <th style="  text-align:left; font-weight: normal;">City
-                                    &nbsp;:{{data?data.city:''}}&nbsp;&nbsp; </th>
+                                    &nbsp;:<b>{{data?data.city:''}}</b>&nbsp;&nbsp; </th>
                                 <th
                                     style=" text-align:left;  border-left: 1px solid black;height: 16px; font-weight: normal;">
-                                    State&nbsp;:{{data?data.state:''}} TN&nbsp;&nbsp; </th>
+                                    State&nbsp;:<b>{{data?data.state:''}}</b>&nbsp;&nbsp; </th>
                                 <!-- <th style="text-align:left;   border-left: 1px solid black;height: 16px; font-weight: normal;">PIN&nbsp;:624005
                             &nbsp;&nbsp; 
                          </th> -->
                                 <th
                                     style=" text-align:left; border-left: 1px solid black; font-weight: normal;white-space: break-spaces;line-break: anywhere;">
                                     Mobile
-                                    &nbsp;:{{data?data.mobile:''}}&nbsp; </th>
+                                    &nbsp;:<b>{{data?data.mobile:''}}</b>&nbsp; </th>
                             </tr>
                         </thead>
                     </table>
@@ -77,10 +82,10 @@
                         <thead>
                             <tr>
                                 <th style=" text-align:left;  height: 16px; font-weight: normal;">Telephone
-                                    &nbsp;:{{data?data.phone:''}}&nbsp;&nbsp; </th>
+                                    &nbsp;:<b>{{data.phone || ' -- '}}</b>&nbsp;&nbsp; </th>
                                 <th
                                     style="  text-align:left; border-left: 1px solid black;height: 16px; font-weight: normal;">
-                                    EMAIL&nbsp;:{{data?data.email:''}}
+                                    EMAIL&nbsp;:<b>{{data?data.email:''}}</b>
                             </tr>
                         </thead>
                     </table>
@@ -96,11 +101,11 @@
                     <tbody style="border: 1px solid black;border-collapse: collapse;">
                         <tr>
                             <td style="text-align: center;border: 1px solid black;">
-                                {{data?(data.proof_type==0 ? 'Aadhaar':data.proof_type==1 ? 'Ration Card':'Pan
-                                Card'):''}}
+                                <b> {{data?(data.proof_type==0 ? 'Aadhaar':data.proof_type==1 ? 'Ration
+                                    Card':'PanCard'):''}}</b>
                             </td>
                             <td style="text-align: center;border: 1px solid black;">
-                                {{data?data.ProofID:''}}
+                                <b>{{data?data.ProofID:''}}</b>
                             </td>
                         </tr>
 
@@ -113,23 +118,24 @@
                     </div>
                     <div style="border:1px solid black;width: 100%;padding: 1px;">
                         <div style="border-bottom: 1px solid black">Address
-                            <span style="border-left: 1px solid black;">&nbsp;{{data?data.address:''}}&nbsp;</span>
+                            <span
+                                style="border-left: 1px solid black;">&nbsp;<b>{{data?data.address:''}}</b>&nbsp;</span>
                         </div>
                         <table style="border-bottom: 1px solid black; width:100%;">
                             <thead>
                                 <tr>
                                     <th style="  text-align:left; font-weight: normal;">City
-                                        &nbsp;:{{data?data.city:''}}&nbsp;&nbsp; </th>
+                                        &nbsp;:<b>{{data?data.city:''}}</b>&nbsp;&nbsp; </th>
                                     <th
                                         style=" text-align:left;  border-left: 1px solid black;height: 16px; font-weight: normal;">
-                                        State&nbsp;:{{data?data.state:''}}&nbsp;&nbsp; </th>
+                                        State&nbsp;:<b>{{data?data.state:''}}</b>&nbsp;&nbsp; </th>
                                     <!-- <th style="text-align:left;   border-left: 1px solid black;height: 16px; font-weight: normal;">PIN&nbsp;:624005
                             &nbsp;&nbsp; 
                          </th> -->
                                     <th
                                         style=" text-align:left; border-left: 1px solid black; font-weight: normal;white-space: break-spaces;line-break: anywhere;">
                                         Mobile
-                                        &nbsp;:{{data?data.mobile:''}}&nbsp; </th>
+                                        &nbsp;:<b>{{data?data.mobile:''}}</b>&nbsp; </th>
                                 </tr>
                             </thead>
                         </table>
@@ -137,10 +143,10 @@
                             <thead>
                                 <tr>
                                     <th style=" text-align:left;  height: 16px; font-weight: normal;">Telephone
-                                        &nbsp;:{{data?data.phone:''}}&nbsp;&nbsp; </th>
+                                        &nbsp;:{{data.phone || '--'}}&nbsp;&nbsp; </th>
                                     <th
                                         style="  text-align:left; border-left: 1px solid black;height: 16px; font-weight: normal;">
-                                        EMAIL&nbsp;:{{data?data.email:''}}
+                                        EMAIL&nbsp;:<b>{{data?data.email:''}}</b>
                                 </tr>
                             </thead>
                         </table>
@@ -152,20 +158,20 @@
                 </div>
                 <div style="border:1px solid black;width: 100%;padding: 1px;">
                     <div style="border-bottom: 1px solid black;"> Plan Name
-                        <span style="border-left: 1px solid black;">&nbsp;{{data?data.srvname:''}}&nbsp;&nbsp;</span>
+                        <span style="border-left: 1px solid black;">&nbsp;<b>{{data?data.srvname:''}}</b>&nbsp;&nbsp;</span>
                     </div>
-                    <div style="border-bottom: 1px solid black">Band Width
+                     <!-- <div style="border-bottom: 1px solid black">Band Width
                         <span style="border-left: 1px solid black;">&nbsp;nil&nbsp;</span>
                     </div>
                     <div style="border-bottom: 1px solid black">Additional KBPS Rate
                         <span style="border-left: 1px solid black;">&nbsp;nil&nbsp;</span>
-                    </div>
+                    </div>  -->
                     <table style="border-bottom: 1px solid black; width:100%;">
                         <thead>
                             <tr>
                                 <th style="font-weight: normal;">IP's Required &nbsp;:&nbsp;&nbsp; </th>
                                 <th style="border-left: 1px solid black;height: 16px; font-weight: normal;">Static IP No
-                                    &nbsp;:{{data?(data.ipmodecpe==2?data.staticipcpe:''):''}}&nbsp;&nbsp;
+                                    &nbsp;:<b>{{data?(data.ipmodecpe==2?data.staticipcpe:'--'):'--'}}</b>&nbsp;&nbsp;
                             </tr>
                         </thead>
                     </table>
@@ -233,13 +239,13 @@
                 </table>
                 <br>
                 <div style="width:258px;height:70px;border:1px solid #000;font-style: italic;">Service Franchise</div>
-                <p style="text-align: center;">***
-                    This is a Computer Generated CAF ***
+                <p style="text-align: center;"><b>***
+                        This is a Computer Generated CAF ***</b>
                 </p>
-                <p style="text-align: center;">Thankyou for being Our Business Partner</p>
+                <!-- <p style="text-align: center;">Thankyou for being Our Business Partner</p> -->
 
                 <br><br><br><br><br>
-                <div style="text-align: center;"><b>LIMRAS ERONET BROADBAND SERVICE PVT LTD.</b>
+                <div style="text-align: center;"><b>BLUE LOTUS SUPPORT SERVICES PVT LTD.</b>
                     <br> <u> TERMS AND CONDITION</u>
                 </div>
                 <!-- TERMS AND CONDITIONS IN HTML PAGE ITSELF -->
@@ -253,13 +259,13 @@
                                             <td
                                                 style="font-size: 9px;padding: 6px;white-space: normal;text-align:justify;">
                                                 <b>1.</b> SERVICE PROVIDER means the Broadband Internet Access Service
-                                                offered by LIMRAS
-                                                ERONET
-                                                BROADBAND SERVICE PRIVATE LTD. having its registered office at LIMRAS
-                                                ERONET BROADBAND SERVICE PRIVATE LTD. 18/7,1" Floor, Postal Colony Third
+                                                offered by BLUE
+                                                LOTUS
+                                                SUPPORT SERVICES PRIVATE LTD. having its registered office at BLUE
+                                                LOTUS SUPPORT SERVICES PRIVATE LTD. 18/7,1 Floor, Postal Colony Third
                                                 Street, West
                                                 Mambalam, Chennai 600033 and its Local Service Franchise.
-                                                <br> <b>2.</b> LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD. is providing
+                                                <br> <b>2.</b> BLUE LOTUS SUPPORT SERVICES PRIVATE LTD. is providing
                                                 service
                                                 till Local service Franchisee's nearest BTS of Telecom Companies and
                                                 Local
@@ -401,7 +407,7 @@
                                                 the customer. Customer shall not do anything that is detrimental to
                                                 SERVICE PROVIDER
                                                 interests.
-                                                <br><b>17.</b>LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD. shall have
+                                                <br><b>17.</b>BLUE LOTUS SUPPORT SERVICES PRIVATE LTD. shall have
                                                 the right to
                                                 terminate the
                                                 services without any prior notice to the customer, in the event of
@@ -471,7 +477,7 @@
                                                 SERVICE PROVIDER
                                                 expressly excludes any
                                                 implied warranty of merchantability.
-                                                <br><b>20.</b> LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD. and the
+                                                <br><b>20.</b> BLUE LOTUS SUPPORT SERVICES PRIVATE LTD. and the
                                                 customer hereby agree
                                                 that this
                                                 agreement together with the operational rules, Acceptable Usage Policy
@@ -494,15 +500,15 @@
                                                 with the above and the persons involved are liable to be proceeded with
                                                 and punished.
                                                 <br> <b>22.</b> It is illegal to terminate internet Telephony calls.
-                                                <br> <b>23.</b> The customer agrees that LIMRAS ERONET BROADBAND SERVICE
+                                                <br> <b>23.</b> The customer agrees that BLUE LOTUS SUPPORT SERVICES
                                                 PRIVATE LTD.
                                                 shall not be liable for Service downgrades where the last mile
                                                 connectivity is last
-                                                provided by LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD. The
+                                                provided by BLUE LOTUS SUPPORT SERVICES PRIVATE LTD. The
                                                 responsibility of ensuring
                                                 last mile connectivity shall be on the last mile connectivity network
                                                 provided like cable
-                                                TV operator DID etc. and LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD.
+                                                TV operator DID etc. and BLUE LOTUS SUPPORT SERVICES PRIVATE LTD.
                                                 Responsibility shall
                                                 be limited to ensure service till the point of presence of the last mile
                                                 network operator.
@@ -528,15 +534,15 @@
                                                 claims, loss damage or consequence arising from non compliance of the
                                                 customer to any
                                                 applicable laws, rules, regulations etc.
-                                                <br> <b>26.</b> LIMRAS ERONET BROADBAND SERVICE PRIVATE LTD. will not be
+                                                <br> <b>26.</b> BLUE LOTUS SUPPORT SERVICES PRIVATE LTD. will not be
                                                 liable for any
                                                 act of the LOCAL SERVICE PROVIDER managing the service at customers end
                                                 outside the scope
                                                 of this service. The customer expressly acknowledges that the liability
-                                                of LIMRAS ERONET
-                                                BROADBAND SERVICE PRIVATE LTD. is limited to the service rendered by
-                                                LIMRAS ERONET
-                                                BROADBAND SERVICE PRIVATE LTD, and LIMRAS ERONET BROADBAND SERVICE
+                                                of BLUE LOTUS
+                                                SUPPORT SERVICES PRIVATE LTD. is limited to the service rendered by
+                                                BLUE LOTUS
+                                                SUPPORT SERVICES PRIVATE LTD, and BLUE LOTUS SUPPORT SERVICES
                                                 PRIVATE LTD. shall not
                                                 be liable for any acts deeds of the LOCAL SERVICE FRANCHISEE.
                                                 <br> <b>27.</b>The customer hereby declares that he has read these terms

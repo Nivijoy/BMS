@@ -44,7 +44,7 @@ const config:io.SocketIoConfig = { url:env.baseUrl, options:{} }
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ToasterModule.forRoot(),
-    NgbModule.forRoot(),
+    NgbModule,
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     DeviceDetectorModule.forRoot(),
